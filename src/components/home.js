@@ -20,6 +20,10 @@ function Home() {
   const gotToAbout = () => {
     navigate("/about");
   };
+
+  const goToFacilities = () => {
+    navigate("/facilities");
+  }
   return (
     <div className="home-container">
       {/* SECTION A */}
@@ -85,7 +89,7 @@ function Home() {
             </h2>
           </div>
           <div className="section-C-top-info2">
-            <button className="section-C-top-info2-button">See more</button>
+            <button className="section-C-top-info2-button" onClick={goToFacilities}>See more</button>
           </div>
         </div>
         <div className="section-C-bottom">

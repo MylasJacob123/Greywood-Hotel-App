@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import "./register.css";
 import registerlogo from "./assets/Rectangle 2.png";
 import { useNavigate } from "react-router-dom";
@@ -7,17 +7,26 @@ import { signUp } from "../redux/authSlice";
 
 
 function Register() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const { user, loading, error} = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
+    useEffect(() =>{
+      if (user) {
+        alert("Registration Successfull")
+        navigate("/");
+      }
+    }, [user, navigate])
+
     const handleRegister = () => {
         console.log(email, password);
-        dispatch(signUp({"email":email,"password" :password}));
-        // navigate("/");
+        dispatch(signUp({email , password}));
+        // navigate("/register")
     }
 
   return (
@@ -74,6 +83,9 @@ function Register() {
           </div>
           <div className="register-section-F">
             <button className="register-button" onClick={handleRegister}>Create account</button>
+
+            {loading ? <h1>Loading .....</h1>: <h1></h1>}
+            {error && <p>Error: {error}</p>}
           </div>
         </div>
       </div>

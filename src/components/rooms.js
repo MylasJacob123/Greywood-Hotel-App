@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import "./rooms.css";
 import Navigation from "./navigation";
 import FooterImg from "./assets/Rectangle 77.png";
@@ -15,9 +15,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../redux/dbSlice";
 
 function Rooms() {
   const navigate = useNavigate();
+
+  const { data, loading, error} = useSelector((state) => state.db);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData());
+  })
 
   const roomsData = [
     {
@@ -136,6 +146,8 @@ function Rooms() {
       </div>
 
       {/* MIDDLE */}
+      {loading ? <h1>Loading .....</h1>: <h1></h1>}
+        {error && <p>Error: {error}</p>}
       <div className="rooms-display-middle">
         <div className="rooms-display-middle-cards">
           {filteredRooms.map((room) => (

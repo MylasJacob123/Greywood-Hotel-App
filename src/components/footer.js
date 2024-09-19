@@ -24,7 +24,7 @@ function Footer() {
             <div>
               <h6><a href="https://www.instagram.com/" >Instagram</a></h6>
               <h6><a href="https://x.com/?lang=en" >Twitter</a></h6>
-              <h6><a href="https://www.youtube.com/" >YouTube</a>YouTube</h6>
+              <h6><a href="https://www.youtube.com/" >YouTube</a></h6>
             </div>
           </div>
         </div>

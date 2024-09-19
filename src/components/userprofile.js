@@ -1,7 +1,16 @@
 import React from "react";
 import './userprofile.css';
+import { useNavigate } from "react-router-dom";
 
-const UserProfile = () => {
+function UserProfile() {
+  const navigate = useNavigate();
+
+  const register = () => {
+    navigate("/register");
+  }
+  const login = () => {
+    navigate("/login");
+  }
   return (
     <div className="profile-container">
       <div className="profile-card">
@@ -28,8 +37,9 @@ const UserProfile = () => {
               <li>Room 405 - Single Room Deluxe Premium - Sep 2023</li>
             </ul>
           </div>
-          <span></span>
-          <span></span>
+          <span onClick={register}>Create Account</span>
+          <br />
+          <span onClick={login}>Login</span>
         </div>
         <div className="profile-footer">
           <button className="edit-profile-btn">Edit Profile</button>
