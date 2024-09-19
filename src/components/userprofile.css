@@ -1,0 +1,77 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: auto;
+    border-radius: 1.5rem;
+}
+
+.profile-card {
+    background-color: black;
+    border-radius: 0.625rem; 
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); 
+    width: 21.875rem; 
+    padding: 1.25rem; 
+    text-align: center;
+    border-radius: 1.5rem;
+    opacity: 80%;
+    border: .1rem solid whitesmoke;
+}
+
+.profile-header {
+    margin-bottom: 1.25rem; 
+}
+
+.profile-img {
+    width: 6.25rem; 
+    height: 6.25rem; 
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.5rem; 
+    font-weight: 600;
+    margin: 0.625rem 0; 
+}
+
+.profile-email {
+    color: #777;
+}
+
+.profile-body {
+    text-align: center;
+}
+
+.profile-section {
+    margin-bottom: 1.25rem; 
+}
+
+.profile-section h3 {
+    font-size: 1.2rem; 
+    border-bottom: 0.125rem solid #f1f1f1; 
+    padding-bottom: 0.3125rem; 
+    margin-bottom: 0.625rem; 
+    color: whitesmoke;
+}
+
+.profile-section li {
+    color: whitesmoke;
+}
+
+.profile-footer {
+    text-align: center;
+}
+
+.edit-profile-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem; 
+    border-radius: 0.3125rem; 
+    cursor: pointer;
+}
+
+.edit-profile-btn:hover {
+    background-color: #004085;
+}

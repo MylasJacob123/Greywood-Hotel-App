@@ -1,0 +1,143 @@
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: black;
+    gap: 0.5rem;
+  }
+  
+  .footer-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 85%;
+  }
+  
+  .footer-top1 {
+    display: flex;
+    width: 40%;
+    height: auto;
+    flex-wrap: wrap; 
+  }
+  
+  .footer-top1-logo-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: flex-start; 
+    width: 40%; 
+  }
+  
+  .footer-top1-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%; 
+    height: 100%;
+  }
+  
+  .footer-top1-overview {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    flex-wrap: wrap;
+  }
+  
+  .footer-top2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: auto;
+  }
+
+  .footer-top3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: auto;
+  }
+
+  .map-container {
+    width: 60%; 
+    max-width: 31.25rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    padding-top: 60%; 
+  }
+  
+  .map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  
+  
+  .footer-top2-contact-details {
+    color: rgb(192, 190, 190);
+  }
+  
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 85%;
+    gap: 0.5rem;
+  }
+  
+  .footer-bottom1 {
+    width: 100%;
+    height: .05rem;
+    background-color: whitesmoke;
+  }
+  
+  .footer-bottom2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-bottom2-box1 {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 90%;
+  }
+  
+  .footer-bottom2-box2 {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4rem;
+    width: 40%;
+    height: 90%;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-top1-logo-div, .footer-top1-overview, .footer-top2 {
+      width: 100%;
+      text-align: center;
+      align-items: center;
+    }
+  
+    .footer-bottom2-box1, .footer-bottom2-box2 {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
