@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./rooms.css";
 import Navigation from "./navigation";
 import FooterImg from "./assets/Rectangle 77.png";
@@ -21,13 +21,16 @@ import { fetchData } from "../redux/dbSlice";
 function Rooms() {
   const navigate = useNavigate();
 
-  const { data, loading, error} = useSelector((state) => state.db);
+  const { data, loading, error } = useSelector((state) => state.db);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchData());
-  })
+  }, [dispatch]);
+  console.log(data);
+  console.log(loading);
+  console.log(error);
 
   const roomsData = [
     {
@@ -102,8 +105,13 @@ function Rooms() {
       ? roomsData
       : roomsData.filter((room) => room.category === selectedCategory);
 
-  const handleCardClick = () => {
-    navigate("/roomdisplay");
+  const handleCardClick = (room) => {
+    console.log(room)
+     navigate("/roomdisplay" , {
+      state: {
+       room
+    },
+     });
   };
 
   return (
@@ -146,35 +154,33 @@ function Rooms() {
       </div>
 
       {/* MIDDLE */}
-      {loading ? <h1>Loading .....</h1>: <h1></h1>}
-        {error && <p>Error: {error}</p>}
       <div className="rooms-display-middle">
         <div className="rooms-display-middle-cards">
-          {filteredRooms.map((room) => (
+          {data.map((room) => (
             <div
               className="room-display-card"
-              key={room.name}
-              onClick={handleCardClick}
+              key={room.nameType}
+              onClick={()=>handleCardClick(room)}
             >
               <div className="room-display-card-image-div">
                 <img
                   className="room-display-card-image"
-                  src={room.image}
+                  src={room.images[0]}
                   alt={`Image of ${room.name}`}
                 />
               </div>
               <div className="room-display-card-info">
                 <div className="room-display-card-info-heading-body">
-                  <h4>{room.name}</h4>
+                  <h4>{room.roomType}</h4>
                   <div className="room-display-card-info-heading-body-line"></div>
                 </div>
                 <div className="room-display-card-info-amenities">
                   <div className="room-display-card-info-amenity">
                     <div className="room-display-card-info-amenity-icon">
-                      <FontAwesomeIcon icon={faUser} />
+                      <FontAwesomeIcon icon={faUser} /> 
                     </div>
                     <div className="room-display-card-info-amenity-text">
-                      <span>{room.people}</span>
+                      <span>{room.guests}</span>
                     </div>
                   </div>
                 </div>

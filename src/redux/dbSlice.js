@@ -17,7 +17,7 @@ export const dbSlice = createSlice({
         state.error = null;
       },
       setData(state, action) {
-        state.user = action.payload;
+        state.data = action.payload;
         state.loading = false;
       },
       setError(state, action) {

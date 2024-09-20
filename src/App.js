@@ -3,14 +3,15 @@ import Login from "./components/login";
 import ForgotPassword from "./components/forgotpassword";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
-import Facilities from "./components/facilities"
+import Facilities from "./components/facilities";
 import Rooms from "./components/rooms";
 import About from "./components/about";
-import Contact from "./components/contact"
+import Contact from "./components/contact";
 import './App.css';
 import RoomDisplay from "./components/roomdisplay";
 import User from "./components/userprofile";
 import PaymentForm from "./components/paymentform";
+import PaymentPage from "./components/paymentsummarypage";
 
 function App() {
   return (
@@ -27,10 +28,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<ForgotPassword />} />
           <Route path="/roomdisplay" element={<RoomDisplay />} />
+          <Route path="/paymentsummary" element={<PaymentPage />} />
           <Route path="/paymentform" element={<PaymentForm />} />
         </Routes>
       </BrowserRouter>
-
     </div>
   );
 }

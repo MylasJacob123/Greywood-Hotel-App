@@ -18,7 +18,7 @@ function Register() {
 
     useEffect(() =>{
       if (user) {
-        alert("Registration Successfull")
+        alert("Registration Successful")
         navigate("/");
       }
     }, [user, navigate])
