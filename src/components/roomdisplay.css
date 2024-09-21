@@ -44,7 +44,7 @@
 
 .rooms-display-top2-heading {
   font-size: 2rem;
-  font-weight: 450;
+  font-weight: 650;
 }
 
 .rooms-display-top2-image-display {
@@ -99,6 +99,7 @@
   height: 100%;
   width: 100%;
   transition: transform 0.3s ease-in-out;
+  border-radius: 1.5rem;
 }
 
 .rooms-display-top2-image-display-box2-images-box-div-image:hover {
@@ -145,7 +146,7 @@
 }
 
 .content-name {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .rooms-display-top2-info-review-box {
@@ -215,7 +216,6 @@
 /* BOTTOM SECTION */
 .rooms-display-bottom {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -225,25 +225,25 @@
 }
 
 .rooms-display-bottom-top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  display: grid;
+  align-items: center;
   width: 90%;
   height: auto;
-  flex-wrap: wrap;
+  grid-template-columns: 40% 30% 30%;
+  margin-bottom: 3rem;
 }
 
 .rooms-display-bottom-top1 {
   display: flex;
   justify-content: center;
   padding: 3rem 2rem 1rem 2rem;
-  width: 55%;
+  width: 90%;
   background-color: rgba(207, 207, 207, 0.534);
   border-radius: 3rem;
 }
 
 .rooms-display-bottom-paragraph {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
 }
 
 .rooms-display-bottom-top2 {
@@ -251,12 +251,12 @@
   flex-direction: column;
   justify-content: space-around;
   gap: 1rem;
-  width: 40%;
+  width: 80%;
 }
 
 .rooms-display-price {
   background-color: rgba(207, 207, 207, 0.534);
-  width: 60%;
+  width: 90%;
   padding: 1rem 1rem 0rem 1rem;
   border-radius: 1.5rem;
 }
@@ -271,7 +271,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(207, 207, 207, 0.534);
-  width: 60%;
+  width: 90%;
   padding: 1rem;
   border-radius: 1.5rem;
 }
@@ -279,17 +279,16 @@
 .rooms-display-features-info {
   display: flex;
   flex-direction: column;
+  gap: .05rem;
 }
 
 .rooms-display-features-info-texts {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
-.rooms-display-middle {
+.rooms-display-bottom-top3 {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 4rem;
+  align-items: center;
 }
 
 .book-now-btn {
@@ -369,12 +368,20 @@
   justify-content: space-around;
   width: auto;
   height: auto;
-  background-color: black;
+  background-color: rgba(207, 207, 207, 0.534);
   flex-wrap: wrap;
   padding: 1rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   border-radius: 1.625rem;
+  border: 0.1rem solid grey;
   margin: auto;
+  gap: .4rem;
+}
+
+.booking-form-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .booking-form-back-arrow-div {
@@ -384,54 +391,69 @@
   border-radius: 1.5rem;
   width: 3rem;
   height: 3rem;
-  background-color: black;
+  background-color: rgba(207, 207, 207, 0);
 }
 
 .booking-form-back-arrow {
-  color: white;
+  color: black;
   height: 2rem;
   width: 2rem;
+  opacity: 70%;
 }
 
 .form {
   display: flex;
   align-items: center;
+  flex-direction: column;
   flex-wrap: wrap;
   height: auto;
   gap: 1rem;
   padding: 1rem;
   border-radius: 0.825rem;
-  border: 0.16rem solid whitesmoke;
-  background-color: rgb(24, 24, 24);
+  border: 0.08rem solid grey;
+  background-color: rgba(207, 207, 207, 0);
+}
+
+.form-inputs {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
 }
 
 .name,
 .email,
 input[type="date"] {
   flex-grow: 1;
-  flex-basis: 10rem;
+  flex-basis: 2rem;
   padding: 0.5rem;
   border: 0.063rem solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.313rem;
 }
 
 .labels {
-  color: whitesmoke;
+  color: black;
+  opacity: 70%;
 }
 
-button {
+.check-in-button {
   flex-grow: 1;
   flex-basis: 5rem;
   padding: 0.75rem;
-  background-color: darkblue;
+  background-color: rgb(22, 22, 22);
   color: white;
+  width: 16.5rem;
   border: none;
   border-radius: 0.313rem;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: navy;
+  background-color: black;
 }
 
 .rooms-display-bottom-footer {

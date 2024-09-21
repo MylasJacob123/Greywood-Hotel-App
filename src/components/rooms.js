@@ -186,7 +186,7 @@ function Rooms() {
                 </div>
                 <h5>
                   <span className="room-display-card-info-price">
-                    ${room.price}
+                    R{room.price}
                   </span>{" "}
                   / per night
                 </h5>
