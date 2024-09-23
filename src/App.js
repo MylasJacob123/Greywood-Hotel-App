@@ -12,6 +12,7 @@ import RoomDisplay from "./components/roomdisplay";
 import User from "./components/userprofile";
 import PaymentForm from "./components/paymentform";
 import PaymentPage from "./components/paymentsummarypage";
+import AdminBookings from "./components/adminpage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/user" element={<User />} />
+          <Route path="/admin" element={<AdminBookings />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<ForgotPassword />} />

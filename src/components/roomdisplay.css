@@ -2,6 +2,7 @@
   width: 100%;
   height: auto;
   flex-wrap: wrap;
+  margin-top: 3rem;
 }
 
 /* TOP SECTION */
@@ -297,7 +298,7 @@
   box-shadow: 0rem 0.625rem 1.25rem rgba(0, 0, 0, 0.2);
   padding-block: 0.5rem;
   padding-inline: 1.25rem;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(0, 0, 0); /* Default background color */
   border-radius: 9999px;
   display: flex;
   align-items: center;
@@ -322,6 +323,7 @@
 .book-now-btn:hover {
   transform: scale(1.05);
   border-color: rgba(255, 255, 255, 0);
+  background-color: darkblue; /* Change hover background color to darker blue */
 }
 
 .book-now-btn:hover .icon {
@@ -361,6 +363,7 @@
     left: 100%;
   }
 }
+
 
 .booking-form {
   display: flex;

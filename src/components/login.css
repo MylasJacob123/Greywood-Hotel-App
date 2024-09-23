@@ -1,78 +1,88 @@
 .login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login {
-    background-color: white;
-    width: 64rem;
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    border-radius: 3em;
+  background-color: white;
+  width: 64rem;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  border-radius: 3em;
 }
 
 .login-logo img {
-    min-height: 30rem;
+  min-height: 30rem;
 }
 
 .login-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    min-width: 25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 25rem;
 }
 
 .login-section-A {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .login-inputs input {
-    min-height: 2.8rem;
-    min-width: 24rem;
-    border-radius: .8rem;
-    border: none;
-    background-color: #F3F3F3;
-    padding: 0.6rem;
-    font-size: 1rem;
+  min-height: 2.8rem;
+  min-width: 24rem;
+  border-radius: 0.8rem;
+  border: none;
+  background-color: #f3f3f3;
+  padding: 0.6rem;
+  font-size: 1rem;
 }
 
 .login-section-D {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.login-input-error {
+  border: 1px solid red;
+}
+
+.login-error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  text-align: center;
 }
 
 .login-button {
-    min-height: 2.8rem;
-    min-width: 24rem;
-    border-radius: .8rem;
-    border: none;
-    background-color: black;
-    color: #F3F3F3;
-    padding: 0.6rem;
-    font-size: 1.3rem;
+  min-height: 2.8rem;
+  min-width: 24rem;
+  border-radius: 0.8rem;
+  border: none;
+  background-color: black;
+  color: #f3f3f3;
+  padding: 0.6rem;
+  font-size: 1.3rem;
 }
 
-
 .login-section-F {
-    font-size: 1rem;
-    display: flex;
-    align-self: center;
-    gap: 0.3rem;
+  font-size: 1rem;
+  display: flex;
+  align-self: center;
+  gap: 0.3rem;
 }
 
 .goToForgotPassword:hover {
-    color: blue;
-    cursor: pointer;
+  color: blue;
+  cursor: pointer;
 }
 
 .goToRegister:hover {
-    color: blue;
-    cursor: pointer;
+  color: blue;
+  cursor: pointer;
 }

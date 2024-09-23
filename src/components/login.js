@@ -8,18 +8,19 @@ import { signIn } from "../redux/authSlice";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const { user, loading, error } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() =>{
+  useEffect(() => {
     if (user) {
-      alert("Login Successful")
+      alert("Login Successful");
       navigate("/");
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   const goToForgotPassword = () => {
     navigate("/forgot");
@@ -29,17 +30,40 @@ function Login() {
     navigate("/register");
   };
 
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!email) {
+      setEmailError("Email is required.");
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError("Password is required.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return isValid;
+  };
+
   const handleLogin = () => {
-    console.log(email, password);
-    dispatch(signIn({ email: email, password: password }));
-    // navigate("/");
+    if (validateForm()) {
+      dispatch(signIn({ email, password }));
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login">
         <div className="login-logo">
-          <img src={loginlogo} />
+          <img src={loginlogo} alt="Login Logo" />
         </div>
         <div className="login-inputs">
           <div className="login-section-A">
@@ -50,15 +74,21 @@ function Login() {
             <input
               type="text"
               placeholder="Email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className={emailError ? "login-input-error" : ""}
             />
+            {emailError && <p className="login-error-message">{emailError}</p>}
           </div>
           <div className="login-section-C">
             <input
               type="password"
               placeholder="Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className={passwordError ? "login-input-error" : ""}
             />
+            {passwordError && <p className="login-error-message">{passwordError}</p>}
           </div>
           <div className="login-section-D">
             <span>
@@ -73,8 +103,8 @@ function Login() {
             </button>
           </div>
 
-          {loading ? <h1>Loading .....</h1> : <h1></h1>}
-          {error && <p>Error: {error}</p>}
+          {loading && <h1>Loading .....</h1>}
+          {error && <p className="login-error-message">Error: {error}</p>}
 
           <p className="login-section-F">
             Don't have an account?{" "}
@@ -87,4 +117,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;

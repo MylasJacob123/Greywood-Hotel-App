@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./roomdisplay.css";
 import Navigation from "./navigation";
 import Footer from "./footer";
@@ -16,6 +16,9 @@ import {
   faUser,
   faStar,
   faArrowLeft,
+  faShare,
+  faShareAlt,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -28,10 +31,12 @@ function RoomDisplay() {
   const [checkout, setCheckout] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
-  console.log(location.state);
-
   const pricePerNight = location.state.room.price;
   const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    handleTotalPrice();
+  }, [checkin, checkout]);
 
   const handleTotalPrice = () => {
     const checkinDate = new Date(checkin);
@@ -50,12 +55,9 @@ function RoomDisplay() {
       console.log("Price per night:", pricePerNight);
       setTotalPrice(price);
     } else {
-      alert("Please ensure that the checkout date is after the check-in date.");
       setTotalPrice(0);
     }
   };
-
-  console.log({ totalPrice });
 
   const handleBookNowClick = () => {
     setShowForm(true);
@@ -77,9 +79,10 @@ function RoomDisplay() {
           totalPrice,
         },
       });
-    } else {
-      alert("Please select valid check-in and check-out dates.");
     }
+    // } else {
+    //   alert("Please select valid check-in and check-out dates.");
+    // }
   };
 
   return (
@@ -95,6 +98,16 @@ function RoomDisplay() {
             <h1 className="rooms-display-top2-heading">
               {location.state.room.roomType}
             </h1>
+          </div>
+          <div>
+            <div>
+              <FontAwesomeIcon icon={faShareAlt} className="content-icon" />
+              <span className="content-name">Share</span>
+            </div>
+            <div>
+              <FontAwesomeIcon icon={faHeart} className="content-icon" />
+              <span className="content-name">Save</span>
+            </div>
           </div>
           <div className="rooms-display-top2-image-display">
             <div className="rooms-display-top2-image-display-box1">
