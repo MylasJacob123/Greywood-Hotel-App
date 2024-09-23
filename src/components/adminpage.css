@@ -45,6 +45,7 @@
   padding: 1.25rem;
   border: 0.1rem solid grey;
   border-radius: 1.5rem;
+  box-shadow: 0 0.25rem 0.9375rem rgba(0, 0, 0, 0.2);
 }
 
 .filters {
@@ -77,11 +78,45 @@ table {
   border-collapse: collapse;
 }
 
+.table-container-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.admin-edit {
+  background-color: #007bff;
+  border: none;
+  color: whitesmoke;
+  transition: ease-in-out .3s;
+}
+
+.admin-edit:hover {
+  background-color: greenyellow;
+  border: none;
+  color: whitesmoke;
+  transform: scale(1.1);
+}
+
+.admin-delete {
+  background-color: orangered;
+  border: none;
+  color: whitesmoke;
+  transition: ease-in-out .3s;
+}
+
+.admin-delete:hover {
+  background-color: red;
+  border: none;
+  color: whitesmoke;
+  transform: scale(1.1);
+}
+
 th,
 td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 0.063rem solid #ddd;
 }
 
 th {

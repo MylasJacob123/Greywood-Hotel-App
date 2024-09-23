@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./roomdisplay.css";
 import Navigation from "./navigation";
 import Footer from "./footer";
-import PrestigePresidential from "./assets/Prestige Presidential Suite in Room Display.png";
-import PrestigePresidentialBathroom1 from "./assets/Prestige Presidential Suite Bathroom1.png";
-import PrestigePresidentialBathroom2 from "./assets/Prestige Presidential Suite Bathroom2.png";
-import PrestigePresidentialBedroom from "./assets/Prestige Presidential Suite Bedroom.png";
-import PrestigePresidentialLounge from "./assets/Prestige Presidential Suite Lounge.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUtensils,

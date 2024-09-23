@@ -43,7 +43,7 @@ const AdminBookings = () => {
       <div className="split-screen">
         <div className="sidebar">
           <button className="admin-bookings-button" onClick={() => setView("bookings")}>View Bookings</button>
-          <button className="admin-bookings-button" onClick={() => setView("addBookings")}>Add Booking</button>
+          <button className="admin-bookings-button" onClick={() => setView("addBookings")}>Add Rooms</button>
         </div>
 
         <div className="admin-bookings-main-content">
@@ -84,9 +84,9 @@ const AdminBookings = () => {
                         <td>{booking.checkInDate}</td>
                         <td>{booking.checkOutDate}</td>
                         <td>{booking.status}</td>
-                        <td>
-                          <button>Edit</button>
-                          <button>Delete</button>
+                        <td className="table-container-actions">
+                          <button className="admin-edit">Edit</button>
+                          <button className="admin-delete">Delete</button>
                         </td>
                       </tr>
                     ))}
