@@ -17,8 +17,8 @@ function PaymentPage() {
   const user = useSelector((state) => state.auth.user);
 
   const bookingData = {
-    firstName: user?.firstName || "Guest",  
-    lastName: user?.lastName || "",
+    firstName: user?.firstName || "Guest First Name",  
+    lastName: user?.lastName || "Guest Last Name",
     email: user?.email || "",
     roomType: room?.roomType || "Standard",
     checkin: checkin,

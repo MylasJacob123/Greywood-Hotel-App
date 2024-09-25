@@ -36,8 +36,9 @@ export const signUp = ({ email, password, firstName , lastName }) => async (disp
   dispatch(setLoading());
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(userCredential.user.uid)
     try {
-      const docRef = await addDoc(collection(db, "users"), {
+      const docRef = await addDoc(collection(db, "users", userCredential.user.uid , "profile" ), {
         firstName: firstName,
         lastName: lastName,
         role: "client"
