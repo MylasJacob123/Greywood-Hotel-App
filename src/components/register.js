@@ -44,7 +44,7 @@ function Register() {
 
   const handleRegister = () => {
     if (validate()) {
-      dispatch(signUp({ email, password }));
+      dispatch(signUp({ email, password, firstName, lastName }));
     }
   };
 

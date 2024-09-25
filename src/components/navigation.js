@@ -5,6 +5,7 @@ import NavLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__5_-removebg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import UserProfile from "./userprofile";
+import { useNavigate } from "react-router-dom";
 
 function Navigate() {
   const [showProfile, setShowProfile] = useState(false);

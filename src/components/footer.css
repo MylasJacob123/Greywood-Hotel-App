@@ -66,14 +66,15 @@
   }
 
   .map-container {
-    width: 60%; 
-    max-width: 31.25rem;
+    width: 40%;
+    max-width: 20rem;
     margin: 0 auto;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    padding-top: 60%; 
-  }
+    padding-top: 40%; 
+}
+
   
   .map-container iframe {
     position: absolute;

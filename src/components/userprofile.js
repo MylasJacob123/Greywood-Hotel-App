@@ -11,15 +11,11 @@ function UserProfile() {
   const login = () => {
     navigate("/login");
   }
+
   return (
     <div className="profile-container">
       <div className="profile-card">
         <div className="profile-header">
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Profile"
-            className="profile-img"
-          />
           <h2 className="profile-name">User Name</h2>
           <p className="profile-email">user@example.com</p>
         </div>
@@ -37,9 +33,10 @@ function UserProfile() {
               <li>Room 405 - Single Room Deluxe Premium - Sep 2023</li>
             </ul>
           </div>
-          <span onClick={register}>Create Account</span>
-          <br />
-          <span onClick={login}>Login</span>
+          <div className="profile-actions">
+            <span className="action-link" onClick={register}>Create Account</span>
+            <span className="action-link" onClick={login}>Login</span>
+          </div>
         </div>
         <div className="profile-footer">
           <button className="edit-profile-btn">Edit Profile</button>
@@ -47,6 +44,6 @@ function UserProfile() {
       </div>
     </div>
   );
-};
+}
 
 export default UserProfile;

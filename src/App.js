@@ -7,32 +7,41 @@ import Facilities from "./components/facilities";
 import Rooms from "./components/rooms";
 import About from "./components/about";
 import Contact from "./components/contact";
-import './App.css';
+import "./App.css";
 import RoomDisplay from "./components/roomdisplay";
 import User from "./components/userprofile";
 import PaymentForm from "./components/paymentform";
 import PaymentPage from "./components/paymentsummarypage";
 import AdminBookings from "./components/adminpage";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function App() {
+  const initialOptions = {
+    "client-id":
+      "AfIAqx5qwADS2y3HBA3G9jY9LTQxgY71yk1o5OT6ca0OwgiOfGQ2hUnNVYNRVYUDF3MgjtvljjF2m_iN",
+    "enable-funding": "venmo",
+    currency: "USD",
+  };
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/rooms" element={<Rooms />} />
-          <Route path="/facilities" element={<Facilities />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/admin" element={<AdminBookings />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot" element={<ForgotPassword />} />
-          <Route path="/roomdisplay" element={<RoomDisplay />} />
-          <Route path="/paymentsummary" element={<PaymentPage />} />
-          <Route path="/paymentform" element={<PaymentForm />} />
-        </Routes>
+        <PayPalScriptProvider options={initialOptions}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/rooms" element={<Rooms />} />
+            <Route path="/facilities" element={<Facilities />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/admin" element={<AdminBookings />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot" element={<ForgotPassword />} />
+            <Route path="/roomdisplay" element={<RoomDisplay />} />
+            <Route path="/paymentsummary" element={<PaymentPage />} />
+            <Route path="/paymentform" element={<PaymentForm />} />
+          </Routes>
+        </PayPalScriptProvider>
       </BrowserRouter>
     </div>
   );

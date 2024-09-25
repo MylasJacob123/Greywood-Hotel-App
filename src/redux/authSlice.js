@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../configure/firebase';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../configure/firebase';
 
 const initialState = {
   user: null,
@@ -30,10 +32,19 @@ const authSlice = createSlice({
 export const { setLoading, setUser, setError } = authSlice.actions;
 
 
-export const signUp = ({ email, password }) => async (dispatch) => {
+export const signUp = ({ email, password, firstName , lastName }) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        firstName: firstName,
+        lastName: lastName,
+        role: "client"
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+    }
     dispatch(setUser(userCredential.user));
   } catch (error) {
     dispatch(setError(error.message));
