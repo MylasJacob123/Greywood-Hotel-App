@@ -9,9 +9,9 @@ const AdminBookings = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [roomData, setRoomData] = useState({
     description: "",
-    features: "",
+    features: [],
     guests: "",
-    images: "",
+    images: [],
     price: "",
     ratings: "",
     reviews: "",
@@ -31,18 +31,23 @@ const AdminBookings = () => {
 
   const handleRoomSubmit = (e) => {
     e.preventDefault();
-    dispatch(addRooms(roomData));
+    const updatedRoomData = {
+      ...roomData,
+      features: roomData.features.split(',').map((feature) => feature.trim()),
+    };
+    dispatch(addRooms(updatedRoomData));
     setRoomData({
       description: "",
-      features: "",
+      features: [],
       guests: "",
-      images: "",
+      images: [],
       price: "",
       ratings: "",
       reviews: "",
       roomType: "",
     });
   };
+  
 
   const filteredBookings =
     bookings?.filter(
@@ -135,102 +140,104 @@ const AdminBookings = () => {
           ) : (
             <div>
               <h2>Add New Room</h2>
-              <form onSubmit={handleRoomSubmit}>
-                <div>
-                  <label>Description:</label>
-                  <textarea
-                    className="admin-inputs"
-                    placeholder="Room Description"
-                    name="description"
-                    value={roomData.description}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+              <div className="admin-form-container">
+                <form className="admin-form" onSubmit={handleRoomSubmit}>
+                  <div>
+                    <label>Description:</label>
+                    <textarea
+                      className="admin-inputs"
+                      placeholder="Room Description"
+                      name="description"
+                      value={roomData.description}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Features:</label>
-                  <textarea
-                    className="admin-inputs"
-                    placeholder="Features (comma-separated)"
-                    name="features"
-                    value={roomData.features}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Features:</label>
+                    <textarea
+                      className="admin-inputs"
+                      placeholder="Features (comma-separated)"
+                      name="features"
+                      value={roomData.features}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Guests:</label>
-                  <input
-                    className="admin-inputs"
-                    type="text"
-                    placeholder="Number of guests"
-                    name="guests"
-                    value={roomData.guests}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Guests:</label>
+                    <input
+                      className="admin-inputs"
+                      type="text"
+                      placeholder="Number of guests"
+                      name="guests"
+                      value={roomData.guests}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Images:</label>
-                  <textarea
-                    className="admin-inputs"
-                    placeholder="Image URLs (comma-separated)"
-                    name="images"
-                    value={roomData.images}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Images:</label>
+                    <textarea
+                      className="admin-inputs"
+                      placeholder="Image URLs (comma-separated)"
+                      name="images"
+                      value={roomData.images}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Price:</label>
-                  <input
-                    className="admin-inputs"
-                    type="number"
-                    placeholder="Price per night"
-                    name="price"
-                    value={roomData.price}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Price:</label>
+                    <input
+                      className="admin-inputs"
+                      type="number"
+                      placeholder="Price per night"
+                      name="price"
+                      value={roomData.price}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Ratings:</label>
-                  <input
-                    className="admin-inputs"
-                    type="text"
-                    placeholder="Ratings"
-                    name="ratings"
-                    value={roomData.ratings}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Ratings:</label>
+                    <input
+                      className="admin-inputs"
+                      type="text"
+                      placeholder="Ratings"
+                      name="ratings"
+                      value={roomData.ratings}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Reviews:</label>
-                  <input
-                    className="admin-inputs"
-                    type="text"
-                    placeholder="Number of reviews"
-                    name="reviews"
-                    value={roomData.reviews}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Reviews:</label>
+                    <input
+                      className="admin-inputs"
+                      type="text"
+                      placeholder="Number of reviews"
+                      name="reviews"
+                      value={roomData.reviews}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <div>
-                  <label>Room Type:</label>
-                  <input
-                    className="admin-inputs"
-                    type="text"
-                    placeholder="Room Type"
-                    name="roomType"
-                    value={roomData.roomType}
-                    onChange={handleRoomChange}
-                  />
-                </div>
+                  <div>
+                    <label>Room Type:</label>
+                    <input
+                      className="admin-inputs"
+                      type="text"
+                      placeholder="Room Type"
+                      name="roomType"
+                      value={roomData.roomType}
+                      onChange={handleRoomChange}
+                    />
+                  </div>
 
-                <button type="submit">Add Room</button>
-              </form>
+                  <button type="submit">Add Room</button>
+                </form>
+              </div>
             </div>
           )}
         </div>
