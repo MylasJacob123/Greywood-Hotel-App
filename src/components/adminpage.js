@@ -1,64 +1,60 @@
 import React, { useState, useEffect } from "react";
 import "./adminpage.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getBookings, addBookings } from "../redux/dbSlice";
+import { getBookings, addRooms } from "../redux/dbSlice";
 
 const AdminBookings = () => {
   const [view, setView] = useState("bookings");
-  const [newBooking, setNewBooking] = useState({
-    clientName: "",
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [roomData, setRoomData] = useState({
+    description: "",
+    features: "",
+    guests: "",
+    images: "",
+    price: "",
+    ratings: "",
+    reviews: "",
     roomType: "",
-    checkInDate: "",
-    checkOutDate: "",
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState(""); // New state for status filter
   const dispatch = useDispatch();
   const bookings = useSelector((state) => state.db.data);
 
   useEffect(() => {
     dispatch(getBookings());
   }, [dispatch]);
-  console.log(bookings);
 
-  const change = (e) => {
-    const { name, value } = e.target;
-    setNewBooking((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleRoomChange = (e) => {
+    setRoomData({ ...roomData, [e.target.name]: e.target.value });
   };
 
-  const handleAddBooking = (e) => {
+  const handleRoomSubmit = (e) => {
     e.preventDefault();
-    dispatch(addBookings(newBooking));
-    setNewBooking({
+    dispatch(addRooms(roomData));
+    setRoomData({
+      description: "",
+      features: "",
+      guests: "",
+      images: "",
+      price: "",
+      ratings: "",
+      reviews: "",
       roomType: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      checkInDate: "",
-      checkOutDate: "",
-      status: "",
-      payerName: "",
-      paid: "",
-      transactionId: ""
     });
   };
 
   const filteredBookings =
-    bookings
-      ?.filter(
-        (booking) =>
-          (booking.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            booking.roomType?.toLowerCase().includes(searchTerm.toLowerCase())) &&
-          (statusFilter === "" || booking.status === statusFilter)
-      ) || [];
+    bookings?.filter(
+      (booking) =>
+        (booking.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          booking.roomType?.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (statusFilter === "" || booking.status === statusFilter)
+    ) || [];
 
   return (
     <div className="admin-bookings">
-      <h1 className="admin-bookings-heading">Bookings Dashboard</h1>
+      <h1 className="admin-bookings-heading">Admin Dashboard</h1>
 
       <div className="split-screen">
         <div className="sidebar">
@@ -69,8 +65,8 @@ const AdminBookings = () => {
             View Bookings
           </button>
           <button
-            className="admin-bookings-button"
-            onClick={() => setView("addBookings")}
+            className="admin-rooms-button"
+            onClick={() => setView("addRooms")}
           >
             Add Rooms
           </button>
@@ -90,10 +86,9 @@ const AdminBookings = () => {
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
-                  <option value="">All Statuses</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="pending">Pending</option>
-                  <option value="canceled">Canceled</option>
+                  <option value="">Select Status</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
                 </select>
               </div>
 
@@ -109,8 +104,8 @@ const AdminBookings = () => {
                       <th>Check-out</th>
                       <th>Total Price</th>
                       <th>Status</th>
+                      <th>Transaction ID</th>
                       <th>Payer</th>
-                      <th>Id</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -119,7 +114,7 @@ const AdminBookings = () => {
                       <tr key={booking.id}>
                         <td>{booking.roomType || "N/A"}</td>
                         <td>{booking.firstName || "N/A"}</td>
-                        <td>{booking.LastName || "N/A"}</td>
+                        <td>{booking.lastName || "N/A"}</td>
                         <td>{booking.email || "N/A"}</td>
                         <td>{booking.checkin || "N/A"}</td>
                         <td>{booking.checkout || "N/A"}</td>
@@ -139,39 +134,102 @@ const AdminBookings = () => {
             </>
           ) : (
             <div>
-              <h2>Add New Booking</h2>
-              <form onSubmit={handleAddBooking}>
-                <input
-                  type="text"
-                  name="clientName"
-                  placeholder="Client Name"
-                  value={newBooking.clientName}
-                  onChange={change}
-                  required
-                />
-                <input
-                  type="text"
-                  name="roomType"
-                  placeholder="Room Type"
-                  value={newBooking.roomType}
-                  onChange={change}
-                  required
-                />
-                <input
-                  type="date"
-                  name="checkInDate"
-                  value={newBooking.checkInDate}
-                  onChange={change}
-                  required
-                />
-                <input
-                  type="date"
-                  name="checkOutDate"
-                  value={newBooking.checkOutDate}
-                  onChange={change}
-                  required
-                />
-                <button type="submit">Add Booking</button>
+              <h2>Add New Room</h2>
+              <form onSubmit={handleRoomSubmit}>
+                <div>
+                  <label>Description:</label>
+                  <textarea
+                    className="admin-inputs"
+                    placeholder="Room Description"
+                    name="description"
+                    value={roomData.description}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Features:</label>
+                  <textarea
+                    className="admin-inputs"
+                    placeholder="Features (comma-separated)"
+                    name="features"
+                    value={roomData.features}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Guests:</label>
+                  <input
+                    className="admin-inputs"
+                    type="text"
+                    placeholder="Number of guests"
+                    name="guests"
+                    value={roomData.guests}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Images:</label>
+                  <textarea
+                    className="admin-inputs"
+                    placeholder="Image URLs (comma-separated)"
+                    name="images"
+                    value={roomData.images}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Price:</label>
+                  <input
+                    className="admin-inputs"
+                    type="number"
+                    placeholder="Price per night"
+                    name="price"
+                    value={roomData.price}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Ratings:</label>
+                  <input
+                    className="admin-inputs"
+                    type="text"
+                    placeholder="Ratings"
+                    name="ratings"
+                    value={roomData.ratings}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Reviews:</label>
+                  <input
+                    className="admin-inputs"
+                    type="text"
+                    placeholder="Number of reviews"
+                    name="reviews"
+                    value={roomData.reviews}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <div>
+                  <label>Room Type:</label>
+                  <input
+                    className="admin-inputs"
+                    type="text"
+                    placeholder="Room Type"
+                    name="roomType"
+                    value={roomData.roomType}
+                    onChange={handleRoomChange}
+                  />
+                </div>
+
+                <button type="submit">Add Room</button>
               </form>
             </div>
           )}

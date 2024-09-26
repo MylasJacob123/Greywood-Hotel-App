@@ -10,7 +10,6 @@ import Contact from "./components/contact";
 import "./App.css";
 import RoomDisplay from "./components/roomdisplay";
 import User from "./components/userprofile";
-import PaymentForm from "./components/paymentform";
 import PaymentPage from "./components/paymentsummarypage";
 import AdminBookings from "./components/adminpage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -39,7 +38,6 @@ function App() {
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/roomdisplay" element={<RoomDisplay />} />
             <Route path="/paymentsummary" element={<PaymentPage />} />
-            <Route path="/paymentform" element={<PaymentForm />} />
           </Routes>
         </PayPalScriptProvider>
       </BrowserRouter>

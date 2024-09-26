@@ -29,11 +29,15 @@ export const dbSlice = createSlice({
       state.data.push(action.payload);  
       state.loading = false;
     },
+    addRoomToState(state, action) {
+      state.data.push(action.payload); 
+      state.loading = false;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setLoading, setData, setError, addBookingToState } = dbSlice.actions;
+export const { setLoading, setData, setError, addBookingToState, addRoomToState } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -77,3 +81,14 @@ export const getBookings = () => async (dispatch) => {
   }
 };
 
+export const addRooms = (roomData) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const docRef = await addDoc(collection(db, "Rooms"), roomData);
+    console.log("Room added with ID: ", docRef.id);
+
+    dispatch(addRoomToState({ id: docRef.id, ...roomData }));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
