@@ -36,7 +36,7 @@ function PaymentPage() {
 
   const addBookingToFirestore = async (bookingData) => {
     try {
-      await addDoc(collection(db, "Bookings"), bookingData);
+      await addDoc(collection(db, "bookings"), bookingData);
       console.log("Booking added to Firestore");
     } catch (error) {
       console.error("Error adding booking: ", error);

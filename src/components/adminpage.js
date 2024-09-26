@@ -13,6 +13,7 @@ const AdminBookings = () => {
   });
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState(""); // New state for status filter
   const dispatch = useDispatch();
   const bookings = useSelector((state) => state.db.data);
 
@@ -33,19 +34,27 @@ const AdminBookings = () => {
     e.preventDefault();
     dispatch(addBookings(newBooking));
     setNewBooking({
-      clientName: "",
       roomType: "",
+      firstName: "",
+      lastName: "",
+      email: "",
       checkInDate: "",
       checkOutDate: "",
+      status: "",
+      payerName: "",
+      paid: "",
+      transactionId: ""
     });
   };
 
   const filteredBookings =
-    bookings?.filter(
-      (booking) =>
-        booking.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.roomType?.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+    bookings
+      ?.filter(
+        (booking) =>
+          (booking.clientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            booking.roomType?.toLowerCase().includes(searchTerm.toLowerCase())) &&
+          (statusFilter === "" || booking.status === statusFilter)
+      ) || [];
 
   return (
     <div className="admin-bookings">
@@ -77,7 +86,10 @@ const AdminBookings = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <select>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                >
                   <option value="">All Statuses</option>
                   <option value="confirmed">Confirmed</option>
                   <option value="pending">Pending</option>
@@ -95,8 +107,10 @@ const AdminBookings = () => {
                       <th>Email</th>
                       <th>Check-in</th>
                       <th>Check-out</th>
+                      <th>Total Price</th>
                       <th>Status</th>
                       <th>Payer</th>
+                      <th>Id</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -109,7 +123,9 @@ const AdminBookings = () => {
                         <td>{booking.email || "N/A"}</td>
                         <td>{booking.checkin || "N/A"}</td>
                         <td>{booking.checkout || "N/A"}</td>
-                        <td>{booking.status || "N/A"}</td>
+                        <td>{booking.totalPrice || "N/A"}</td>
+                        <td>{booking.paid || "N/A"}</td>
+                        <td>{booking.transactionId || "N/A"}</td>
                         <td>{booking.payerName || "N/A"} </td>
                         <td className="table-container-actions">
                           <button className="admin-edit">Edit</button>
@@ -136,7 +152,7 @@ const AdminBookings = () => {
                 <input
                   type="text"
                   name="roomType"
-                  placeholder="Room Name"
+                  placeholder="Room Type"
                   value={newBooking.roomType}
                   onChange={change}
                   required
