@@ -4,22 +4,29 @@ import "./navigation.css";
 import NavLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__5_-removebg-preview.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import UserProfile from "./userprofile";
 import { useNavigate } from "react-router-dom";
 
 function Navigate() {
-  const [showProfile, setShowProfile] = useState(false);
+  const navigate = useNavigate();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // Mock user data for now
+  const user = {
+    name: "Rethabile",
+    email: "rc@gmail.com.com",
+    loggedIn: true, // Toggle this for logged in/out state
+  };
+
+  const goToProfile = () => {
+    navigate("/userprofile");
+  };
 
   const handleProfileHover = () => {
-    setShowProfile(true);
+    setIsProfileOpen(true);
   };
 
   const handleProfileLeave = () => {
-    setShowProfile(false);
-  };
-
-  const handleProfileClick = () => {
-    setShowProfile(!showProfile);
+    setIsProfileOpen(false);
   };
 
   return (
@@ -56,18 +63,29 @@ function Navigate() {
           </li>
         </ul>
 
-        <div
+        <div 
           className="profile"
           onMouseEnter={handleProfileHover}
           onMouseLeave={handleProfileLeave}
         >
-          <FontAwesomeIcon
-            className="profile-icon"
-            icon={faUserCircle}
-            onClick={handleProfileClick}
-          />
-          {/* Show the profile either on hover or click */}
-          {(showProfile || showProfile) && <UserProfile />}
+          <FontAwesomeIcon className="profile-icon" icon={faUserCircle} />
+          {isProfileOpen && (
+            <div className="profile-dropdown">
+              {user.loggedIn ? (
+                <>
+                  <p>{user.name}</p>
+                  <p>{user.email}</p>
+                  <button onClick={goToProfile} className="nav-profile-btn">Profile</button>
+                  <button className="nav-logout-btn">Logout</button>
+                </>
+              ) : (
+                <>
+                  <button className="nav-login-btn">Login</button>
+                  <button className="nav-register-btn">Register</button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

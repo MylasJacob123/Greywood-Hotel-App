@@ -13,6 +13,7 @@ import User from "./components/userprofile";
 import PaymentPage from "./components/paymentsummarypage";
 import AdminBookings from "./components/adminpage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import Profile from "./components/userprofile";
 
 function App() {
   const initialOptions = {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/user" element={<User />} />
             <Route path="/admin" element={<AdminBookings />} />
+            <Route path="/userprofile" element={<Profile />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgot" element={<ForgotPassword />} />
