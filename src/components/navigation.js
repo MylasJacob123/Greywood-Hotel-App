@@ -1,32 +1,47 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./navigation.css";
 import NavLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__5_-removebg-preview.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser } from "../redux/dbSlice";
+import { userLogout } from "../redux/authSlice";
 
 function Navigate() {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  // Mock user data for now
-  const user = {
-    name: "Rethabile",
-    email: "rc@gmail.com.com",
-    loggedIn: true, // Toggle this for logged in/out state
-  };
+  const { user } = useSelector((state) => state.auth);
+  const { data: userProfile } = useSelector((state) => state.db);
+
+  useEffect(() => {
+    if (user && user.uid) {
+      dispatch(fetchUser(user.uid));
+    }
+  }, [dispatch, user]);
+
+  const userDetails =
+    userProfile.length > 0
+      ? userProfile[0]
+      : {
+          firstName: "User firstName",
+          lastName: "User lastName",
+          email: user?.email || "User@gmail.com",
+        };
 
   const goToProfile = () => {
     navigate("/userprofile");
   };
 
-  const handleProfileHover = () => {
-    setIsProfileOpen(true);
+  const handleProfileClick = () => {
+    setIsProfileOpen((prevState) => !prevState);
   };
 
-  const handleProfileLeave = () => {
-    setIsProfileOpen(false);
+  const handleLogout = () => {
+    dispatch(userLogout());
+    navigate("/");
   };
 
   return (
@@ -63,25 +78,36 @@ function Navigate() {
           </li>
         </ul>
 
-        <div 
-          className="profile"
-          onMouseEnter={handleProfileHover}
-          onMouseLeave={handleProfileLeave}
-        >
+        {/* Profile Icon and Dropdown */}
+        <div className="profile" onClick={handleProfileClick}>
           <FontAwesomeIcon className="profile-icon" icon={faUserCircle} />
           {isProfileOpen && (
             <div className="profile-dropdown">
-              {user.loggedIn ? (
+              {user ? (
                 <>
-                  <p>{user.name}</p>
-                  <p>{user.email}</p>
-                  <button onClick={goToProfile} className="nav-profile-btn">Profile</button>
-                  <button className="nav-logout-btn">Logout</button>
+                  <p>{`${userDetails.firstName} ${userDetails.lastName}`}</p>
+                  <p>{userDetails.email}</p>
+                  <button onClick={goToProfile} className="nav-profile-btn">
+                    Profile
+                  </button>
+                  <button onClick={handleLogout} className="nav-logout-btn">
+                    Logout
+                  </button>
                 </>
               ) : (
                 <>
-                  <button className="nav-login-btn">Login</button>
-                  <button className="nav-register-btn">Register</button>
+                  <button
+                    className="nav-login-btn"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="nav-register-btn"
+                    onClick={() => navigate("/register")}
+                  >
+                    Register
+                  </button>
                 </>
               )}
             </div>

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import Register from "./components/register";
 import Login from "./components/login";
 import ForgotPassword from "./components/forgotpassword";
@@ -14,14 +15,24 @@ import PaymentPage from "./components/paymentsummarypage";
 import AdminBookings from "./components/adminpage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import Profile from "./components/userprofile";
+import { useDispatch } from "react-redux";
+import { initializeUser } from "./redux/authSlice";
 
 function App() {
+  
   const initialOptions = {
     "client-id":
       "AfIAqx5qwADS2y3HBA3G9jY9LTQxgY71yk1o5OT6ca0OwgiOfGQ2hUnNVYNRVYUDF3MgjtvljjF2m_iN",
     "enable-funding": "venmo",
     currency: "USD",
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeUser()); 
+  }, [dispatch]);
+
   return (
     <div className="App">
       <BrowserRouter>

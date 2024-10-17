@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import "./forgotpassword.css";
 import forgotpasswordlogo from "./assets/Rectangle 2.png";
+import { useSelector, useDispatch } from "react-redux";
+import { resetPassword } from "../redux/authSlice";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+  const { error: authError, loading } = useSelector((state) => state.auth);
 
   const validateEmail = (email) => {
     const emailRegex = /\S+@\S+\.\S+/;
@@ -18,8 +23,10 @@ function ForgotPassword() {
       setError("Invalid email format");
     } else {
       setError("");
+      dispatch(resetPassword({email}));
       alert("Password reset link sent!");
-    }
+    };
+   
   };
 
   return (

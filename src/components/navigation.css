@@ -81,20 +81,24 @@
 
 .profile-dropdown {
     position: absolute;
-    top: 50px; 
+    top: 3.75rem; 
     right: 0;
-    width: 200px; 
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    left: 0;
+    width: 12.5rem; 
+    background-color: black;
+    box-shadow: 0 .25rem .5rem rgba(0, 0, 0, 0.2);
     padding: 1rem;
     z-index: 100;
-    border-radius: 10px;
+    border-radius: 0.625rem;
+    opacity: 75%;
 }
 
 .profile-dropdown p {
     margin: 0;
     font-weight: bold;
     font-size: 1rem;
+    color: whitesmoke;
+    text-align: center;
 }
 
 .nav-profile-btn {
@@ -102,11 +106,11 @@
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
-    background-color: black;
+    background-color: grey;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 0.313rem;
 }
 
 .nav-profile-btn:hover {
@@ -118,13 +122,31 @@
     width: 100%;
     padding: 0.5rem;
     margin-top: 0.5rem;
-    background-color: black;
+    background-color: #dc3545; 
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 0.313rem;
 }
 
 .nav-logout-btn:hover {
+    background-color: #c82333; 
+}
+
+.nav-login-btn,
+.nav-register-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.313rem;
+}
+
+.nav-login-btn:hover,
+.nav-register-btn:hover {
     background-color: goldenrod;
 }

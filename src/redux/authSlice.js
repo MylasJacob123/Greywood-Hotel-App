@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../configure/firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { collection, addDoc } from "firebase/firestore";
-import { db } from '../configure/firebase';
+import { auth, db } from '../configure/firebase';
 
 const initialState = {
   user: null,
   loading: false,
   error: null,
+  logged: false, 
 };
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -20,46 +21,73 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
       state.loading = false;
+      state.logged = true; 
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     setError(state, action) {
       state.error = action.payload;
       state.loading = false;
     },
+    logout(state) {
+      state.user = null;
+      state.logged = false;
+      localStorage.removeItem("user"); 
+    },
+    initializeUser(state) {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        state.user = JSON.parse(userData);
+        state.logged = true; 
+      }
+    },
   },
-
-  
 });
-export const { setLoading, setUser, setError } = authSlice.actions;
 
+// Export actions
+export const { setLoading, setUser, setError, logout, initializeUser } = authSlice.actions;
 
-export const signUp = ({ email, password, firstName , lastName }) => async (dispatch) => {
+export const signUp = ({ email, password, firstName, lastName }) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(userCredential.user.uid)
-    try {
-      const docRef = await addDoc(collection(db, "users", userCredential.user.uid , "profile" ), {
-        firstName: firstName,
-        lastName: lastName,
-        role: "client"
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-    }
-    dispatch(setUser(userCredential.user));
+    const docRef = await addDoc(collection(db, "users", userCredential.user.uid, "profile"), {
+      firstName,
+      lastName,
+      email,
+      role: "client",
+    });
+    dispatch(setUser({ uid: userCredential.user.uid, email }));
   } catch (error) {
     dispatch(setError(error.message));
   }
 };
-
 
 export const signIn = ({ email, password }) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    dispatch(setUser(userCredential.user));
+    dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email })); 
   } catch (error) {
     dispatch(setError(error.message));
   }
 };
+
+export const resetPassword = ({ email }) => async (dispatch) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert("Password reset link sent.");
+  } catch (error) {
+    console.error("Error sending password reset email:", error.message);
+  }
+};
+
+export const userLogout = () => async (dispatch) => {
+  try {
+    await auth.signOut(); 
+    dispatch(logout()); 
+  } catch (error) {
+    console.error("Error signing out:", error.message);
+  }
+};
+
 export default authSlice.reducer;

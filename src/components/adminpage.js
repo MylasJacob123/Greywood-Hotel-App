@@ -20,6 +20,7 @@ const AdminBookings = () => {
 
   const dispatch = useDispatch();
   const bookings = useSelector((state) => state.db.data);
+  const user = useSelector((state) => state.user); 
 
   useEffect(() => {
     dispatch(getBookings());
@@ -47,7 +48,6 @@ const AdminBookings = () => {
       roomType: "",
     });
   };
-  
 
   const filteredBookings =
     bookings?.filter(
@@ -75,6 +75,9 @@ const AdminBookings = () => {
           >
             Add Rooms
           </button>
+          <button className="admin-logout-button">
+            Logout
+          </button>
         </div>
 
         <div className="admin-bookings-main-content">
@@ -92,8 +95,8 @@ const AdminBookings = () => {
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
                   <option value="">Select Status</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
                 </select>
               </div>
 
@@ -124,9 +127,9 @@ const AdminBookings = () => {
                         <td>{booking.checkin || "N/A"}</td>
                         <td>{booking.checkout || "N/A"}</td>
                         <td>{booking.totalPrice || "N/A"}</td>
-                        <td>{booking.paid || "N/A"}</td>
+                        <td>{booking.status || "N/A"}</td>
                         <td>{booking.transactionId || "N/A"}</td>
-                        <td>{booking.payerName || "N/A"} </td>
+                        <td>{booking.payerName || "N/A"}</td>
                         <td className="table-container-actions">
                           <button className="admin-edit">Edit</button>
                           <button className="admin-delete">Delete</button>

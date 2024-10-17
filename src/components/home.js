@@ -13,9 +13,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
+// import { useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
 
 function Home() {
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const { user, logged } = useSelector((state) => state.auth);
+  // console.log(logged);
 
   const gotToAbout = () => {
     navigate("/about");
@@ -24,6 +29,17 @@ function Home() {
   const goToFacilities = () => {
     navigate("/facilities");
   }
+
+  // useEffect(() => {
+  //   if (logged) {
+  //    navigate("/")
+  //     console.log("home page")
+  //   } else {
+  //     navigate("/login")
+  //     console.log("login page")
+  //   }  
+  // }, [logged, dispatch]); 
+  
   return (
     <div className="home-container">
       {/* SECTION A */}

@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { createSlice } from "@reduxjs/toolkit";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { db } from "../configure/firebase";
@@ -26,17 +25,17 @@ export const dbSlice = createSlice({
       state.loading = false;
     },
     addBookingToState(state, action) {
-      state.data.push(action.payload);  
+      state.data.push(action.payload);
       state.loading = false;
     },
     addRoomToState(state, action) {
-      state.data.push(action.payload); 
+      state.data.push(action.payload);
       state.loading = false;
     },
   },
 });
 
-// Action creators are generated for each case reducer function
+// Action creators
 export const { setLoading, setData, setError, addBookingToState, addRoomToState } = dbSlice.actions;
 
 export default dbSlice.reducer;
@@ -55,22 +54,22 @@ export const fetchData = () => async (dispatch) => {
   }
 };
 
-export const addBookings = (bookingData) => async (dispatch) => {
+export const addBookings = (uid, bookingData) => async (dispatch) => {
+  dispatch(setLoading());
   try {
-    dispatch(setLoading());
-    const docRef = await addDoc(collection(db, "bookings"), bookingData);
+    const docRef = await addDoc(collection(db, "users", uid, "bookings"), bookingData);
     console.log("Document written with ID: ", docRef.id);
-
     dispatch(addBookingToState({ id: docRef.id, ...bookingData }));
   } catch (error) {
     dispatch(setError(error.message));
   }
 };
 
-export const getBookings = () => async (dispatch) => {
+
+export const getBookings = (uid) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const querySnapshot = await getDocs(collection(db, "bookings"));
+    const querySnapshot = await getDocs(collection(db, "users", uid, "bookings"));
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -82,12 +81,25 @@ export const getBookings = () => async (dispatch) => {
 };
 
 export const addRooms = (roomData) => async (dispatch) => {
+  dispatch(setLoading());
   try {
-    dispatch(setLoading());
     const docRef = await addDoc(collection(db, "Rooms"), roomData);
     console.log("Room added with ID: ", docRef.id);
-
     dispatch(addRoomToState({ id: docRef.id, ...roomData }));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const fetchUser = (uid) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const querySnapshot = await getDocs(collection(db, "users", uid, "profile"));
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    dispatch(setData(data));
   } catch (error) {
     dispatch(setError(error.message));
   }

@@ -12,7 +12,7 @@ import RoyalDoubleHaven from "./assets/Royal Double Haven.png";
 import OpalQueenRetreat from "./assets/Opal Queen Retreat.png";
 import ImperialKingHaven from "./assets/Imperial King Haven.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faShareAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,6 +28,10 @@ function Rooms() {
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   console.log(data);
   console.log(loading);
   console.log(error);
@@ -106,12 +110,12 @@ function Rooms() {
       : roomsData.filter((room) => room.category === selectedCategory);
 
   const handleCardClick = (room) => {
-    console.log(room)
-     navigate("/roomdisplay" , {
+    console.log(room);
+    navigate("/roomdisplay", {
       state: {
-       room
-    },
-     });
+        room,
+      },
+    });
   };
 
   return (
@@ -160,12 +164,16 @@ function Rooms() {
             <div
               className="room-display-card"
               key={room.nameType}
-              onClick={()=>handleCardClick(room)}
+              onClick={() => handleCardClick(room)}
             >
               <div className="room-display-card-image-div">
                 <img
                   className="room-display-card-image"
-                  src={room.images[0]}
+                  src={
+                    room.images && room.images.length > 0
+                      ? room.images[0]
+                      : "default-image-url.jpg"
+                  }
                   alt={`Image of ${room.name}`}
                 />
               </div>
@@ -177,7 +185,7 @@ function Rooms() {
                 <div className="room-display-card-info-amenities">
                   <div className="room-display-card-info-amenity">
                     <div className="room-display-card-info-amenity-icon">
-                      <FontAwesomeIcon icon={faUser} /> 
+                      <FontAwesomeIcon icon={faUser} />
                     </div>
                     <div className="room-display-card-info-amenity-text">
                       <span>{room.guests}</span>
@@ -190,6 +198,19 @@ function Rooms() {
                   </span>{" "}
                   / per night
                 </h5>
+                <div>
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faShareAlt}
+                      className="content-icon"
+                    />
+                    <span className="content-name">Share</span>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon icon={faHeart} className="content-icon" />
+                    <span className="content-name">Save</span>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
