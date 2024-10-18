@@ -15,9 +15,8 @@ import {
   faShareAlt,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { useNavigate, useLocation } from "react-router-dom";
-import {} from "react-share";
+import { useSelector } from 'react-redux';
 
 function RoomDisplay() {
   const location = useLocation();
@@ -26,6 +25,8 @@ function RoomDisplay() {
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const user = useSelector((state) => state.user);
 
   const pricePerNight = location.state.room.price;
   const today = new Date().toISOString().split("T")[0];
@@ -63,23 +64,37 @@ function RoomDisplay() {
     setShowForm(false);
   };
 
+  const checkUser = () => {
+    if (!user || !user.uid) {
+      alert("User not logged in. Please login");
+      navigate("/login");
+      return false; 
+    }
+    return true; 
+  };
+  console.log(user);
+
   const goToPaymentFormSummary = (e) => {
     e.preventDefault();
     handleTotalPrice();
-    if (checkin && checkout && totalPrice > 0) {
-      navigate("/paymentsummary", {
-        state: {
-          room: location.state.room,
-          checkin,
-          checkout,
-          totalPrice,
-        },
-      });
+    
+    if (checkUser()) { 
+      if (checkin && checkout && totalPrice > 0) {
+        navigate("/paymentsummary", {
+          state: {
+            room: location.state.room,
+            checkin,
+            checkout,
+            totalPrice,
+            userId: user.uid, 
+          },
+        });
+      } else {
+         alert("Please select valid check-in and check-out dates.");
+       }
     }
-    // } else {
-    //   alert("Please select valid check-in and check-out dates.");
-    // }
   };
+  
 
   return (
     <div className="rooms-display">
@@ -94,16 +109,6 @@ function RoomDisplay() {
             <h1 className="rooms-display-top2-heading">
               {location.state.room.roomType}
             </h1>
-          </div>
-          <div>
-            <div>
-              <FontAwesomeIcon icon={faShareAlt} className="content-icon" />
-              <span className="content-name">Share</span>
-            </div>
-            <div>
-              <FontAwesomeIcon icon={faHeart} className="content-icon" />
-              <span className="content-name">Save</span>
-            </div>
           </div>
           <div className="rooms-display-top2-image-display">
             <div className="rooms-display-top2-image-display-box1">

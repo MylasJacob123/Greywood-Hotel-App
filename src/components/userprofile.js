@@ -7,14 +7,13 @@ import Loader from "./loader";
 function UserProfile() {
   const dispatch = useDispatch();
   
-  const { user } = useSelector((state) => state.auth); 
-  const { data: userProfile, loading: userProfileLoading } = useSelector((state) => state.db); 
-  // const { data: bookingHistory, loading: bookingHistoryLoading } = useSelector((state) => state.db); 
+  const { user } = useSelector((state) => state.auth);
+  const { data: userProfile, bookings, loading: userProfileLoading } = useSelector((state) => state.db);
 
   useEffect(() => {
     if (user && user.uid) {
-      dispatch(fetchUser(user.uid));
-      // dispatch(getBookings(user.uid));
+      dispatch(fetchUser(user.uid)); 
+      dispatch(getBookings(user.uid)); 
     }
   }, [dispatch, user]);
 
@@ -26,9 +25,8 @@ function UserProfile() {
         email: user?.email || "User@gmail.com",
       };
 
-  // if (userProfileLoading || bookingHistoryLoading ) {
-    if (userProfileLoading ) {
-    return <Loader />
+  if (userProfileLoading) {
+    return <Loader />;
   }
 
   return (
@@ -40,20 +38,14 @@ function UserProfile() {
 
       <div className="profile-details">
         <h3>Profile Details</h3>
-        <p>
-          <strong>First Name:</strong> {userDetails.firstName}
-        </p>
-        <p>
-          <strong>Last Name:</strong> {userDetails.lastName}
-        </p>
-        <p>
-          <strong>Email:</strong> {userDetails.email}
-        </p>
+        <p><strong>First Name:</strong> {userDetails.firstName}</p>
+        <p><strong>Last Name:</strong> {userDetails.lastName}</p>
+        {/* <p><strong>Email:</strong> {userDetails.email}</p> */}
       </div>
 
       <div className="booking-history">
         <h3>Booking History</h3>
-        {/* {bookingHistory.length > 0 ? (
+        {bookings.length > 0 ? (
           <table className="booking-table">
             <thead>
               <tr>
@@ -67,7 +59,7 @@ function UserProfile() {
               </tr>
             </thead>
             <tbody>
-              {bookingHistory.map((booking, index) => (
+              {bookings.map((booking, index) => (
                 <tr key={index}>
                   <td>{booking.roomType}</td>
                   <td>{booking.checkin}</td>
@@ -82,10 +74,11 @@ function UserProfile() {
           </table>
         ) : (
           <p>No booking history available.</p>
-        )} */}
+        )}
       </div>
     </div>
   );
 }
 
 export default UserProfile;
+

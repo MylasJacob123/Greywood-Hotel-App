@@ -3,7 +3,8 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 import { db } from "../configure/firebase";
 
 const initialState = {
-  data: [],
+  data: [], 
+  bookings: [], 
   loading: false,
   error: null,
 };
@@ -17,7 +18,11 @@ export const dbSlice = createSlice({
       state.error = null;
     },
     setData(state, action) {
-      state.data = action.payload;
+      state.data = action.payload; 
+      state.loading = false;
+    },
+    setBookings(state, action) {
+      state.bookings = action.payload; 
       state.loading = false;
     },
     setError(state, action) {
@@ -25,7 +30,7 @@ export const dbSlice = createSlice({
       state.loading = false;
     },
     addBookingToState(state, action) {
-      state.data.push(action.payload);
+      state.bookings.push(action.payload); 
       state.loading = false;
     },
     addRoomToState(state, action) {
@@ -35,8 +40,8 @@ export const dbSlice = createSlice({
   },
 });
 
-// Action creators
-export const { setLoading, setData, setError, addBookingToState, addRoomToState } = dbSlice.actions;
+// Export actions
+export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -65,20 +70,33 @@ export const addBookings = (uid, bookingData) => async (dispatch) => {
   }
 };
 
+export const getAllBookings = () => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const querySnapshot = await getDocs(collection(db, "bookings"));
+    const bookingsData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    dispatch(setBookings(bookingsData)); 
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
 
 export const getBookings = (uid) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const querySnapshot = await getDocs(collection(db, "users", uid, "bookings"));
-    const data = querySnapshot.docs.map((doc) => ({
+    const bookingsData = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    dispatch(setData(data));
+    dispatch(setBookings(bookingsData)); 
   } catch (error) {
     dispatch(setError(error.message));
   }
-};
+}
 
 export const addRooms = (roomData) => async (dispatch) => {
   dispatch(setLoading());

@@ -17,6 +17,13 @@ import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../redux/dbSlice";
+import {
+  FaFacebook,
+  FaTwitter,
+  FaWhatsapp,
+  FaTelegram,
+  FaInstagram
+} from "react-icons/fa";
 
 function Rooms() {
   const navigate = useNavigate();
@@ -25,6 +32,8 @@ function Rooms() {
 
   const dispatch = useDispatch();
 
+  const [showShareIcons, setShowShareIcons] = useState(null); 
+
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
@@ -32,9 +41,6 @@ function Rooms() {
   useEffect(() => {
     console.log(data);
   }, [data]);
-  console.log(data);
-  console.log(loading);
-  console.log(error);
 
   const roomsData = [
     {
@@ -110,12 +116,15 @@ function Rooms() {
       : roomsData.filter((room) => room.category === selectedCategory);
 
   const handleCardClick = (room) => {
-    console.log(room);
     navigate("/roomdisplay", {
       state: {
         room,
       },
     });
+  };
+
+  const toggleShareIcons = (roomIndex) => {
+    setShowShareIcons((prev) => (prev === roomIndex ? null : roomIndex));
   };
 
   return (
@@ -160,7 +169,7 @@ function Rooms() {
       {/* MIDDLE */}
       <div className="rooms-display-middle">
         <div className="rooms-display-middle-cards">
-          {data.map((room) => (
+          {data.map((room, index) => (
             <div
               className="room-display-card"
               key={room.nameType}
@@ -198,19 +207,29 @@ function Rooms() {
                   </span>{" "}
                   / per night
                 </h5>
-                <div>
-                  <div>
+                <div className="room-display-card-user-icons">
+                  <div onClick={(e) => { e.stopPropagation(); toggleShareIcons(index); }}>
                     <FontAwesomeIcon
                       icon={faShareAlt}
-                      className="content-icon"
+                      className="room-display-card-user-icons-content-name"
                     />
-                    <span className="content-name">Share</span>
                   </div>
                   <div>
-                    <FontAwesomeIcon icon={faHeart} className="content-icon" />
-                    <span className="content-name">Save</span>
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="room-display-card-user-icons-content-name"
+                    />
                   </div>
                 </div>
+                {showShareIcons === index && (
+                  <div className="room-display-share-icons">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="icon facebook"><FaFacebook className="room-display-share-icon" /></a>
+                    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaTwitter className="room-display-share-icon" /></a>
+                    <a href="https://www.whatsapp.com/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaWhatsapp className="room-display-share-icon" /></a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaInstagram className="room-display-share-icon" /></a>
+                    <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaTelegram className="room-display-share-icon" /></a>
+                  </div>
+                )}
               </div>
             </div>
           ))}

@@ -1,254 +1,288 @@
 .rooms-display {
-    width: 100%;
-    height: auto;
-    background-color: white;
-  }
-  
-  /* HEADER */
-  .rooms-display-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-    width: 100%;
-    padding-top: 2rem;
-    gap: 1rem;
-  }
-  
-  .rooms-display-header-top {
-    width: 90%;
-    height: 30%;
-  }
-  
-  .rooms-display-header-bottom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 85%;
-    height: 50%;
-  }
-  
-  .rooms-display-header-bottom-categories {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    gap: .7rem;
-    width: 90%;
-    height: 50%;
-    background-color: black;
-    opacity: 65%;
-  }
-  
-  .rooms-display-header-bottom-categories-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 15%;
-    height: 80%;
-    position: relative;
-  }
-  
-  .rooms-display-header-bottom-categories-box-category {
-    font-size: 1.3rem;
-    color: whitesmoke;
-  }
-  
-  .rooms-display-header-bottom-categories-box-category:hover {
-    cursor: pointer;
-  }
-  
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+
+/* HEADER */
+.rooms-display-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 100%;
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+.rooms-display-header-top {
+  width: 90%;
+  height: 30%;
+}
+
+.rooms-display-header-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 85%;
+  height: 50%;
+}
+
+.rooms-display-header-bottom-categories {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.7rem;
+  width: 90%;
+  height: 50%;
+  background-color: black;
+  opacity: 65%;
+}
+
+.rooms-display-header-bottom-categories-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 15%;
+  height: 80%;
+  position: relative;
+}
+
+.rooms-display-header-bottom-categories-box-category {
+  font-size: 1.3rem;
+  color: whitesmoke;
+}
+
+.rooms-display-header-bottom-categories-box-category:hover {
+  cursor: pointer;
+}
+
+.rooms-display-header-bottom-categories-box-category-hover {
+  height: 2.5%;
+  width: 50%;
+  background-color: whitesmoke;
+  opacity: 50%;
+  display: none;
+  position: absolute;
+  bottom: 0;
+}
+
+.rooms-display-header-bottom-categories-box:hover
   .rooms-display-header-bottom-categories-box-category-hover {
-    height: 2.5%;
-    width: 50%;
-    background-color: whitesmoke;
-    opacity: 50%;
-    display: none;
-    position: absolute;
-    bottom: 0;
-  }
-  
-  .rooms-display-header-bottom-categories-box:hover .rooms-display-header-bottom-categories-box-category-hover {
-    display: block; 
-  }
-  
-  .rooms-display-header-bottom-categories-line {
-    width: 100%;
-    height: 1.5%;
-    background-color: black;
-    opacity: 50%;
-  }
-  
-  
-  
-  /* MIDDLE */
-  .rooms-display-middle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    background-color: white;
-    width: 80%;
-  }
-  
-  .rooms-display-middle-cards {
-    height: 100%;
-    width: 70%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    gap: 1rem;
-    row-gap: 2rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-  }
-  
-  .room-display-card {
-    width: 22.75rem;
-    height: 28.625rem;
-    background-color: #F4F4F4;
-    border-radius: 2rem;
-    transition: transform 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-  }
-  
-  .room-display-card:hover {
-    transform: scale(1.1);
-  }
-  
-  .room-display-card-image-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 55%;
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
-  }
-  
-  .room-display-card-image {
-    border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .room-display-card-info {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 65%;
-    border-bottom-left-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-    padding: 1rem;
-    gap: .5rem;
-  }
-  
-  .room-display-card-info-heading-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    width: auto;
-    height: auto;
-  }
-  
-  .room-display-card-info-heading-body-line {
-    height: .17rem;
-    width: 4.5rem;
-    background-color: black;
-    align-self: flex-end;
-  }
-  
-  .room-display-card-info-price {
-    font-size: 1.6rem;
-  }
-  
-  .room-display-card-info-amenities {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .room-display-card-info-amenity {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-  }
-  
-  .room-display-card-info-amenity-icon {
-    width: 10%;
-  }
-  
-  .room-display-card-info-amenity-text {
-    width: 80%;
-  }
-  
-  
-  
-  /* LAST */
-  .rooms-display-last {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    height: 100vh;
-  }
-  
-  .rooms-display-last-top {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: auto;
-    width: 85%;
-    background-color: black;
-    flex-wrap: wrap;
-    padding: 3rem;
-  }
-  
-  .rooms-display-last-top-paragraph {
-    width: 40%;
-    height: auto;
-    color: whitesmoke;
-  }
-  
-  .rooms-display-last-middle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30%;
-    width: 100%;
-  }
-  
-  .rooms-display-last-middle-btn-navigation {
-    width: 40%;
-    height: 25%;
-    background-color: red;
-  }
-  
-  .rooms-display-last-bottom {
-    height: 50%;
-    width: 100%;
-    background-color: red;
-  }
-  
-  
-  
-  .rooms-display-last-bottom {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 60%;
-    background-color: black;
-    gap: 0.5rem;
-  }
+  display: block;
+}
+
+.rooms-display-header-bottom-categories-line {
+  width: 100%;
+  height: 1.5%;
+  background-color: black;
+  opacity: 50%;
+}
+
+/* MIDDLE */
+.rooms-display-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  background-color: white;
+  width: 80%;
+}
+
+.rooms-display-middle-cards {
+  height: 100%;
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+  row-gap: 2rem;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+
+.room-display-card {
+  width: 22.75rem;
+  height: 28.625rem;
+  background-color: #f4f4f4;
+  border-radius: 2rem;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.room-display-card:hover {
+  transform: scale(1.1);
+}
+
+.room-display-card-image-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 55%;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
+
+.room-display-card-image {
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.room-display-card-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 65%;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.room-display-card-info-heading-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  width: auto;
+  height: auto;
+}
+
+.room-display-card-info-heading-body-line {
+  height: 0.17rem;
+  width: 4.5rem;
+  background-color: black;
+  align-self: flex-end;
+}
+
+.room-display-card-info-price {
+  font-size: 1.6rem;
+}
+
+.room-display-card-info-amenities {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-display-card-info-amenity {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.room-display-card-info-amenity-icon {
+  width: 10%;
+}
+
+.room-display-card-info-amenity-text {
+  width: 80%;
+}
+
+.room-display-card-user-icons {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: end;
+}
+
+.room-display-card-user-icons-content-name {
+  height: 1.3rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.room-display-card-user-icons-content-name:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+  color: goldenrod;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.room-display-share-icons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.room-display-share-icon {
+  font-size: 1.6rem;
+  transition: transform 0.3s ease-in-out;
+}
+
+.room-display-share-icon:hover {
+  cursor: pointer;
+  transform: scale(1.3);
+  color: #007bff;;
+}
+
+/* LAST */
+.rooms-display-last {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100vh;
+}
+
+.rooms-display-last-top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: auto;
+  width: 85%;
+  background-color: black;
+  flex-wrap: wrap;
+  padding: 3rem;
+}
+
+.rooms-display-last-top-paragraph {
+  width: 40%;
+  height: auto;
+  color: whitesmoke;
+}
+
+.rooms-display-last-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+  width: 100%;
+}
+
+.rooms-display-last-middle-btn-navigation {
+  width: 40%;
+  height: 25%;
+  background-color: red;
+}
+
+.rooms-display-last-bottom {
+  height: 50%;
+  width: 100%;
+  background-color: red;
+}
+
+.rooms-display-last-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60%;
+  background-color: black;
+  gap: 0.5rem;
+}

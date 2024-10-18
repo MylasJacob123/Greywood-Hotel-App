@@ -2,7 +2,7 @@ import React from "react";
 import "./paymentsummarypage.css";
 import Footer from "./footer";
 import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux";
 import { addBookings } from "../redux/dbSlice";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { addDoc, collection } from "firebase/firestore";
@@ -13,11 +13,10 @@ function PaymentPage() {
   const { room, checkin, checkout, totalPrice } = location.state;
 
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user); 
 
   const bookingData = {
-    firstName: user?.firstName || "Guest First Name",  
+    firstName: user?.firstName || "Guest First Name",
     lastName: user?.lastName || "Guest Last Name",
     email: user?.email || "",
     roomType: room?.roomType || "Standard",
@@ -29,15 +28,15 @@ function PaymentPage() {
       ) || 0,
     guests: room?.guests || 1,
     totalPrice: totalPrice || 0,
-    paid: "No", 
+    paid: "Pending",
     transactionId: null,
     payerName: null,
   };
 
-  const addBookingToFirestore = async (bookingData) => {
+  const addBookingToFirestore = async (uid, bookingData) => {
     try {
-      await addDoc(collection(db, "bookings"), bookingData);
-      console.log("Booking added to Firestore");
+      await addDoc(collection(db, "users", uid, "bookings"), bookingData);
+      console.log("Booking added to Firestore under user:", uid);
     } catch (error) {
       console.error("Error adding booking: ", error);
     }
@@ -47,14 +46,18 @@ function PaymentPage() {
     return actions.order.capture().then((details) => {
       const updatedBookingData = {
         ...bookingData,
-        paid: "Yes", 
+        paid: "Paid",
         transactionId: details.id,
         payerName: details.payer.name.given_name,
         email: details.payer.email_address,
       };
 
-      addBookingToFirestore(updatedBookingData);
-      dispatch(addBookings(updatedBookingData));
+      if (user?.uid) {
+        addBookingToFirestore(user.uid, updatedBookingData); 
+        dispatch(addBookings(user.uid, updatedBookingData)); 
+      } else {
+        console.error("User is not logged in, cannot add booking");
+      }
 
       alert(`Transaction completed by ${details.payer.name.given_name}`);
     }).catch((err) => {
@@ -76,7 +79,8 @@ function PaymentPage() {
             <p>
               Nights:{" "}
               {Math.ceil(
-                (new Date(checkout) - new Date(checkin)) / (1000 * 60 * 60 * 24)
+                (new Date(checkout) - new Date(checkin)) /
+                  (1000 * 60 * 60 * 24)
               ) || 0}
             </p>
             <p>Guests: {room?.guests || 1}</p>
@@ -90,7 +94,10 @@ function PaymentPage() {
         <div className="payment-section">
           <h2>Payment Details</h2>
           <PayPalScriptProvider
-            options={{ "client-id": "Ac5BE6LbIeYHZYca62eZjpI8DlcGBprKXhwMd89igjzVzzqU1CtTfNL-ZNQ6-qq405c8YsdK-SvMpPk4" }}
+            options={{
+              "client-id":
+                "Ac5BE6LbIeYHZYca62eZjpI8DlcGBprKXhwMd89igjzVzzqU1CtTfNL-ZNQ6-qq405c8YsdK-SvMpPk4",
+            }}
           >
             <PayPalButtons
               createOrder={(data, actions) => {

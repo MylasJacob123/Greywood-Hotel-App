@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./adminpage.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getBookings, addRooms } from "../redux/dbSlice";
+import { getAllBookings, addRooms } from "../redux/dbSlice"; // Updated import for getAllBookings
 
 const AdminBookings = () => {
   const [view, setView] = useState("bookings");
@@ -19,11 +19,11 @@ const AdminBookings = () => {
   });
 
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.db.data);
-  const user = useSelector((state) => state.user); 
+  const bookings = useSelector((state) => state.db.bookings); // Adjusted selector for bookings
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(getBookings());
+    dispatch(getAllBookings()); // Fetch all bookings
   }, [dispatch]);
 
   const handleRoomChange = (e) => {
