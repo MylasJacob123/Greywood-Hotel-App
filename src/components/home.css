@@ -109,6 +109,12 @@
   .section-B-top-box2-director {
     font-size: 1.9rem;
     font-weight: 500;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .section-B-top-box2-director-arrow {
+    cursor: pointer;
   }
   
   .section-B-bottom {
@@ -365,9 +371,18 @@
   
   .section-D-top-info1 {
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     height: 90%;
+  }
+
+  .next-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    cursor: pointer;
   }
   
   .section-D-top-info1 div {
@@ -394,6 +409,12 @@
     width: 100%;
     height: 100%;
   }
+
+  .success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
   
   .section-D-bottom {
     display: flex;
@@ -404,3 +425,23 @@
     height: 60%;
     gap: 0.5rem;
   }
+
+
+  @media (max-width: 768px) {
+    .section-A-middle-head-text {
+      font-size: 2.5rem;
+    }
+  
+    .section-A-middle-sub-text {
+      font-size: 1.5rem;
+    }
+  
+    .section-B-bottom {
+      flex-direction: column;
+    }
+  
+    .section-C-bottom {
+      flex-direction: column;
+    }
+  }
+  

@@ -84,7 +84,8 @@ export const resetPassword = ({ email }) => async (dispatch) => {
 export const userLogout = () => async (dispatch) => {
   try {
     await auth.signOut(); 
-    dispatch(logout()); 
+    dispatch(logout());
+    alert("You have been logged out successfully.")
   } catch (error) {
     console.error("Error signing out:", error.message);
   }

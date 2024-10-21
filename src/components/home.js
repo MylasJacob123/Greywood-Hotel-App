@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./home.css";
 import Navigation from "./navigation";
 import Image1 from "./assets/Rectangle 19.png";
@@ -10,17 +10,60 @@ import Image6 from "./assets/Rectangle 31.png";
 import Image7 from "./assets/Rectangle 33.png";
 import Image8 from "./assets/Rectangle 42.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 // import { useEffect } from "react";
 // import { useSelector, useDispatch } from "react-redux";
+import { addReviews } from "../redux/dbSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // const dispatch = useDispatch();
   // const { user, logged } = useSelector((state) => state.auth);
   // console.log(logged);
+
+  const [showReviewSection, setShowReviewSection] = useState(false);
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(0);
+  const [name, setName] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const reviews = [
+    {
+      text: "“My stay was outstanding. The luxurious but comforting, the exceptional service and top-notch amenities made it a truly unforgettable experience.”",
+      review: "4.8",
+      name: "Rebecca Stacy",
+    },
+    {
+      text: "“The best hotel experience I’ve ever had! The staff went above and beyond to make my stay comfortable.”",
+      review: "4.7",
+      name: "John Doe",
+    },
+    {
+      text: "“Amazing facilities and great location! I would definitely come back.”",
+      review: "4.9",
+      name: "Sarah Smith",
+    },
+  ];
+
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+
+  const toggleReviewSection = () => {
+    setShowReviewSection((prev) => !prev);
+  };
+
+  const goToNextReview = () => {
+    setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+  };
+
+  const goToPreviousReview = () => {
+    setCurrentReviewIndex(
+      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
+    );
+  };
 
   const gotToAbout = () => {
     navigate("/about");
@@ -28,7 +71,16 @@ function Home() {
 
   const goToFacilities = () => {
     navigate("/facilities");
-  }
+  };
+
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    dispatch(addReviews({ review, rating, name }));
+    setReview("");
+    setRating("");
+    setName("");
+    setSuccessMessage("Thank you for your review!");
+  };
 
   // useEffect(() => {
   //   if (logged) {
@@ -37,9 +89,9 @@ function Home() {
   //   } else {
   //     navigate("/login")
   //     console.log("login page")
-  //   }  
-  // }, [logged, dispatch]); 
-  
+  //   }
+  // }, [logged, dispatch]);
+
   return (
     <div className="home-container">
       {/* SECTION A */}
@@ -73,7 +125,11 @@ function Home() {
             </p>
             <span className="section-B-top-box2-director">
               More info{" "}
-              <FontAwesomeIcon icon={faArrowRight} onClick={gotToAbout} />
+              <FontAwesomeIcon
+                className="section-B-top-box2-director-arrow"
+                icon={faArrowRight}
+                onClick={gotToAbout}
+              />
             </span>
           </div>
         </div>
@@ -105,7 +161,12 @@ function Home() {
             </h2>
           </div>
           <div className="section-C-top-info2">
-            <button className="section-C-top-info2-button" onClick={goToFacilities}>See more</button>
+            <button
+              className="section-C-top-info2-button"
+              onClick={goToFacilities}
+            >
+              See more
+            </button>
           </div>
         </div>
         <div className="section-C-bottom">
@@ -169,28 +230,98 @@ function Home() {
         </div>
       </div>
 
-      {/* SECTION D */}
+      {/* Section D */}
       <div className="section-D">
-        <div className="section-D-top">
-          <div className="section-D-top-info1">
-            <div>
-              <h5>CLIENT FEEDBACK</h5>
-              <p>
-                “My stay was outstanding. The luxurious but comforting, the
-                exceptional service and top-notch amenities made it a truly
-                unforgettable experience.”
-              </p>
-              <h6 className="client-review">Rebecca Stacy</h6>
+        {!showReviewSection ? (
+          <div className="section-D-top">
+            <div className="section-D-top-info1">
+              <div className="next-btns">
+                <FontAwesomeIcon
+                  className="next-btn"
+                  onClick={goToPreviousReview}
+                  icon={faArrowLeft}
+                />
+              </div>
+              <div>
+                <h5>CLIENT REVIEW</h5>
+                <p>
+                  {reviews[currentReviewIndex].text}
+                  <br />
+                  {reviews[currentReviewIndex].review} Stars
+                </p>
+                <h6 className="client-review">
+                  {reviews[currentReviewIndex].name}
+                </h6>
+              </div>
+              <div className="next-btns">
+                <FontAwesomeIcon
+                  className="next-btn"
+                  onClick={goToNextReview}
+                  icon={faArrowRight}
+                />
+              </div>
             </div>
+            <div className="section-D-top-info2">
+              <img
+                className="section-D-top-info2-image"
+                src={Image8}
+                alt="image1"
+              />
+            </div>
+            <button onClick={toggleReviewSection}>Leave a Review</button>
           </div>
-          <div className="section-D-top-info2">
-            <img
-              className="section-D-top-info2-image"
-              src={Image8}
-              alt="image1"
-            />
+        ) : (
+          <div className="section-D-top-middle">
+            <div className="section-D-top-middle-review-form">
+              <div className="review-form-top">
+                <h3>Submit Your Review</h3>
+              </div>
+              <form className="review-form" onSubmit={handleSubmitReview}>
+                <div className="review-form-group">
+                  <label htmlFor="review">Review:</label>
+                  <textarea
+                    id="review"
+                    name="review"
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                    placeholder="Write your review here..."
+                    required
+                  />
+                </div>
+                <div className="form-div">
+                  <label htmlFor="rating">Rating</label>
+                  <input
+                    type="number"
+                    name="rating"
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                    required
+                    min="1"
+                    max="5"
+                  />
+                </div>
+                <div className="form-div">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <button type="submit">Submit Review</button>
+                </div>
+                {successMessage && (
+                  <p className="success-message">{successMessage}</p>
+                )}
+              </form>
+            </div>
+            <button onClick={toggleReviewSection}>Back to Feedback</button>
           </div>
-        </div>
+        )}
+
         <div className="section-D-bottom">
           <Footer />
         </div>

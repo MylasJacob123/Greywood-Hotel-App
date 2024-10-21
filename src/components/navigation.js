@@ -41,6 +41,7 @@ function Navigate() {
 
   const handleLogout = () => {
     dispatch(userLogout());
+    alert("User logged out")
     navigate("/");
   };
 

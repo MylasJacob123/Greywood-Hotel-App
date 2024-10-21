@@ -17,22 +17,20 @@ import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../redux/dbSlice";
-import {
-  FaFacebook,
-  FaTwitter,
-  FaWhatsapp,
-  FaTelegram,
-  FaInstagram
-} from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaTelegram } from "react-icons/fa";
+import ShareRoom from "./ShareOnSocials";
+import { addFavorite } from "../redux/dbSlice";
+
 
 function Rooms() {
   const navigate = useNavigate();
 
   const { data, loading, error } = useSelector((state) => state.db);
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  const [showShareIcons, setShowShareIcons] = useState(null); 
+  const [showShareIcons, setShowShareIcons] = useState(null);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -41,6 +39,24 @@ function Rooms() {
   useEffect(() => {
     console.log(data);
   }, [data]);
+
+  const handleAddToFavorite = (room) => {
+    if (!user) {
+      alert("You must be logged in to add favorites.");
+      return;
+    }
+    const uid = user.uid; 
+    const favoriteData = {
+      roomType: room.roomType,
+      description: room.description,
+      price: room.price,
+      guests: room.guests,
+      images: room.images[0],
+    };
+
+    dispatch(addFavorite(uid, favoriteData));
+  };
+  
 
   const roomsData = [
     {
@@ -208,28 +224,30 @@ function Rooms() {
                   / per night
                 </h5>
                 <div className="room-display-card-user-icons">
-                  <div onClick={(e) => { e.stopPropagation(); toggleShareIcons(index); }}>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleShareIcons(index);
+                    }}
+                  >
                     <FontAwesomeIcon
                       icon={faShareAlt}
                       className="room-display-card-user-icons-content-name"
                     />
                   </div>
-                  <div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToFavorite(room);
+                    }}
+                  >
                     <FontAwesomeIcon
                       icon={faHeart}
                       className="room-display-card-user-icons-content-name"
                     />
                   </div>
                 </div>
-                {showShareIcons === index && (
-                  <div className="room-display-share-icons">
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="icon facebook"><FaFacebook className="room-display-share-icon" /></a>
-                    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaTwitter className="room-display-share-icon" /></a>
-                    <a href="https://www.whatsapp.com/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaWhatsapp className="room-display-share-icon" /></a>
-                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaInstagram className="room-display-share-icon" /></a>
-                    <a href="https://telegram.org/" target="_blank" rel="noopener noreferrer" className="icon twitter"><FaTelegram className="room-display-share-icon" /></a>
-                  </div>
-                )}
+                {showShareIcons === index && <ShareRoom room={room} />}
               </div>
             </div>
           ))}

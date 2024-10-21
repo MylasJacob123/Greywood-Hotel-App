@@ -1,149 +1,221 @@
 .user-profile {
-    width: 80%;
-    margin: 2rem auto;
-    background-color: #f7f7f7;
-    border-radius: 0.5rem;
-    padding: 2rem;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 2rem auto;
+  background-color: #f7f7f7;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.profile-header p {
+  font-size: 1.1rem;
+  color: #777;
+}
+
+.profile-details {
+  margin-bottom: 2rem;
+}
+
+.profile-details h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.profile-details p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.profile-details strong {
+  color: #333;
+}
+
+.booking-history h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.booking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.booking-table th,
+.booking-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.booking-table th {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.booking-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.booking-table td {
+  color: #555;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .user-profile {
+    width: 95%;
+    padding: 1.5rem;
   }
-  
-  .profile-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
+
   .profile-header h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #333;
+    font-size: 1.5rem;
   }
-  
+
   .profile-header p {
-    font-size: 1.1rem;
-    color: #777;
+    font-size: 1rem;
   }
-  
-  .profile-details {
-    margin-bottom: 2rem;
-  }
-  
+
   .profile-details h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #333;
+    font-size: 1.3rem;
   }
-  
+
   .profile-details p {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
+    font-size: 1rem;
   }
-  
-  .profile-details strong {
-    color: #333;
-  }
-  
+
   .booking-history h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #333;
+    font-size: 1.3rem;
   }
-  
-  .booking-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
+
   .booking-table th,
   .booking-table td {
-    padding: 0.75rem;
-    text-align: left;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* Stack table content for small screens */
+  .booking-table,
+  .booking-table thead,
+  .booking-table tbody,
+  .booking-table th,
+  .booking-table td,
+  .booking-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .booking-table tr {
+    margin-bottom: 1rem;
     border-bottom: 1px solid #ddd;
   }
-  
+
   .booking-table th {
-    background-color: #f0f0f0;
-    color: #333;
+    text-align: left;
+    font-size: 1rem;
+    background-color: transparent;
+    padding-top: 0;
   }
-  
-  .booking-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
+
   .booking-table td {
-    color: #555;
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
   }
-  
-  /* Mobile responsiveness */
-  @media (max-width: 768px) {
-    .user-profile {
-      width: 95%;
-      padding: 1.5rem;
-    }
-  
-    .profile-header h2 {
-      font-size: 1.5rem;
-    }
-  
-    .profile-header p {
-      font-size: 1rem;
-    }
-  
-    .profile-details h3 {
-      font-size: 1.3rem;
-    }
-  
-    .profile-details p {
-      font-size: 1rem;
-    }
-  
-    .booking-history h3 {
-      font-size: 1.3rem;
-    }
-  
-    .booking-table th,
-    .booking-table td {
-      padding: 0.5rem;
-      font-size: 0.9rem;
-    }
-  
-    /* Stack table content for small screens */
-    .booking-table,
-    .booking-table thead,
-    .booking-table tbody,
-    .booking-table th,
-    .booking-table td,
-    .booking-table tr {
-      display: block;
-      width: 100%;
-    }
-  
-    .booking-table tr {
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #ddd;
-    }
-  
-    .booking-table th {
-      text-align: left;
-      font-size: 1rem;
-      background-color: transparent;
-      padding-top: 0;
-    }
-  
-    .booking-table td {
-      text-align: right;
-      padding-left: 50%;
-      position: relative;
-    }
-  
-    .booking-table td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0;
-      width: 50%;
-      padding-left: 1rem;
-      font-weight: bold;
-      text-align: left;
-    }
+
+  .booking-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 1rem;
+    font-weight: bold;
+    text-align: left;
   }
-  
+}
+
+.favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 2rem; /* Margin around the favorites list */
+}
+
+.favorite-room-display-card {
+  background-color: #fff; /* Card background color */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 1rem; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 1rem; /* Space between cards */
+  padding: 1rem; /* Padding inside the card */
+  width: calc(30% - 2rem); /* Width of the card, accommodating margins */
+  max-width: 350px; /* Optional max width */
+  transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.favorite-room-display-card:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.favorite-room-display-card-image-div {
+  width: 100%; /* Full width of the card */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 0.8rem; /* Rounded corners for the image */
+  overflow: hidden; /* Prevent image overflow */
+}
+
+.favorite-room-display-card-image {
+  width: 100%; /* Image covers full width */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below images */
+}
+
+.favorite-room-display-card-info {
+  padding: 1rem; /* Padding for the text area */
+}
+
+.favorite-room-display-card-info-heading-body {
+  display: flex;
+  flex-direction: column; /* Stack title and line */
+  align-items: flex-start; /* Align items to the start */
+}
+
+.favorite-room-display-card-info-heading-body-line {
+  height: 2px; /* Line height */
+  width: 100%; /* Full width */
+  background-color: #ddd; /* Light color for the line */
+  margin-top: 0.5rem; /* Space above the line */
+}
+
+.favorite-room-display-card-info-amenities {
+  display: flex; /* Align amenities horizontally */
+  margin-top: 0.5rem; /* Space above amenities */
+}
+
+.favorite-room-display-card-info-amenity {
+  display: flex; /* Align icon and text */
+  align-items: center; /* Center align */
+  margin-right: 1rem; /* Space between amenities */
+}
+
+.favorite-room-display-card-info-amenity-icon {
+  margin-right: 0.5rem; /* Space between icon and text */
+}
+
+.favorite-room-display-card-info-price {
+  font-weight: bold; /* Bold price */
+  color: #333; /* Dark color for price */
+}
