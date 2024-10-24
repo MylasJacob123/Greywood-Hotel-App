@@ -21,7 +21,6 @@ import { FaFacebook, FaTwitter, FaTelegram } from "react-icons/fa";
 import ShareRoom from "./ShareOnSocials";
 import { addFavorite } from "../redux/dbSlice";
 
-
 function Rooms() {
   const navigate = useNavigate();
 
@@ -45,7 +44,7 @@ function Rooms() {
       alert("You must be logged in to add favorites.");
       return;
     }
-    const uid = user.uid; 
+    const uid = user.uid;
     const favoriteData = {
       roomType: room.roomType,
       description: room.description,
@@ -56,7 +55,6 @@ function Rooms() {
 
     dispatch(addFavorite(uid, favoriteData));
   };
-  
 
   const roomsData = [
     {
@@ -146,10 +144,10 @@ function Rooms() {
   return (
     <div className="rooms-display">
       {/* HEADER */}
+      <div className="navigation-in-rooms">
+        <Navigation />
+      </div>
       <div className="rooms-display-header">
-        <div className="rooms-display-header-top">
-          <Navigation />
-        </div>
         <div className="rooms-display-header-bottom">
           <ul className="rooms-display-header-bottom-categories">
             {[
@@ -271,9 +269,9 @@ function Rooms() {
             />
           </div>
         </div>
-        <div className="rooms-display-last-middle">
+        {/* <div className="rooms-display-last-middle">
           <div className="rooms-display-last-middle-btn-navigation"></div>
-        </div>
+        </div> */}
         <div className="rooms-display-last-bottom">
           <Footer />
         </div>

@@ -12,11 +12,11 @@ import Footer from "./footer";
 function Facilities() {
   return (
     <div className="facilities-display">
+    <div className="facilities-nav">
+      <Navigation />
+    </div>
       <div className="facilities-header">
-        <div className="facilities-header-top">
-          <Navigation />
-        </div>
-        <div className="facilities-header-top-line"></div>
+        <h1>Our Facilities</h1>
         <div className="facilities-header-bottom">
           <div className="facilities-header-bottom1">
             <div className="facilities-header-bottom1-box1">

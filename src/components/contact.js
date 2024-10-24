@@ -19,14 +19,14 @@ function ContactUs() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    // Add logic to send the form data to your server
   };
 
   return (
     <div className="contact-page">
-      <div className="navigation">
-          <Navigation />
+      <div className="contact-nav">
+        <Navigation />
       </div>
-      <div className="contact-page-line"></div>
 
       <div className="contact-container">
         {/* HEADER */}
@@ -88,7 +88,7 @@ function ContactUs() {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="contactus-submit-btn">Submit</button>
+            <button type="submit" className="contact-submit-btn">Submit</button>
           </form>
         </div>
       </div>

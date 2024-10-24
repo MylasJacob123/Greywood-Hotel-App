@@ -17,6 +17,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import Profile from "./components/userprofile";
 import { useDispatch } from "react-redux";
 import { initializeUser } from "./redux/authSlice";
+import Navigation from "./components/navigation";
 
 function App() {
   
@@ -51,6 +52,7 @@ function App() {
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/roomdisplay" element={<RoomDisplay />} />
             <Route path="/paymentsummary" element={<PaymentPage />} />
+            <Route path="/nav" element={<Navigation />} />
           </Routes>
         </PayPalScriptProvider>
       </BrowserRouter>

@@ -99,11 +99,11 @@ function RoomDisplay() {
   return (
     <div className="rooms-display">
       {/* TOP SECTION */}
+      <div className="room-display-nav">
+      <Navigation />
+      </div>
       <div className="rooms-display-top">
-        <div className="rooms-display-top1">
-          <Navigation />
-          <div className="rooms-display-top-line"></div>
-        </div>
+        
         <div className="rooms-display-top2">
           <div>
             <h1 className="rooms-display-top2-heading">

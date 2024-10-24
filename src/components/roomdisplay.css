@@ -2,7 +2,11 @@
   width: 100%;
   height: auto;
   flex-wrap: wrap;
-  margin-top: 3rem;
+}
+
+.room-display-nav {
+  width: 100%;
+  background-color: black;
 }
 
 /* TOP SECTION */
@@ -23,7 +27,6 @@
   align-items: center;
   height: 25%;
   width: 90%;
-  margin-top: 2rem;
   gap: 3rem;
 }
 

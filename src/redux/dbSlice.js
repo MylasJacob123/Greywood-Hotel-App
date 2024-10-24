@@ -6,6 +6,7 @@ const initialState = {
   data: [], 
   bookings: [], 
   favorites: [],
+  reviews: [],
   loading: false,
   error: null,
 };
@@ -46,11 +47,15 @@ export const dbSlice = createSlice({
       state.favorites = action.payload; 
       state.loading = false;
     },
+    setReviews(state, action) {
+      state.loading = false;
+      state.reviews = action.payload; 
+    },
   },
 });
 
 // Export actions
-export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, addFavoriteToState, setFavorites } = dbSlice.actions;
+export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, addFavoriteToState, setFavorites, setReviews } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -190,12 +195,28 @@ export const getUserFavorites = (uid) => async (dispatch) => {
   }
 };
 
+
+//Reviews
 export const addReviews = (reviewData) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const docRef = await addDoc(collection(db, "Reviews"), reviewData);
     console.log("Review added with ID: ", docRef.id);
     dispatch(addRoomToState({ id: docRef.id, ...reviewData }));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const getReviews = () => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const querySnapshot = await getDocs(collection(db, "Reviews"));
+    const reviewsList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    dispatch(setReviews(reviewsList)); 
   } catch (error) {
     dispatch(setError(error.message));
   }

@@ -14,11 +14,11 @@ import Footer from "./footer"
 function About() {
   return (
     <div className="about-page">
+    <div className="about-nav">
+      <Navigation />
+    </div>
       {/* Hero Section */}
       <section className="hero">
-        <div className="nav">
-          <Navigation />
-        </div>
         <div className="hero-heading">
           <h1>Welcome to Greywood Hotel</h1>
           <p>Where your comfort is our priority</p>

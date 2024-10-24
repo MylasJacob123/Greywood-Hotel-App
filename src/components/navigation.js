@@ -11,6 +11,7 @@ import { userLogout } from "../redux/authSlice";
 function Navigate() {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
@@ -39,9 +40,13 @@ function Navigate() {
     setIsProfileOpen((prevState) => !prevState);
   };
 
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prevState) => !prevState); 
+  };
+
   const handleLogout = () => {
     dispatch(userLogout());
-    alert("User logged out")
+    alert("User logged out");
     navigate("/");
   };
 
@@ -51,7 +56,14 @@ function Navigate() {
         <div className="logo">
           <img className="nav-Logo" src={NavLogo} alt="Logo" />
         </div>
-        <ul className="nav-items">
+
+        {/* Menu Button for smaller screens */}
+        <button className="menu-btn" onClick={handleMenuToggle}>
+          ☰
+        </button>
+
+        {/* Nav Items with conditional class for showing/hiding */}
+        <ul className={`nav-items ${isMenuOpen ? "active" : ""}`}>
           <li className="nav-list">
             <NavLink to="/" exact activeClassName="active">
               <span className="nav-list-routes">Home</span>
@@ -64,7 +76,7 @@ function Navigate() {
           </li>
           <li className="nav-list">
             <NavLink to="/facilities" activeClassName="active">
-              <span className="nav-list-routes">Facilities</span>
+              <span className="nav-list-routes" >Facilities</span>
             </NavLink>
           </li>
           <li className="nav-list">

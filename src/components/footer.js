@@ -5,29 +5,43 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="footer-top">
         <div className="footer-top1">
           <div className="footer-top1-logo-div">
             <div className="footer-top1-logo">
               <img src={FooterLogo} alt="Footer Logo" />
             </div>
-            <h6>Pl. du Casino</h6>
-            <h6>98000 Monaco</h6>
-          </div>
-          <div className="footer-top1-overview">
-            <div>
-              <h6><Link to="/rooms">Rooms</Link></h6>
-              <h6><Link to="/facilities">Facilities</Link></h6>
-              <h6><Link to="/about">About</Link></h6>
-            </div>
-            <div>
-              <h6><a href="https://www.instagram.com/" >Instagram</a></h6>
-              <h6><a href="https://x.com/?lang=en" >Twitter</a></h6>
-              <h6><a href="https://www.youtube.com/" >YouTube</a></h6>
-            </div>
+            <address>
+              <h6>Pl. du Casino</h6>
+              <h6>98000 Monaco</h6>
+            </address>
           </div>
         </div>
+        <div className="footer-top1-overview">
+            <div>
+              <h6>
+                <Link to="/rooms">Rooms</Link>
+              </h6>
+              <h6>
+                <Link to="/facilities">Facilities</Link>
+              </h6>
+              <h6>
+                <Link to="/about">About</Link>
+              </h6>
+            </div>
+            <div>
+              <h6>
+                <a href="https://www.instagram.com/">Instagram</a>
+              </h6>
+              <h6>
+                <a href="https://x.com/?lang=en">Twitter</a>
+              </h6>
+              <h6>
+                <a href="https://www.youtube.com/">YouTube</a>
+              </h6>
+            </div>
+          </div>
         <div className="footer-top2">
           <h6>Contact Details</h6>
           <p className="footer-top2-contact-details">
@@ -37,21 +51,22 @@ function Footer() {
           </p>
         </div>
         <div className="footer-top3">
-          <div class="map-container">
+          <div className="map-container">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2882.6301925410094!2d7.4248895765583125!3d43.73900864687613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sza!4v1726644357255!5m2!1sen!2sza"
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
         </div>
       </div>
+
       <div className="footer-bottom">
         <div className="footer-bottom1"></div>
         <div className="footer-bottom2">
           <div className="footer-bottom2-box1">
-            <h6>(c)2024Greywood. All rights reserved</h6>
+            <h6>(c)2024 Greywood. All rights reserved</h6>
           </div>
           <div className="footer-bottom2-box2">
             <h6>Terms & Conditions</h6>
@@ -59,7 +74,8 @@ function Footer() {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
+
 export default Footer;
