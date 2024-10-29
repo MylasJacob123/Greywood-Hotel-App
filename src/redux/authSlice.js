@@ -66,7 +66,14 @@ export const signIn = ({ email, password }) => async (dispatch) => {
   dispatch(setLoading());
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email })); 
+    
+    // Check for admin credentials
+    if (email === "hoteladmin@gmail.com" && password === "admin@123") {
+      dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email, isAdmin: true }));
+      return { isAdmin: true }; 
+    } else {
+      dispatch(setUser({ uid: userCredential.user.uid, email: userCredential.user.email, isAdmin: false }));
+    }
   } catch (error) {
     dispatch(setError(error.message));
   }

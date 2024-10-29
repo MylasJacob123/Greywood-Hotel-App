@@ -274,7 +274,6 @@ textarea.admin-inputs {
   transform: scale(1.05);
 }
 
-/* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .admin-form {
     grid-template-columns: 1fr;

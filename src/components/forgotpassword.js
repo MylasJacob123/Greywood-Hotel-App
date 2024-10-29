@@ -23,10 +23,9 @@ function ForgotPassword() {
       setError("Invalid email format");
     } else {
       setError("");
-      dispatch(resetPassword({email}));
+      dispatch(resetPassword(email));
       alert("Password reset link sent!");
-    };
-   
+    }
   };
 
   return (
@@ -51,7 +50,7 @@ function ForgotPassword() {
           </div>
           <div className="forgot-password-section-c">
             <button className="forgot-password-button" onClick={handleContinue}>
-              Continue
+              Send link
             </button>
           </div>
         </div>

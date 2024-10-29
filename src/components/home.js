@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { reviews } = useSelector((state) => state.db);
 
   // const { reviews, loading, error } = useSelector((state) => state.db);
 
@@ -33,24 +34,6 @@ function Home() {
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
-  const reviews = [
-    {
-      text: "“My stay was outstanding. The luxurious but comforting, the exceptional service and top-notch amenities made it a truly unforgettable experience.”",
-      review: "4.8",
-      name: "Rebecca Stacy",
-    },
-    {
-      text: "“The best hotel experience I’ve ever had! The staff went above and beyond to make my stay comfortable.”",
-      review: "4.7",
-      name: "John Doe",
-    },
-    {
-      text: "“Amazing facilities and great location! I would definitely come back.”",
-      review: "4.9",
-      name: "Sarah Smith",
-    },
-  ];
 
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
@@ -251,13 +234,19 @@ function Home() {
           />
         </div>
         <div className="review-content">
-          <h5>CLIENT REVIEW</h5>
-          <p>
-            {reviews[currentReviewIndex].text}
-            <br />
-            {reviews[currentReviewIndex].review} Stars
-          </p>
-          <h6 className="client-review">{reviews[currentReviewIndex].name}</h6>
+                <h5>CLIENT REVIEW</h5>
+                <p>
+                  {reviews.length > 0 
+                    ? reviews[currentReviewIndex]?.review
+                    : "No reviews available."}
+                  <br />
+                  {reviews.length > 0 
+                    ? `${reviews[currentReviewIndex]?.rating} Stars` 
+                    : ""}
+                </p>
+                <h6 className="client-review">
+                  {reviews.length > 0 ? reviews[currentReviewIndex]?.name : ""}
+                </h6>
         </div>
         <div className="next-btns">
           <FontAwesomeIcon

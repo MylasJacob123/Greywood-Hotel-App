@@ -49,7 +49,7 @@ function Facilities() {
               <span className="section-B-top-box2-director"></span>
             </div>
           </div>
-          <div className="facilities-header-bottom-line"></div>
+          {/* <div className="facilities-header-bottom-line"></div> */}
         </div>
       </div>
       <div className="facilities-middle">

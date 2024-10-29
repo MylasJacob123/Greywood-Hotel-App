@@ -47,6 +47,9 @@ export const dbSlice = createSlice({
       state.favorites = action.payload; 
       state.loading = false;
     },
+    removeFavoriteFromState(state, action) {
+      state.favorites = state.favorites.filter(fav => fav.roomType !== action.payload.roomType);
+    },
     setReviews(state, action) {
       state.loading = false;
       state.reviews = action.payload; 
@@ -55,7 +58,7 @@ export const dbSlice = createSlice({
 });
 
 // Export actions
-export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, addFavoriteToState, setFavorites, setReviews } = dbSlice.actions;
+export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -138,20 +141,27 @@ export const fetchUser = (uid) => async (dispatch) => {
 };
 
 //FAVORITES
-export const addFavorite = (uid, favoriteData) => async (dispatch) => {
+export const addFavorite = (uid, favoriteData) => async (dispatch, getState) => {
+  const state = getState();
+  const existingFavorite = state.db.favorites.find(fav => fav.roomType === favoriteData.roomType);
+  
   dispatch(setLoading());
   try {
-    const globalDocRef = await addDoc(collection(db, "Favorites"), favoriteData);
-    console.log("Favorite added to global collection with ID: ", globalDocRef.id);
+    if (existingFavorite) {
+      dispatch(removeFavoriteFromState(favoriteData));
+    } else {
+      const globalDocRef = await addDoc(collection(db, "Favorites"), favoriteData);
+      console.log("Favorite added to global collection with ID: ", globalDocRef.id);
 
-    const userDocRef = await addDoc(collection(db, "users", uid, "favorites"), favoriteData);
-    console.log("Favorite added to user's collection with ID: ", userDocRef.id);
+      const userDocRef = await addDoc(collection(db, "users", uid, "favorites"), favoriteData);
+      console.log("Favorite added to user's collection with ID: ", userDocRef.id);
 
-    dispatch(addFavoriteToState({ 
-      globalId: globalDocRef.id, 
-      userId: userDocRef.id, 
-      ...favoriteData 
-    }));
+      dispatch(addFavoriteToState({ 
+        globalId: globalDocRef.id, 
+        userId: userDocRef.id, 
+        ...favoriteData 
+      }));
+    }
   } catch (error) {
     dispatch(setError(error.message));
   }
@@ -198,11 +208,9 @@ export const getUserFavorites = (uid) => async (dispatch) => {
 
 //Reviews
 export const addReviews = (reviewData) => async (dispatch) => {
-  dispatch(setLoading());
   try {
     const docRef = await addDoc(collection(db, "Reviews"), reviewData);
-    console.log("Review added with ID: ", docRef.id);
-    dispatch(addRoomToState({ id: docRef.id, ...reviewData }));
+    dispatch(addBookingToState({ id: docRef.id, ...reviewData }));
   } catch (error) {
     dispatch(setError(error.message));
   }
@@ -211,12 +219,12 @@ export const addReviews = (reviewData) => async (dispatch) => {
 export const getReviews = () => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const querySnapshot = await getDocs(collection(db, "Reviews"));
-    const reviewsList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    dispatch(setReviews(reviewsList)); 
+    const querySnapshot = await getDocs(collection(db, "Reviews")); 
+    const reviewsArray = [];
+    querySnapshot.forEach((doc) => {
+      reviewsArray.push({ id: doc.id, ...doc.data() });
+    });
+    dispatch(setReviews(reviewsArray));
   } catch (error) {
     dispatch(setError(error.message));
   }

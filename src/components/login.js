@@ -54,9 +54,14 @@ function Login() {
     return isValid;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validateForm()) {
-      dispatch(signIn({ email, password }));
+      const result = await dispatch(signIn({ email, password }));
+      if (result && result.isAdmin) {
+        navigate("/admin"); // Redirect to admin page
+      } else {
+        navigate("/"); // Redirect to home or user dashboard
+      }
     }
   };
 

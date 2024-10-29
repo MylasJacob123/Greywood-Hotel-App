@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./navigation.css";
 import NavLogo from "./assets/Mandala_Royal_Resort_Logo_Minimalist__5_-removebg-preview.png";
@@ -11,8 +11,9 @@ import { userLogout } from "../redux/authSlice";
 function Navigate() {
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const profileRef = useRef(null);
 
   const { user } = useSelector((state) => state.auth);
   const { data: userProfile } = useSelector((state) => state.db);
@@ -27,9 +28,9 @@ function Navigate() {
     userProfile.length > 0
       ? userProfile[0]
       : {
-          firstName: "User firstName",
-          lastName: "User lastName",
-          email: user?.email || "User@gmail.com",
+          firstName: "Name",
+          lastName: "Surname",
+          email: user?.email || "user@gmail.com",
         };
 
   const goToProfile = () => {
@@ -49,6 +50,20 @@ function Navigate() {
     alert("User logged out");
     navigate("/");
   };
+
+  // Detect clicks outside the profile dropdown to close it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="navigation">
@@ -76,7 +91,7 @@ function Navigate() {
           </li>
           <li className="nav-list">
             <NavLink to="/facilities" activeClassName="active">
-              <span className="nav-list-routes" >Facilities</span>
+              <span className="nav-list-routes">Facilities</span>
             </NavLink>
           </li>
           <li className="nav-list">
@@ -92,7 +107,7 @@ function Navigate() {
         </ul>
 
         {/* Profile Icon and Dropdown */}
-        <div className="profile" onClick={handleProfileClick}>
+        <div className="profile" onClick={handleProfileClick} ref={profileRef}>
           <FontAwesomeIcon className="profile-icon" icon={faUserCircle} />
           {isProfileOpen && (
             <div className="profile-dropdown">

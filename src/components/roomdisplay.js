@@ -10,13 +10,10 @@ import {
   faShower,
   faUser,
   faStar,
-  faArrowLeft,
-  faShare,
-  faShareAlt,
-  faHeart,
+  faArrowLeft, // Importing the missing icon
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 function RoomDisplay() {
   const location = useLocation();
@@ -26,10 +23,10 @@ function RoomDisplay() {
   const [checkout, setCheckout] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
 
   const pricePerNight = location.state.room.price;
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0]; // Define today variable
 
   useEffect(() => {
     handleTotalPrice();
@@ -47,9 +44,6 @@ function RoomDisplay() {
       const time = checkoutDate - checkinDate;
       const numberOfDays = time / (1000 * 60 * 60 * 24);
       const price = numberOfDays * pricePerNight;
-
-      console.log("Number of days:", numberOfDays);
-      console.log("Price per night:", pricePerNight);
       setTotalPrice(price);
     } else {
       setTotalPrice(0);
@@ -57,6 +51,7 @@ function RoomDisplay() {
   };
 
   const handleBookNowClick = () => {
+    if (!checkUser()) return;
     setShowForm(true);
   };
 
@@ -68,17 +63,16 @@ function RoomDisplay() {
     if (!user || !user.uid) {
       alert("User not logged in. Please login");
       navigate("/login");
-      return false; 
+      return false;
     }
-    return true; 
+    return true;
   };
-  console.log(user);
 
   const goToPaymentFormSummary = (e) => {
     e.preventDefault();
     handleTotalPrice();
-    
-    if (checkUser()) { 
+
+    if (checkUser()) {
       if (checkin && checkout && totalPrice > 0) {
         navigate("/paymentsummary", {
           state: {
@@ -86,24 +80,22 @@ function RoomDisplay() {
             checkin,
             checkout,
             totalPrice,
-            userId: user.uid, 
+            userId: user.uid,
           },
         });
       } else {
-         alert("Please select valid check-in and check-out dates.");
-       }
+        alert("Please select valid check-in and check-out dates.");
+      }
     }
   };
-  
 
   return (
     <div className="rooms-display">
       {/* TOP SECTION */}
       <div className="room-display-nav">
-      <Navigation />
+        <Navigation />
       </div>
       <div className="rooms-display-top">
-        
         <div className="rooms-display-top2">
           <div>
             <h1 className="rooms-display-top2-heading">
@@ -207,125 +199,93 @@ function RoomDisplay() {
 
       {/* BOTTOM SECTION */}
       <div className="rooms-display-bottom">
-        <div className="rooms-display-bottom-top">
-          <div className="rooms-display-bottom-top1">
-            <p className="rooms-display-bottom-paragraph">
-              {location.state.room.description}
-            </p>
-          </div>
-          <div className="rooms-display-bottom-top2">
-            <div className="rooms-display-price">
-              <h2>
-                R{location.state.room.price}{" "}
-                <span className="stay">/ per night</span>
-              </h2>
-            </div>
-            <div className="rooms-display-features">
-              <div className="rooms-display-features-info">
-                <h3>Features Include</h3>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[0]}
-                </span>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[1]}
-                </span>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[2]}
-                </span>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[3]}
-                </span>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[4]}
-                </span>
-                <span className="rooms-display-features-info-texts">
-                  {location.state.room.features[5]}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="rooms-display-bottom-top3">
-            {!showForm && (
-              <button className="book-now-btn" onClick={handleBookNowClick}>
-                Reserve
-                <svg className="icon" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </button>
-            )}
+  <div className="rooms-display-bottom-top">
+    <div className="rooms-display-bottom-top1">
+      <p className="rooms-display-bottom-paragraph">
+        {location.state.room.description}
+      </p>
+    </div>
+    <div className="rooms-display-bottom-top2">
+      <div className="rooms-display-price">
+        <h2>
+          R{location.state.room.price}{" "}
+          <span className="stay">/ per night</span>
+        </h2>
+      </div>
+      <div className="rooms-display-features">
+        <h3>Features Include:</h3>
+        <ul className="features-list">
+          {location.state.room.features.map((feature, index) => (
+            <li key={index} className="feature-item">
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
 
-            {showForm && (
-              <div className="booking-form">
-                <div className="booking-form-top">
-                  <div className="booking-form-back-arrow-div">
-                    <FontAwesomeIcon
-                      icon={faArrowLeft}
-                      className="booking-form-back-arrow"
-                      onClick={handleBackClick}
-                    />
-                  </div>
-                  <div>
-                    <h3>Total Price: {totalPrice}</h3>
-                  </div>
-                </div>
-                <form className="form">
-                  <div class="form-inputs">
-                    <div className="form-div">
-                      <label className="labels" htmlFor="checkIn">
-                        Check-in Date
-                      </label>
-                      <input
-                        className="check-in"
-                        type="date"
-                        name="checkIn"
-                        min={today}
-                        value={checkin}
-                        onChange={(e) => {
-                          console.log("Check-in date:", e.target.value);
-                          setCheckin(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="form-div">
-                      <label className="labels" htmlFor="checkOut">
-                        Check-out Date
-                      </label>
-                      <input
-                        className="check-out"
-                        type="date"
-                        name="checkOut"
-                        min={today}
-                        value={checkout}
-                        onChange={(e) => {
-                          console.log("Check-out date:", e.target.value);
-                          setCheckout(e.target.value);
-                        }}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <button
-                      className="check-in-button"
-                      type="submit"
-                      onClick={goToPaymentFormSummary}
-                    >
-                      Check-In
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
+  {/* RESERVATION FORM */}
+  {showForm ? (
+    <div className="booking-form">
+      <form className="form" onSubmit={goToPaymentFormSummary}>
+        <div className="booking-form-top">
+          <button className="back-button" onClick={handleBackClick}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="booking-form-back-arrow"
+            />
+          </button>
+          <h2>Reservation</h2>
+        </div>
+        <div className="form-inputs">
+          <div className="form-div">
+            <label className="labels" htmlFor="checkin">
+              Check-in:
+            </label>
+            <input
+              type="date"
+              id="checkin"
+              min={today}
+              value={checkin}
+              onChange={(e) => setCheckin(e.target.value)}
+              required
+              className="date-input"
+            />
+          </div>
+          <div className="form-div">
+            <label className="labels" htmlFor="checkout">
+              Check-out:
+            </label>
+            <input
+              type="date"
+              id="checkout"
+              min={today}
+              value={checkout}
+              onChange={(e) => setCheckout(e.target.value)}
+              required
+              className="date-input"
+            />
           </div>
         </div>
+        <div className="total-price">
+          <h3>Total Price: R{totalPrice}</h3>
+        </div>
+        <button type="submit" className="book-now-btn">
+          Book Now
+        </button>
+      </form>
+    </div>
+  ) : (
+    <div className="room-display-reservation">
+      <button className="book-now-btn" onClick={handleBookNowClick}>
+        Book Now
+      </button>
+    </div>
+  )}
+</div>
 
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
