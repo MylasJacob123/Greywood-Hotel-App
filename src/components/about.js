@@ -17,7 +17,6 @@ function About() {
     <div className="about-nav">
       <Navigation />
     </div>
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero-heading">
           <h1>Welcome to Greywood Hotel</h1>
@@ -25,7 +24,6 @@ function About() {
         </div>
       </section>
 
-      {/* History Section */}
       <section className="history">
         <h2>Our History</h2>
         <p>
@@ -35,7 +33,6 @@ function About() {
         </p>
       </section>
 
-      {/* Mission Statement */}
       <section className="mission">
         <h2>Our Mission</h2>
         <p>
@@ -45,7 +42,6 @@ function About() {
         </p>
       </section>
 
-      {/* Services Section */}
       <section className="services">
         <h2>Our Services</h2>
         <div className="services-list">
@@ -82,7 +78,6 @@ function About() {
         </div>
       </section>
 
-      {/* Footer Section */}
       <section>
         <Footer />
       </section>

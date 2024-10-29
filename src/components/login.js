@@ -58,9 +58,9 @@ function Login() {
     if (validateForm()) {
       const result = await dispatch(signIn({ email, password }));
       if (result && result.isAdmin) {
-        navigate("/admin"); // Redirect to admin page
+        navigate("/admin");
       } else {
-        navigate("/"); // Redirect to home or user dashboard
+        navigate("/"); 
       }
     }
   };

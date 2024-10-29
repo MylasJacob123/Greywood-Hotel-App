@@ -51,7 +51,6 @@ function Navigate() {
     navigate("/");
   };
 
-  // Detect clicks outside the profile dropdown to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -72,12 +71,10 @@ function Navigate() {
           <img className="nav-Logo" src={NavLogo} alt="Logo" />
         </div>
 
-        {/* Menu Button for smaller screens */}
         <button className="menu-btn" onClick={handleMenuToggle}>
           ☰
         </button>
 
-        {/* Nav Items with conditional class for showing/hiding */}
         <ul className={`nav-items ${isMenuOpen ? "active" : ""}`}>
           <li className="nav-list">
             <NavLink to="/" exact activeClassName="active">
@@ -106,7 +103,6 @@ function Navigate() {
           </li>
         </ul>
 
-        {/* Profile Icon and Dropdown */}
         <div className="profile" onClick={handleProfileClick} ref={profileRef}>
           <FontAwesomeIcon className="profile-icon" icon={faUserCircle} />
           {isProfileOpen && (

@@ -10,7 +10,7 @@ import {
   faShower,
   faUser,
   faStar,
-  faArrowLeft, // Importing the missing icon
+  faArrowLeft, 
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -26,7 +26,7 @@ function RoomDisplay() {
   const user = useSelector((state) => state.auth.user);
 
   const pricePerNight = location.state.room.price;
-  const today = new Date().toISOString().split("T")[0]; // Define today variable
+  const today = new Date().toISOString().split("T")[0]; 
 
   useEffect(() => {
     handleTotalPrice();

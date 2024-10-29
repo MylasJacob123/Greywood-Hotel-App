@@ -89,7 +89,6 @@ function UserProfile() {
         )}
       </div>
 
-      {/* Favorites Section */}
       <div className="favorites">
         <h3>Favorite Items</h3>
         {favorites.length > 0 ? (

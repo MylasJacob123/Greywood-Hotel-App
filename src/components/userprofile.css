@@ -74,7 +74,6 @@
   color: #555;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .user-profile {
     width: 95%;
@@ -107,7 +106,6 @@
     font-size: 0.9rem;
   }
 
-  /* Stack table content for small screens */
   .booking-table,
   .booking-table thead,
   .booking-table tbody,
@@ -151,71 +149,71 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 2rem; /* Margin around the favorites list */
+  margin: 2rem;
 }
 
 .favorite-room-display-card {
-  background-color: #fff; /* Card background color */
-  border: 1px solid #ddd; /* Light border */
-  border-radius: 1rem; /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  margin: 1rem; /* Space between cards */
-  padding: 1rem; /* Padding inside the card */
-  width: calc(30% - 2rem); /* Width of the card, accommodating margins */
-  max-width: 350px; /* Optional max width */
-  transition: transform 0.3s; /* Smooth transition for hover effect */
+  background-color: #fff;
+  border: 1px solid #ddd; 
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+  margin: 1rem; 
+  padding: 1rem; 
+  width: calc(30% - 2rem); 
+  max-width: 350px;
+  transition: transform 0.3s; 
 }
 
 .favorite-room-display-card:hover {
-  transform: scale(1.05); /* Slight zoom effect on hover */
+  transform: scale(1.05); 
 }
 
 .favorite-room-display-card-image-div {
-  width: 100%; /* Full width of the card */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 0.8rem; /* Rounded corners for the image */
-  overflow: hidden; /* Prevent image overflow */
+  width: 100%; 
+  height: auto; 
+  border-radius: 0.8rem; 
+  overflow: hidden;
 }
 
 .favorite-room-display-card-image {
-  width: 100%; /* Image covers full width */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove extra space below images */
+  width: 100%; 
+  height: auto;
+  display: block;
 }
 
 .favorite-room-display-card-info {
-  padding: 1rem; /* Padding for the text area */
+  padding: 1rem; 
 }
 
 .favorite-room-display-card-info-heading-body {
   display: flex;
-  flex-direction: column; /* Stack title and line */
-  align-items: flex-start; /* Align items to the start */
+  flex-direction: column; 
+  align-items: flex-start;
 }
 
 .favorite-room-display-card-info-heading-body-line {
-  height: 2px; /* Line height */
-  width: 100%; /* Full width */
-  background-color: #ddd; /* Light color for the line */
-  margin-top: 0.5rem; /* Space above the line */
+  height: 2px; 
+  width: 100%; 
+  background-color: #ddd; 
+  margin-top: 0.5rem; 
 }
 
 .favorite-room-display-card-info-amenities {
-  display: flex; /* Align amenities horizontally */
-  margin-top: 0.5rem; /* Space above amenities */
+  display: flex; 
+  margin-top: 0.5rem; 
 }
 
 .favorite-room-display-card-info-amenity {
-  display: flex; /* Align icon and text */
-  align-items: center; /* Center align */
-  margin-right: 1rem; /* Space between amenities */
+  display: flex; 
+  align-items: center; 
+  margin-right: 1rem;
 }
 
 .favorite-room-display-card-info-amenity-icon {
-  margin-right: 0.5rem; /* Space between icon and text */
+  margin-right: 0.5rem; 
 }
 
 .favorite-room-display-card-info-price {
-  font-weight: bold; /* Bold price */
-  color: #333; /* Dark color for price */
+  font-weight: bold; 
+  color: #333;
 }

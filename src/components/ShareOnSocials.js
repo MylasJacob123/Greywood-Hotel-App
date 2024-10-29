@@ -3,7 +3,6 @@ import { FaFacebook, FaTwitter, FaTelegram } from "react-icons/fa";
 import "./ShareOnSocials.css";
 
 function ShareRoom({ room }) {
-  // Function to handle share URLs
   const handleShare = (room) => {
     const { roomName, descriptions, price, id } = room;
 
@@ -16,12 +15,11 @@ function ShareRoom({ room }) {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}&quote=${encodedRoomName} - ${encodedDescription} - ${encodedPrice}`,
       twitter: `https://twitter.com/intent/tweet?text=${encodedRoomName} - ${encodedDescription} - ${encodedPrice}&url=${shareUrl}`,
       whatsapp: `https://wa.me/?text=${encodedRoomName} - ${encodedDescription} - ${encodedPrice} ${shareUrl}`,
-      instagram: `https://www.instagram.com/`, // Instagram does not support sharing URLs directly
+      instagram: `https://www.instagram.com/`,
       telegram: `https://telegram.me/share/url?url=${shareUrl}&text=${encodedRoomName} - ${encodedDescription} - ${encodedPrice}`,
     };
   };
 
-  // Get share URLs
   const shareUrls = handleShare(room);
   
   return (

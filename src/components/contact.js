@@ -19,7 +19,6 @@ function ContactUs() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    // Add logic to send the form data to your server
   };
 
   return (
@@ -29,13 +28,11 @@ function ContactUs() {
       </div>
 
       <div className="contact-container">
-        {/* HEADER */}
         <div className="contact-header">
           <h1>Contact Us</h1>
           <p>We'd love to hear from you! Feel free to reach out with any inquiries, bookings, or feedback.</p>
         </div>
 
-        {/* CONTACT INFO */}
         <div className="contact-info">
           <div className="contact-info-item">
             <FontAwesomeIcon icon={faPhone} />
@@ -51,7 +48,6 @@ function ContactUs() {
           </div>
         </div>
 
-        {/* CONTACT FORM */}
         <div className="contact-form-container">
           <h2>Send Us a Message</h2>
           <form className="contact-form" onSubmit={handleSubmit}>
