@@ -1,21 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser, getBookings, getUserFavorites } from "../redux/dbSlice";
-import "./userprofile.css";
 import Loader from "./loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import "./userprofile.css";
 
 function UserProfile() {
+  const [activeTab, setActiveTab] = useState("details");
   const dispatch = useDispatch();
-
+  
   const { user } = useSelector((state) => state.auth);
-  const {
-    data: userProfile,
-    bookings,
-    favorites,
-    loading: userProfileLoading,
-  } = useSelector((state) => state.db);
+  const { data: userProfile, bookings, favorites, loading: userProfileLoading } = useSelector((state) => state.db);
 
   useEffect(() => {
     if (user && user.uid) {
@@ -25,14 +21,9 @@ function UserProfile() {
     }
   }, [dispatch, user]);
 
-  const userDetails =
-    userProfile.length > 0
-      ? userProfile[0]
-      : {
-          firstName: "Name",
-          lastName: "Surname",
-          email: user?.email || "User@gmail.com",
-        };
+  const userDetails = userProfile.length > 0
+    ? userProfile[0]
+    : { firstName: "Name", lastName: "Surname", email: user?.email || "User@gmail.com" };
 
   if (userProfileLoading) {
     return <Loader />;
@@ -45,99 +36,89 @@ function UserProfile() {
         <p>Email: {userDetails.email}</p>
       </div>
 
-      <div className="profile-details">
-        <h3>Profile Details</h3>
-        <p>
-          <strong>First Name:</strong> {userDetails.firstName}
-        </p>
-        <p>
-          <strong>Last Name:</strong> {userDetails.lastName}
-        </p>
+      <div className="tabs">
+        <button onClick={() => setActiveTab("details")} className={activeTab === "details" ? "active" : ""}>
+          Personal Details
+        </button>
+        <button onClick={() => setActiveTab("bookings")} className={activeTab === "bookings" ? "active" : ""}>
+          Booking History
+        </button>
+        <button onClick={() => setActiveTab("favorites")} className={activeTab === "favorites" ? "active" : ""}>
+          Favorites
+        </button>
       </div>
 
-      <div className="booking-history">
-        <h3>Booking History</h3>
-        {bookings.length > 0 ? (
-          <table className="booking-table">
-            <thead>
-              <tr>
-                <th>Room Name</th>
-                <th>Check-In</th>
-                <th>Check-Out</th>
-                <th>Total Price</th>
-                <th>Guests</th>
-                <th>Nights</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((booking, index) => (
-                <tr key={index}>
-                  <td>{booking.roomType}</td>
-                  <td>{booking.checkin}</td>
-                  <td>{booking.checkout}</td>
-                  <td>R {booking.totalPrice}</td>
-                  <td>{booking.guests}</td>
-                  <td>{booking.nights}</td>
-                  <td>{booking.paid}</td>
+      {activeTab === "details" && (
+        <div className="profile-details">
+          <h3>Profile Details</h3>
+          <p><strong>First Name:</strong> {userDetails.firstName}</p>
+          <p><strong>Last Name:</strong> {userDetails.lastName}</p>
+        </div>
+      )}
+
+      {activeTab === "bookings" && (
+        <div className="booking-history">
+          <h3>Booking History</h3>
+          {bookings.length > 0 ? (
+            <table className="booking-table">
+              <thead>
+                <tr>
+                  <th>Room Name</th>
+                  <th>Check-In</th>
+                  <th>Check-Out</th>
+                  <th>Total Price</th>
+                  <th>Guests</th>
+                  <th>Nights</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No booking history available.</p>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {bookings.map((booking, index) => (
+                  <tr key={index}>
+                    <td>{booking.roomType}</td>
+                    <td>{booking.checkin}</td>
+                    <td>{booking.checkout}</td>
+                    <td>R {booking.totalPrice}</td>
+                    <td>{booking.guests}</td>
+                    <td>{booking.nights}</td>
+                    <td>{booking.paid}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No booking history available.</p>
+          )}
+        </div>
+      )}
 
-      <div className="favorites">
-        <h3>Favorite Items</h3>
-        {favorites.length > 0 ? (
-          <div className="favorites-list">
-            {favorites.map((favorite, index) => (
-              <div
-                className="favorite-room-display-card"
-                key={favorite.roomType}
-              >
-                <div className="favorite-room-display-card-image-div">
-                  <img
-                    className="favorite-room-display-card-image"
-                    src={
-                      favorite.images && favorite.images.length > 0
-                        ? favorite.images[0]
-                        : "default-image-url.jpg"
-                    }
-                    alt={`Image of ${favorite.roomType}`}
-                  />
-                </div>
-                <div className="favorite-room-display-card-info">
-                  <div className="favorite-room-display-card-info-heading-body">
+      {activeTab === "favorites" && (
+        <div className="favorites">
+          <h3>Favorite Items</h3>
+          {favorites.length > 0 ? (
+            <div className="favorites-list">
+              {favorites.map((favorite, index) => (
+                <div className="favorite-room-display-card" key={index}>
+                  <div className="favorite-room-display-card-image-div">
+                    <img
+                      className="favorite-room-display-card-image"
+                      src={favorite.images?.[0] || "default-image-url.jpg"}
+                      alt={`Image of ${favorite.roomType}`}
+                    />
+                  </div>
+                  <div className="favorite-room-display-card-info">
                     <h4>{favorite.roomType || "N/A"}</h4>
-                    <div className="favorite-room-display-card-info-heading-body-line"></div>
+                    <p>Guests: {favorite.guests || "N/A"}</p>
+                    <h5>R{favorite.price || "0.00"} / per night</h5>
                   </div>
-                  <div className="favorite-room-display-card-info-amenities">
-                    <div className="favorite-room-display-card-info-amenity">
-                      <div className="favorite-room-display-card-info-amenity-icon">
-                        <FontAwesomeIcon icon={faUser} />
-                      </div>
-                      <div className="favorite-room-display-card-info-amenity-text">
-                        <span>{favorite.guests || "N/A"}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <h5>
-                    <span className="favorite-room-display-card-info-price">
-                      R{favorite.price || "0.00"}
-                    </span>{" "}
-                    / per night
-                  </h5>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No favorites available.</p>
-        )}
-      </div>
+              ))}
+            </div>
+          ) : (
+            <p>No favorites available.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

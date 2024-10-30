@@ -48,6 +48,10 @@ function Register() {
     }
   };
 
+  const goToTermsAndConditions = () => {
+    navigate("/terms-and-conditions");
+  }
+
   return (
     <div className="register-container">
       <div className="register">
@@ -121,7 +125,7 @@ function Register() {
               required
               name="terms-and-conditions"
             />{" "}
-            I agree to <span className="Ts-and-Cs">Terms & Conditions</span>
+            I agree to <span className="Ts-and-Cs" onClick={goToTermsAndConditions}>Terms & Conditions</span>
           </div>
           <div className="register-section-F">
             <button className="register-button" onClick={handleRegister}>

@@ -5,19 +5,21 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addBookings } from "../redux/dbSlice";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../configure/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 function PaymentPage() {
+  const navigate = useNavigate()
   const location = useLocation();
   const { room, checkin, checkout, totalPrice } = location.state;
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user); 
+  const user = useSelector((state) => state.auth.user);
 
   const bookingData = {
-    firstName: user?.firstName || "Guest First Name",
-    lastName: user?.lastName || "Guest Last Name",
+    firstName: user?.firstName || "Name",
+    lastName: user?.lastName || "Surname",
     email: user?.email || "",
     roomType: room?.roomType || "Standard",
     checkin: checkin,
@@ -33,42 +35,39 @@ function PaymentPage() {
     payerName: null,
   };
 
-  const addBookingToFirestore = async (uid, bookingData) => {
-    try {
-      await addDoc(collection(db, "users", uid, "bookings"), bookingData);
-      // await addDoc(collection(db, "bookings", uid), bookingData);
-      console.log("Booking added to Firestore under user:", uid);
-    } catch (error) {
-      console.error("Error adding booking: ", error);
-    }
-  };
-
   const handleApprove = (data, actions) => {
-    return actions.order.capture().then((details) => {
-      const updatedBookingData = {
-        ...bookingData,
-        paid: "Paid",
-        transactionId: details.id,
-        payerName: details.payer.name.given_name,
-        email: details.payer.email_address,
-      };
+    return actions.order
+      .capture()
+      .then(async (details) => {
+        const updatedBookingData = {
+          ...bookingData,
+          paid: "Paid",
+          transactionId: details.id,
+          payerName: details.payer.name.given_name,
+          email: details.payer.email_address,
+        };
 
-      if (user?.uid) {
-        addBookingToFirestore(user.uid, updatedBookingData); 
-        dispatch(addBookings(user.uid, updatedBookingData)); 
-      } else {
-        console.error("User is not logged in, cannot add booking");
-      }
+        if (user?.uid) {
+          try {
+            dispatch(addBookings(user.uid, updatedBookingData));
+          } catch (error) {
+            console.error("Error while dispatching addBookings: ", error);
+          }
+        } else {
+          console.error("User is not logged in, cannot add booking");
+        }
 
-      alert(`Transaction completed by ${details.payer.name.given_name}`);
-    }).catch((err) => {
-      console.error("Payment approval error: ", err);
-      alert("An error occurred during the payment approval.");
-    });
+        alert(`Transaction completed by ${details.payer.name.given_name}`);
+      })
+      .catch((err) => {
+        console.error("Payment approval error: ", err);
+        alert("An error occurred during the payment approval.");
+      });
   };
 
   return (
     <div className="payment-summary-container">
+      <FontAwesomeIcon className="payment-summary-back-arrow" icon={faArrowLeft} onClick={() => navigate(-1)} />
       <div className="main-content">
         <div className="summary-section">
           <h2>Booking Summary</h2>
@@ -80,8 +79,7 @@ function PaymentPage() {
             <p>
               Nights:{" "}
               {Math.ceil(
-                (new Date(checkout) - new Date(checkin)) /
-                  (1000 * 60 * 60 * 24)
+                (new Date(checkout) - new Date(checkin)) / (1000 * 60 * 60 * 24)
               ) || 0}
             </p>
             <p>Guests: {room?.guests || 1}</p>

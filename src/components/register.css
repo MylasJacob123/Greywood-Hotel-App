@@ -24,6 +24,8 @@
 .register-inputs {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
   min-width: 25rem;
   min-height: 40vh;
@@ -31,6 +33,7 @@
 
 .register-section-A {
   margin-bottom: 1rem;
+  align-self: start;
 }
 
 .register-login:hover {
@@ -97,6 +100,11 @@
   text-align: center;
 }
 
+.register-section-E {
+  align-self: start;
+  margin-left: 0.625rem;
+}
+
 .Ts-and-Cs:hover {
     color: blue;
     cursor: pointer;
@@ -118,4 +126,69 @@
   color: #f3f3f3;
   padding: 0.6rem;
   font-size: 1.3rem;
+}
+
+@media (max-width: 1200px) {
+  .register {
+    width: 80%;
+    padding: 1.5rem;
+    gap: 2rem;
+  }
+
+  .register-logo-image {
+    height: 80%;
+  }
+
+  .register-inputs input,
+  .register-button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .register {
+    width: 90%;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+    border-radius: 2em;
+  }
+
+  .register-logo-image {
+    max-height: 6rem;
+  }
+
+  .register-inputs {
+    gap: 0.8rem;
+  }
+
+  .register-inputs input,
+  .register-button {
+    height: 2.5rem;
+    font-size: 0.9rem;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .register {
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 1em;
+  }
+
+  .register-logo-image {
+    display: none;
+  }
+
+  .register-inputs input,
+  .register-button {
+    height: 2.4rem;
+    font-size: 0.8rem;
+  }
+
+  .register-section-F {
+    font-size: 0.9rem;
+  }
 }

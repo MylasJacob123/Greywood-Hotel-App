@@ -23,21 +23,16 @@ import { addFavorite } from "../redux/dbSlice";
 
 function Rooms() {
   const navigate = useNavigate();
-
   const { data, loading, error } = useSelector((state) => state.db);
   const { user } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
 
   const [showShareIcons, setShowShareIcons] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const handleAddToFavorite = (room) => {
     if (!user) {
@@ -52,88 +47,16 @@ function Rooms() {
       guests: room.guests,
       images: room.images[0],
     };
-
     dispatch(addFavorite(uid, favoriteData));
   };
 
-  const roomsData = [
-    {
-      name: "Single Room Deluxe",
-      category: "Single Rooms",
-      image: SingleRoomDeluxe,
-      price: 350,
-      people: "1-2 people",
-    },
-    {
-      name: "Regal Prestige Double Room",
-      category: "Double Rooms",
-      image: RegalPrestigeDouble,
-      price: 625,
-      people: "2-4 people",
-    },
-    {
-      name: "The Regal Queen Escape",
-      category: "Queen Rooms",
-      image: TheRegalQueenEscape,
-      price: 685,
-      people: "2-3 people",
-    },
-    {
-      name: "Opulent King Retreat",
-      category: "King Rooms",
-      image: OpulentKingRetreat,
-      price: 700,
-      people: "2-3 people",
-    },
-    {
-      name: "Prestige Presidential Suite",
-      category: "Presidential Suite",
-      image: PrestigePresidentialSuite,
-      price: 885,
-      people: "2-4 people",
-    },
-    {
-      name: "Single Room Deluxe Premium",
-      category: "Single Rooms",
-      image: SingleRoomDeluxePremium,
-      price: 425,
-      people: "1-2 people",
-    },
-    {
-      name: "Royal Double Haven",
-      category: "Double Rooms",
-      image: RoyalDoubleHaven,
-      price: 630,
-      people: "2-4 people",
-    },
-    {
-      name: "Opal Queen Retreat",
-      category: "Queen Rooms",
-      image: OpalQueenRetreat,
-      price: 705,
-      people: "2-3 people",
-    },
-    {
-      name: "Imperial King Haven",
-      category: "King Rooms",
-      image: ImperialKingHaven,
-      price: 720,
-      people: "2-3 people",
-    },
-  ];
-
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const filteredRooms =
-    selectedCategory === "All"
-      ? roomsData
-      : roomsData.filter((room) => room.category === selectedCategory);
+  const filteredRooms = selectedCategory === "All"
+    ? data
+    : data.filter((room) => room.category === selectedCategory);
 
   const handleCardClick = (room) => {
     navigate("/roomdisplay", {
-      state: {
-        room,
-      },
+      state: { room },
     });
   };
 
@@ -183,7 +106,7 @@ function Rooms() {
       {/* MIDDLE */}
       <div className="rooms-display-middle">
         <div className="rooms-display-middle-cards">
-          {data.map((room, index) => (
+          {filteredRooms.map((room, index) => (
             <div
               className="room-display-card"
               key={room.nameType}
@@ -269,9 +192,6 @@ function Rooms() {
             />
           </div>
         </div>
-        {/* <div className="rooms-display-last-middle">
-          <div className="rooms-display-last-middle-btn-navigation"></div>
-        </div> */}
         <div className="rooms-display-last-bottom">
           <Footer />
         </div>
@@ -281,3 +201,4 @@ function Rooms() {
 }
 
 export default Rooms;
+

@@ -8,6 +8,11 @@
     justify-content: space-between;
     min-height: 100vh;
   }
+
+  .payment-summary-back-arrow {
+    margin: 1rem;
+    width: 2rem;
+  }
   
   .main-content {
     display: flex;

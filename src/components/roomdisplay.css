@@ -7,6 +7,7 @@
 .room-display-nav {
   width: 100%;
   background-color: black;
+  margin-bottom: 0.5rem;
 }
 
 /* TOP SECTION */
@@ -49,6 +50,8 @@
 .rooms-display-top2-heading {
   font-size: 2rem;
   font-weight: 650;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .rooms-display-top2-image-display {
@@ -74,7 +77,7 @@
 }
 
 .presidential-suite-main-image:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .rooms-display-top2-image-display-box2 {
@@ -107,15 +110,45 @@
 }
 
 .rooms-display-top2-image-display-box2-images-box-div-image:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .rooms-display-top2-image-display {
+    flex-direction: column;
+  }
+
+  .rooms-display-top2-image-display-box1 {
+    width: 100%;
+    height: auto;
+  }
+
+  .rooms-display-top2-image-display-box2 {
+    display: none;
+  }
+
+  .presidential-suite-main-image {
+    border-radius: 2rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .rooms-display-top2-image-display-box1 {
+    width: 34%;
+  }
+
+  .rooms-display-top2-image-display-box2 {
+    display: flex;
+    width: 64%;
+  }
 }
 
 .rooms-display-top2-info {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 98%;
-  height: 30%;
+  /* width: 98%; */
+  height: 17%;
 }
 
 .rooms-display-top2-info-content-box {
@@ -217,6 +250,62 @@
   font-weight: 350;
 }
 
+@media (max-width: 768px) {
+  .rooms-display-top2-info {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .rooms-display-top2-info-content-box {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+  }
+
+  .rooms-display-top2-info-review-box {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    border-radius: 2rem;
+    gap: 1rem;
+  }
+
+  .rooms-display-top2-info-content {
+    justify-content: space-between;
+  }
+
+  .content-name {
+    font-size: 1rem;
+  }
+
+  .rooms-display-top2-info-review-box-rates-number,
+  .rooms-display-top2-info-review-box-reviews-number {
+    font-size: 2.5rem;
+  }
+
+  .reviews {
+    font-size: 1.5rem; 
+  }
+
+  .rates-icon,
+  .content-icon {
+    width: 1.5rem; 
+    height: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .rooms-display-top2-info-content-box,
+  .rooms-display-top2-info-review-box {
+    width: 49%; 
+  }
+}
+
 /* BOTTOM SECTION */
 .rooms-display-bottom {
   display: flex;
@@ -224,63 +313,65 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 7rem;
+  margin-top: 1rem;
   padding: 1rem;
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
 }
 
 .rooms-display-bottom-top {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem; 
+  gap: 2rem;
   width: 90%;
   margin-bottom: 3rem;
 }
 
 .rooms-display-bottom-top1 {
   background-color: rgba(220, 220, 220, 0.8);
-  padding: 1.5rem; 
+  padding: 1.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: flex-start; 
-  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  
 }
 
 .rooms-display-price {
   background-color: rgba(207, 207, 207, 0.8);
-  padding: 1.5rem; 
+  padding: 1rem;
+  margin-bottom: 0.7rem;
   border-radius: 1.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: flex-start; 
-  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .rooms-display-features {
   background-color: rgba(220, 220, 220, 0.8);
-  padding: 1.5rem; 
+  padding: 1.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: flex; 
-  flex-direction: column; 
-  justify-content: center; 
-  align-items: flex-start; 
-  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .rooms-display-bottom-paragraph {
   font-size: 1.3rem;
-  color: #333; 
+  color: #333;
 }
 
 .rooms-display-price h2,
 .total-price h3 {
-  color: #0066cc; 
+  color: #0066cc;
 }
 
 .rooms-display-features {
@@ -294,11 +385,11 @@
 
 .feature-item {
   font-size: 1.1rem;
-  margin: 0.5rem 0; 
+  margin: 0.5rem 0;
 }
 
 .book-now-btn {
-  background-color: #0066cc; 
+  background-color: #0066cc;
   color: #fff;
   padding: 1rem 2rem;
   border-radius: 9999px;
@@ -308,7 +399,7 @@
 }
 
 .book-now-btn:hover {
-  background-color: #005bb5; 
+  background-color: #005bb5;
 }
 
 .booking-form {
@@ -337,7 +428,7 @@
 .form-inputs {
   display: flex;
   flex-direction: column;
-  gap: 1rem; 
+  gap: 1rem;
 }
 
 .form-div {

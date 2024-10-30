@@ -79,13 +79,19 @@ export const fetchData = () => async (dispatch) => {
 export const addBookings = (uid, bookingData) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const docRef = await addDoc(collection(db, "users", uid, "bookings"), bookingData);
-    console.log("Document written with ID: ", docRef.id);
-    dispatch(addBookingToState({ id: docRef.id, ...bookingData }));
+    const userDocRef = await addDoc(collection(db, "users", uid, "bookings"), bookingData);
+    console.log("User booking document written with ID: ", userDocRef.id);
+
+    const globalDocRef = await addDoc(collection(db, "bookings"), { ...bookingData, userId: uid });
+    console.log("Global booking document written with ID: ", globalDocRef.id);
+
+    dispatch(addBookingToState({ id: userDocRef.id, ...bookingData, globalId: globalDocRef.id }));
   } catch (error) {
     dispatch(setError(error.message));
   }
 };
+
+
 
 export const getAllBookings = () => async (dispatch) => {
   dispatch(setLoading());

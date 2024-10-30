@@ -461,8 +461,7 @@
 }
 
 textarea,
-input[type="number"],
-input[type="text"] {
+.review-form-inputs {
   padding: 0.625rem;
   border: 0.0625rem solid grey;
   border-radius: 0.3125rem;
@@ -472,8 +471,8 @@ input[type="text"] {
 }
 
 textarea:focus,
-input[type="number"]:focus,
-input[type="text"]:focus {
+.review-form-inputs:focus,
+.review-form-inputs:focus {
   border-color: goldenrod;
   outline: none;
 }

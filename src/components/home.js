@@ -13,8 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import { addReviews, getReviews } from "../redux/dbSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,12 +20,6 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { reviews } = useSelector((state) => state.db);
-
-  // const { reviews, loading, error } = useSelector((state) => state.db);
-
-  // const dispatch = useDispatch();
-  // const { user, logged } = useSelector((state) => state.auth);
-  // console.log(logged);
 
   const [showReviewSection, setShowReviewSection] = useState(false);
   const [review, setReview] = useState("");
@@ -72,16 +64,6 @@ function Home() {
     setSuccessMessage("Thank you for your review!");
   };
 
-  // useEffect(() => {
-  //   if (logged) {
-  //    navigate("/")
-  //     console.log("home page")
-  //   } else {
-  //     navigate("/login")
-  //     console.log("login page")
-  //   }
-  // }, [logged, dispatch]);
-
   return (
     <div className="home-container">
       {/* NAVIGATION SECTION */}
@@ -102,10 +84,6 @@ function Home() {
           <h4 className="section-A-middle-sub-text">
             It could be A quiet place for your journey ahead
           </h4>
-        </div>
-
-        <div className="section-A-bottom">
-          {/* You can add additional content or images here */}
         </div>
       </div>
 
@@ -279,7 +257,7 @@ function Home() {
           </div>
           <div className="form-div">
             <label htmlFor="rating">Rating</label>
-            <input
+            <input className="review-form-inputs"
               type="number"
               name="rating"
               value={rating}
@@ -291,7 +269,7 @@ function Home() {
           </div>
           <div className="form-div">
             <label htmlFor="name">Name</label>
-            <input
+            <input className="review-form-inputs"
               type="text"
               name="name"
               value={name}
