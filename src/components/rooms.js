@@ -2,22 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./rooms.css";
 import Navigation from "./navigation";
 import FooterImg from "./assets/Rectangle 77.png";
-import SingleRoomDeluxe from "./assets/Single Room Deluxe Image.png";
-import SingleRoomDeluxePremium from "./assets/Single Room Deluxe Premium.png";
-import RegalPrestigeDouble from "./assets/Regal Prestige Double Room.png";
-import TheRegalQueenEscape from "./assets/The Regal Queen Escape.png";
-import OpulentKingRetreat from "./assets/Opulent King Retreat.png";
-import PrestigePresidentialSuite from "./assets/Prestige Presidential Suite.png";
-import RoyalDoubleHaven from "./assets/Royal Double Haven.png";
-import OpalQueenRetreat from "./assets/Opal Queen Retreat.png";
-import ImperialKingHaven from "./assets/Imperial King Haven.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faShareAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./footer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../redux/dbSlice";
-import { FaFacebook, FaTwitter, FaTelegram } from "react-icons/fa";
 import ShareRoom from "./ShareOnSocials";
 import { addFavorite } from "../redux/dbSlice";
 
@@ -29,6 +19,7 @@ function Rooms() {
 
   const [showShareIcons, setShowShareIcons] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [favoriteStatus, setFavoriteStatus] = useState({});
 
   useEffect(() => {
     dispatch(fetchData());
@@ -47,12 +38,18 @@ function Rooms() {
       guests: room.guests,
       images: room.images[0],
     };
-    dispatch(addFavorite(uid, favoriteData));
+    dispatch(addFavorite({ uid, favoriteData }));
+
+    setFavoriteStatus((prevStatus) => ({
+      ...prevStatus,
+      [room.nameType]: !prevStatus[room.nameType],
+    }));
   };
 
-  const filteredRooms = selectedCategory === "All"
-    ? data
-    : data.filter((room) => room.category === selectedCategory);
+  const filteredRooms =
+    selectedCategory === "All"
+      ? data
+      : data.filter((room) => room.category === selectedCategory);
 
   const handleCardClick = (room) => {
     navigate("/roomdisplay", {
@@ -115,12 +112,8 @@ function Rooms() {
               <div className="room-display-card-image-div">
                 <img
                   className="room-display-card-image"
-                  src={
-                    room.images && room.images.length > 0
-                      ? room.images[0]
-                      : "default-image-url.jpg"
-                  }
-                  alt={`Image of ${room.name}`}
+                  src={room.images?.[0] || "default-image-url.jpg"}
+                  alt={room.roomType}
                 />
               </div>
               <div className="room-display-card-info">
@@ -164,7 +157,9 @@ function Rooms() {
                   >
                     <FontAwesomeIcon
                       icon={faHeart}
-                      className="room-display-card-user-icons-content-name"
+                      className={`room-display-card-user-icons-content-name ${
+                        favoriteStatus[room.nameType] ? "favorite" : ""
+                      }`}
                     />
                   </div>
                 </div>
@@ -201,4 +196,3 @@ function Rooms() {
 }
 
 export default Rooms;
-

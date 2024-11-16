@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import { getDocs, collection, addDoc, deleteDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../configure/firebase";
 
 const initialState = {
@@ -39,6 +39,17 @@ export const dbSlice = createSlice({
       state.data.push(action.payload);
       state.loading = false;
     },
+    updateRoomInState(state, action) {
+      const index = state.data.findIndex(room => room.id === action.payload.id);
+      if (index !== -1) {
+        state.data[index] = action.payload;
+      }
+      state.loading = false;
+    },
+    deleteRoomFromState(state, action) {
+      state.data = state.data.filter(room => room.id !== action.payload);
+      state.loading = false;
+    },
     addFavoriteToState(state, action) { 
       state.favorites.push(action.payload); 
       state.loading = false;
@@ -58,7 +69,7 @@ export const dbSlice = createSlice({
 });
 
 // Export actions
-export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
+export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, updateRoomInState, deleteRoomFromState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -90,8 +101,6 @@ export const addBookings = (uid, bookingData) => async (dispatch) => {
     dispatch(setError(error.message));
   }
 };
-
-
 
 export const getAllBookings = () => async (dispatch) => {
   dispatch(setLoading());
@@ -231,6 +240,31 @@ export const getReviews = () => async (dispatch) => {
       reviewsArray.push({ id: doc.id, ...doc.data() });
     });
     dispatch(setReviews(reviewsArray));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const deleteRoom = (uid) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const roomRef = doc(db, "Rooms", uid);
+    await deleteDoc(roomRef);
+    dispatch(deleteRoomFromState(uid)); 
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const updateRoom = (uid, updatedRoomData) => async (dispatch) => {
+  dispatch(setLoading());
+  try {
+    const docRef = doc(db, "Rooms", uid);
+    
+    await updateDoc(docRef, updatedRoomData);
+
+    dispatch(updateRoomInState({ uid, ...updatedRoomData }));
+    console.log("Room updated with ID: ", uid);
   } catch (error) {
     dispatch(setError(error.message));
   }

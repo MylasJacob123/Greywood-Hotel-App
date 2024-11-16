@@ -16,7 +16,7 @@ function Navigate() {
   const profileRef = useRef(null);
 
   const { user } = useSelector((state) => state.auth);
-  const { data: userProfile } = useSelector((state) => state.db);
+  const { data: userProfile } = useSelector((state) => state.db); 
 
   useEffect(() => {
     if (user && user.uid) {

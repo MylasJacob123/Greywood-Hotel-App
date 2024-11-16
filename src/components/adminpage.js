@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./adminpage.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllBookings, addRooms } from "../redux/dbSlice"; 
+import {
+  getAllBookings,
+  addRooms,
+  fetchData,
+  deleteRoom,
+  updateRoom,
+} from "../redux/dbSlice";
+import { userLogout } from "../redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const AdminBookings = () => {
   const [view, setView] = useState("bookings");
@@ -19,11 +27,16 @@ const AdminBookings = () => {
   });
 
   const dispatch = useDispatch();
-  const bookings = useSelector((state) => state.db.bookings); 
+  const bookings = useSelector((state) => state.db.bookings);
+  const rooms = useSelector((state) => state.db.data);
   const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getAllBookings()); 
+    dispatch(getAllBookings());
+    dispatch(fetchData());
+    dispatch(deleteRoom());
+    dispatch(updateRoom());
   }, [dispatch]);
 
   const handleRoomChange = (e) => {
@@ -34,7 +47,7 @@ const AdminBookings = () => {
     e.preventDefault();
     const updatedRoomData = {
       ...roomData,
-      features: roomData.features.split(',').map((feature) => feature.trim()),
+      features: roomData.features.split(",").map((feature) => feature.trim()),
     };
     dispatch(addRooms(updatedRoomData));
     setRoomData({
@@ -49,6 +62,24 @@ const AdminBookings = () => {
     });
   };
 
+  const handleDeleteRoom = (uid) => {
+    dispatch(deleteRoom(uid));
+  };
+
+  const handleUpdateRoom = (room) => {
+    setRoomData({
+      description: room.description,
+      features: room.features.join(", "),
+      guests: room.guests,
+      images: room.images,
+      price: room.price,
+      ratings: room.ratings,
+      reviews: room.reviews,
+      roomType: room.roomType,
+    });
+    setView("addRooms");
+  };
+
   const filteredBookings =
     bookings?.filter(
       (booking) =>
@@ -57,6 +88,12 @@ const AdminBookings = () => {
         (statusFilter === "" || booking.status === statusFilter)
     ) || [];
 
+  const handleLogout = () => {
+    dispatch(userLogout());
+    alert("User logged out");
+    navigate("/");
+  };
+
   return (
     <div className="admin-bookings">
       <h1 className="admin-bookings-heading">Admin Dashboard</h1>
@@ -64,18 +101,24 @@ const AdminBookings = () => {
       <div className="split-screen">
         <div className="sidebar">
           <button
-            className="admin-bookings-button"
-            onClick={() => setView("bookings")}
-          >
-            View Bookings
-          </button>
-          <button
             className="admin-rooms-button"
             onClick={() => setView("addRooms")}
           >
             Add Rooms
           </button>
-          <button className="admin-logout-button">
+          <button
+            className="admin-rooms-button"
+            onClick={() => setView("viewRooms")}
+          >
+            View Rooms
+          </button>
+          <button
+            className="admin-bookings-button"
+            onClick={() => setView("bookings")}
+          >
+            View Bookings
+          </button>
+          <button className="admin-logout-button" onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -131,8 +174,18 @@ const AdminBookings = () => {
                         <td>{booking.transactionId || "N/A"}</td>
                         <td>{booking.payerName || "N/A"}</td>
                         <td className="table-container-actions">
-                          <button className="admin-edit">Edit</button>
-                          <button className="admin-delete">Delete</button>
+                          <button
+                            className="admin-edit"
+                            onClick={() => handleUpdateRoom(booking)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="admin-delete"
+                            onClick={() => handleDeleteRoom(booking.id)}
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -140,6 +193,45 @@ const AdminBookings = () => {
                 </table>
               </div>
             </>
+          ) : view === "viewRooms" ? (
+            <div>
+              <h2>View Rooms</h2>
+              <div className="rooms-list">
+                {rooms?.length ? (
+                  rooms.map((room, index) => (
+                    <div key={index} className="room-card">
+                      <img
+                        className="room-card-image"
+                        src={
+                          room.images && room.images.length > 0
+                            ? room.images[0]
+                            : "default-image-url.jpg"
+                        }
+                        alt={`${room.roomType} image`}
+                      />
+                      <div className="room-card-content">
+                        <h3>{room.roomType}</h3>
+                        <p>{room.description}</p>
+                        <p>
+                          <strong>Price:</strong> ${room.price} per night
+                        </p>
+                        <p>
+                          <strong>Features:</strong> {room.features.join(", ")}
+                        </p>
+                        <button onClick={() => handleUpdateRoom(room)}>
+                          Edit
+                        </button>
+                        <button onClick={() => handleDeleteRoom(room.id)}>
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No rooms available</p>
+                )}
+              </div>
+            </div>
           ) : (
             <div>
               <h2>Add New Room</h2>
@@ -238,7 +330,9 @@ const AdminBookings = () => {
                     />
                   </div>
 
-                  <button type="submit">Add Room</button>
+                  <button type="submit">
+                    {roomData.id ? "Update Room" : "Add Room"}
+                  </button>
                 </form>
               </div>
             </div>

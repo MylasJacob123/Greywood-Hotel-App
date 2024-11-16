@@ -121,9 +121,6 @@
   }
 }
 
-
-
-
 /* MIDDLE */
 .rooms-display-middle {
   display: flex;
@@ -131,7 +128,7 @@
   align-items: center;
   height: auto;
   background-color: white;
-  width: 90%; 
+  width: 85%; 
   margin: 0 auto;
 }
 
@@ -241,13 +238,16 @@
 
 .room-display-card-user-icons-content-name {
   height: 1.3rem;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .room-display-card-user-icons-content-name:hover {
   cursor: pointer;
   transform: scale(1.3);
-  color: goldenrod; 
+}
+
+.room-display-card-user-icons-content-name.favorite {
+  color: goldenrod;
 }
 
 .share-buttons {

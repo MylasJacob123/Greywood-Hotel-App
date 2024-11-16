@@ -102,8 +102,8 @@ function UserProfile() {
                   <div className="favorite-room-display-card-image-div">
                     <img
                       className="favorite-room-display-card-image"
-                      src={favorite.images?.[0] || "default-image-url.jpg"}
-                      alt={`Image of ${favorite.roomType}`}
+                      src={favorite.images || "default-image-url.jpg"}
+                  alt={favorite.roomType}
                     />
                   </div>
                   <div className="favorite-room-display-card-info">
