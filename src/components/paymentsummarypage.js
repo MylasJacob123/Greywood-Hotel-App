@@ -8,9 +8,10 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; 
 
 function PaymentPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const { room, checkin, checkout, totalPrice } = location.state;
 
@@ -57,7 +58,18 @@ function PaymentPage() {
           console.error("User is not logged in, cannot add booking");
         }
 
-        alert(`Transaction completed by ${details.payer.name.given_name}`);
+        try {
+          await axios.post("https://hotel-app-payment-backend-1.onrender.com/send-confirmation", {
+            email: updatedBookingData.email,
+            firstName: updatedBookingData.firstName,
+            lastName: updatedBookingData.lastName,
+            bookingData: updatedBookingData,
+          });
+          alert(`Transaction completed by ${details.payer.name.given_name}. A confirmation email has been sent.`);
+        } catch (error) {
+          console.error("Error sending confirmation email: ", error);
+          alert("An error occurred while sending the confirmation email.");
+        }
       })
       .catch((err) => {
         console.error("Payment approval error: ", err);

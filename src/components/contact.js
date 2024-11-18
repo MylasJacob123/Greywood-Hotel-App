@@ -4,6 +4,7 @@ import Navigation from "./navigation";
 import Footer from "./footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faEnvelope, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import emailjs from "emailjs-com";
 
 function ContactUs() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,24 @@ function ContactUs() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    emailjs
+      .send(
+        "service_cnhvm68",
+        "template_zg9c7xt",
+        formData,
+        "vbFMPeV6VTqxzg4zH"
+      )
+      .then(
+        (result) => {
+          console.log("Email sent successfully!", result.text);
+          alert("Message sent successfully!");
+        },
+        (error) => {
+          console.error("Failed to send email.", error.text);
+          alert("Failed to send the message. Please try again.");
+        }
+      );
   };
 
   return (

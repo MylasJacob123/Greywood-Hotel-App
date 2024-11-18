@@ -1,22 +1,20 @@
 import React from "react";
 import "./loader.css"; 
-import { LineWave } from "react-loader-spinner";
+import { TailSpin } from "react-loader-spinner";
 
 const Loader = () => {
   return (
-    <div className="loader-container">
-      <LineWave
-  visible={true}
-  height="400"
-  width="400"
-  color="#4fa94d"
-  ariaLabel="line-wave-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  firstLineColor=""
-  middleLineColor=""
-  lastLineColor=""
-  />
+    <div class="loader-container">
+        <TailSpin className="l"
+          height="10rem"
+          width="10rem"
+          color="goldenrod"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
     </div>
   );
 };

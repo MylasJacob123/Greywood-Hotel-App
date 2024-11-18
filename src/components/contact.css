@@ -60,6 +60,8 @@
   padding: 2.5rem 1.25rem; 
   background-color: #f9f9f9;
   width: 100%; 
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form-container h2 {

@@ -98,6 +98,12 @@
   color: red;
   font-size: 0.9rem;
   text-align: center;
+  background-color: #FFE7E7;
+  padding: 0.7rem;
+  width: 98%;
+  margin: 0.6rem auto;
+  border-left: 3px solid red;
+  border-radius: 0.8rem;
 }
 
 .register-section-E {

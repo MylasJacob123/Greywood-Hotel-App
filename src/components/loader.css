@@ -1,6 +1,7 @@
-.loader-container{
-    min-height: 100vh;
+.loader-container {
+    width: 100%;
+    height: 90vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }

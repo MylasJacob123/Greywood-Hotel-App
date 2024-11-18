@@ -218,7 +218,7 @@ const AdminBookings = () => {
                         <p>
                           <strong>Features:</strong> {room.features.join(", ")}
                         </p>
-                        <button onClick={() => handleUpdateRoom(room)}>
+                        <button onClick={() => handleUpdateRoom(room.id)}>
                           Edit
                         </button>
                         <button onClick={() => handleDeleteRoom(room.id)}>

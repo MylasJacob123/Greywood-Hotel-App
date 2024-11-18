@@ -80,3 +80,11 @@
   padding: 1rem;
   color: #333;
 }
+
+.favorite-room-display-card-image-div {
+  border-radius: 1rem;
+}
+
+.favorite-room-display-card-image {
+  border-radius: 1rem;
+}
