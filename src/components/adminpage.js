@@ -7,6 +7,7 @@ import {
   fetchData,
   deleteRoom,
   updateRoom,
+  deleteBooking
 } from "../redux/dbSlice";
 import { userLogout } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -41,6 +42,7 @@ const AdminBookings = () => {
     dispatch(fetchData());
     dispatch(deleteRoom());
     dispatch(updateRoom());
+    dispatch(deleteBooking());
     setLoading(false);
   }, [dispatch]);
 
@@ -101,6 +103,43 @@ const AdminBookings = () => {
       }
     });
   };
+
+  const handleCancelBooking = (uid) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to cancel this booking. This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, cancel it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setLoading(true); 
+        dispatch(deleteBooking(uid))
+          .then(() => {
+            setLoading(false); 
+            dispatch(getAllBookings());
+  
+            Swal.fire({
+              title: "Booking Cancelled",
+              text: "The booking has been successfully cancelled.",
+              icon: "success",
+              confirmButtonText: "Ok",
+            });
+          })
+          .catch((error) => {
+            setLoading(false); 
+            Swal.fire({
+              title: "Error",
+              text: `Failed to cancel the booking! ${error.message}`,
+              icon: "error",
+              confirmButtonText: "Try Again",
+            });
+          });
+      }
+    });
+  };
+  
   
   const handleUpdateRoom = (uid, room) => {
     if (!room) {
@@ -109,9 +148,9 @@ const AdminBookings = () => {
     }
   
     setRoomData({
-      id: uid, // Set the room ID to update the specific room
+      id: uid,
       description: room.description || "",
-      features: room.features.join(", "),  // Convert array to string if needed
+      features: room.features.join(", "),  
       guests: room.guests || "",
       images: room.images || [],
       price: room.price || "",
@@ -119,7 +158,7 @@ const AdminBookings = () => {
       reviews: room.reviews || "",
       roomType: room.roomType || "",
     });
-    setView("addRooms"); // Switch view to 'addRooms' for updating the room
+    setView("addRooms");
   };
   
   const filteredBookings =
@@ -202,12 +241,16 @@ const AdminBookings = () => {
               </div>
 
               <div className="table-container">
+              {loading ? (
+  <Loader /> 
+) : (
                 <table>
                   <thead>
                     <tr>
                       <th>Room</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
+                      {/* <th>First Name</th>
+                      <th>Last Name</th> */}
+                      <th>Name</th>
                       <th>Email</th>
                       <th>Check-in</th>
                       <th>Check-out</th>
@@ -222,8 +265,9 @@ const AdminBookings = () => {
                     {filteredBookings.map((booking) => (
                       <tr key={booking.id}>
                         <td>{booking.roomType || "N/A"}</td>
-                        <td>{booking.firstName || "N/A"}</td>
-                        <td>{booking.lastName || "N/A"}</td>
+                        <td>{booking.payerName || "N/A"}</td>
+                        {/* <td>{booking.firstName || "N/A"}</td>
+                        <td>{booking.lastName || "N/A"}</td> */}
                         <td>{booking.email || "N/A"}</td>
                         <td>{booking.checkin || "N/A"}</td>
                         <td>{booking.checkout || "N/A"}</td>
@@ -232,23 +276,24 @@ const AdminBookings = () => {
                         <td>{booking.transactionId || "N/A"}</td>
                         <td>{booking.payerName || "N/A"}</td>
                         <td className="table-container-actions">
-                          <button
+                          {/* <button
                             className="admin-edit"
                             onClick={() => handleUpdateRoom(booking)}
                           >
                             Edit
-                          </button>
+                          </button> */}
                           <button
                             className="admin-delete"
-                            onClick={() => handleDeleteRoom(booking.id)}
+                            onClick={() => handleCancelBooking(booking.id)}
                           >
-                            Delete
+                            Cancel Booking
                           </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                )}
               </div>
             </>
           ) : view === "viewRooms" ? (

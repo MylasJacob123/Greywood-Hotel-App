@@ -68,11 +68,15 @@ export const dbSlice = createSlice({
       state.loading = false;
       state.reviews = action.payload; 
     },
+    deleteBookingFromState(state, action) {
+      state.bookings = state.bookings.filter(booking => booking.id !== action.payload); 
+      state.loading = false;
+    }
   },
 });
 
 // Export actions
-export const { setLoading, clearLoading, setData, setBookings, setError, addBookingToState, addRoomToState, updateRoomInState, deleteRoomFromState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
+export const { setLoading, clearLoading, setData, setBookings, setError, addBookingToState, addRoomToState, updateRoomInState, deleteRoomFromState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews, deleteBookingFromState } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -273,3 +277,15 @@ export const updateRoom = (uid, data) => async (dispatch) => {
   }
 };
 
+export const deleteBooking = (uid) => async (dispatch) => {
+  try {
+    dispatch(setLoading());  
+    const roomRef = doc(db, "bookings", uid);
+    await deleteDoc(roomRef);
+    dispatch(deleteRoomFromState(uid));  
+    dispatch(setLoading(false));  
+  } catch (error) {
+    dispatch(setError(error.message)); 
+    dispatch(setLoading(false));  
+  }
+};
