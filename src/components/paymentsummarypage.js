@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; 
+import Swal from 'sweetalert2';
 
 function PaymentPage() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function PaymentPage() {
           payerName: details.payer.name.given_name,
           email: details.payer.email_address,
         };
-
+  
         if (user?.uid) {
           try {
             dispatch(addBookings(user.uid, updatedBookingData));
@@ -57,7 +58,7 @@ function PaymentPage() {
         } else {
           console.error("User is not logged in, cannot add booking");
         }
-
+  
         try {
           await axios.post("https://hotel-app-payment-backend-1.onrender.com/send-confirmation", {
             email: updatedBookingData.email,
@@ -65,17 +66,34 @@ function PaymentPage() {
             lastName: updatedBookingData.lastName,
             bookingData: updatedBookingData,
           });
-          alert(`Transaction completed by ${details.payer.name.given_name}. A confirmation email has been sent.`);
+  
+          Swal.fire({
+            icon: 'success',
+            title: 'Payment Successful!',
+            text: `Transaction completed by ${details.payer.name.given_name}. A confirmation email has been sent.`,
+            confirmButtonText: 'Ok',
+          });
         } catch (error) {
           console.error("Error sending confirmation email: ", error);
-          alert("An error occurred while sending the confirmation email.");
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while sending the confirmation email.',
+            confirmButtonText: 'Ok',
+          });
         }
       })
       .catch((err) => {
         console.error("Payment approval error: ", err);
-        alert("An error occurred during the payment approval.");
+        Swal.fire({
+          icon: 'error',
+          title: 'Payment Error',
+          text: 'An error occurred during the payment approval.',
+          confirmButtonText: 'Ok',
+        });
       });
   };
+  
 
   return (
     <div className="payment-summary-container">

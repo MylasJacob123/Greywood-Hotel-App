@@ -19,6 +19,9 @@ export const dbSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
+    clearLoading(state) {
+      state.loading = false;
+    },
     setData(state, action) {
       state.data = action.payload; 
       state.loading = false;
@@ -69,7 +72,7 @@ export const dbSlice = createSlice({
 });
 
 // Export actions
-export const { setLoading, setData, setBookings, setError, addBookingToState, addRoomToState, updateRoomInState, deleteRoomFromState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
+export const { setLoading, clearLoading, setData, setBookings, setError, addBookingToState, addRoomToState, updateRoomInState, deleteRoomFromState, addFavoriteToState, setFavorites,  removeFavoriteFromState, setReviews } = dbSlice.actions;
 
 export default dbSlice.reducer;
 
@@ -259,10 +262,9 @@ export const deleteRoom = (uid) => async (dispatch) => {
 export const updateRoom = (uid, data) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const docRef = doc(db, "Rooms", uid);  // Reference to the room in the DB
-    await updateDoc(docRef, data);  // Update the room data in Firestore
+    const docRef = doc(db, "Rooms", uid);
+    await updateDoc(docRef, data); 
 
-    // Dispatch the action to update the state, passing only the updated room data
     dispatch(updateRoomInState({ id: uid, ...data }));
 
     console.log("Room updated with ID: ", uid);

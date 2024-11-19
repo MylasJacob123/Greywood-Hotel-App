@@ -91,6 +91,19 @@
   min-width: 25rem;
 }
 
+.register-password-input-container {
+  position: relative;
+}
+
+.register-password-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
 .register-password-input {
   min-height: 2.8rem;
   min-width: 24rem;

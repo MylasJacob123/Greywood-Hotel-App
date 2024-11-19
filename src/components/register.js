@@ -7,6 +7,8 @@ import { signUp } from "../redux/authSlice";
 import Loader from "./loader";
 import Alert from "@mui/material/Alert";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -14,6 +16,7 @@ function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const { user, loading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -146,13 +149,18 @@ function Register() {
                 </div>
               </div>
               <div className="register-section-D">
-                <div>
+                <div className="register-password-input-container">
                   <input
                     className="register-password-input"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <FontAwesomeIcon
+                    icon={showPassword ? faEye : faEyeSlash} 
+                    className="register-password-icon"
+                    onClick={() => setShowPassword(!showPassword)} 
                   />
                   {errors.password && (
                     <Alert severity="error" style={{ margin: "0.5rem 0" }}>

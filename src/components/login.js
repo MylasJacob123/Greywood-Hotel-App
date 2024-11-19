@@ -6,15 +6,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { signIn } from "../redux/authSlice";
 import Loader from "./loader";
 import Alert from "@mui/material/Alert";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); 
 
   const { user, loading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -39,6 +44,10 @@ function Login() {
 
   const goToRegister = () => {
     navigate("/register");
+  };
+
+  const goToHome = () => {
+    navigate("/");
   };
 
   const validateForm = () => {
@@ -67,7 +76,7 @@ function Login() {
   const handleLogin = async () => {
     if (validateForm()) {
       const result = await dispatch(signIn({ email, password }));
-  
+
       if (result && result.error) {
         Swal.fire({
           title: "Login Failed",
@@ -96,7 +105,6 @@ function Login() {
       }
     }
   };
-  
 
   return (
     <div className="login-container">
@@ -105,11 +113,11 @@ function Login() {
           <Loader />
         ) : (
           <>
-          <FontAwesomeIcon
-            className="login-back-arrow"
-            icon={faArrowLeft}
-            onClick={() => navigate(-1)}
-          />
+            <FontAwesomeIcon
+              className="login-back-arrow"
+              icon={faArrowLeft}
+              onClick={goToHome}
+            />
             <div className="login-logo">
               <img src={loginlogo} alt="Login Logo" />
             </div>
@@ -127,28 +135,44 @@ function Login() {
                   className={emailError ? "login-input-error" : ""}
                 />
                 {emailError && (
-                  <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                  <Alert
+                    severity="error"
+                    style={{ margin: "0.6rem auto", width: "98%" }}
+                  >
                     {emailError}
                   </Alert>
                 )}
               </div>
               <div className="login-section-C">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={passwordError ? "login-input-error" : ""}
-                />
+                <div className="login-password-input-container">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={passwordError ? "login-input-error" : ""}
+                  />
+                  <FontAwesomeIcon
+                    className="login-password-toggle-icon"
+                    icon={showPassword ? faEye : faEyeSlash}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                </div>
                 {passwordError && (
-                  <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                  <Alert
+                    severity="error"
+                    style={{ margin: "0.6rem auto", width: "98%" }}
+                  >
                     {passwordError}
                   </Alert>
                 )}
               </div>
               <div className="login-section-D">
                 <span>
-                  <a className="goToForgotPassword" onClick={goToForgotPassword}>
+                  <a
+                    className="goToForgotPassword"
+                    onClick={goToForgotPassword}
+                  >
                     Forgot password?
                   </a>
                 </span>
@@ -160,7 +184,10 @@ function Login() {
               </div>
 
               {error && (
-                <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                <Alert
+                  severity="error"
+                  style={{ margin: "0.6rem auto", width: "98%" }}
+                >
                   Error: {error}
                 </Alert>
               )}
