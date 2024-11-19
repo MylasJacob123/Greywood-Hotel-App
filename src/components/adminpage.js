@@ -10,11 +10,14 @@ import {
 } from "../redux/dbSlice";
 import { userLogout } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import Loader from "./loader";
 
 const AdminBookings = () => {
   const [view, setView] = useState("bookings");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [loading, setLoading] = useState(false); 
   const [roomData, setRoomData] = useState({
     description: "",
     features: [],
@@ -33,10 +36,12 @@ const AdminBookings = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     dispatch(getAllBookings());
     dispatch(fetchData());
     dispatch(deleteRoom());
     dispatch(updateRoom());
+    setLoading(false);
   }, [dispatch]);
 
   const handleRoomChange = (e) => {
@@ -45,6 +50,7 @@ const AdminBookings = () => {
 
   const handleRoomSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     const updatedRoomData = {
       ...roomData,
       features: roomData.features.split(",").map((feature) => feature.trim()),
@@ -63,23 +69,59 @@ const AdminBookings = () => {
   };
 
   const handleDeleteRoom = (uid) => {
-    dispatch(deleteRoom(uid));
-  };
-
-  const handleUpdateRoom = (room) => {
-    setRoomData({
-      description: room.description,
-      features: room.features.join(", "),
-      guests: room.guests,
-      images: room.images,
-      price: room.price,
-      ratings: room.ratings,
-      reviews: room.reviews,
-      roomType: room.roomType,
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to delete this room. This action cannot be undone.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setLoading(true); 
+        dispatch(deleteRoom(uid))
+          .then(() => {
+            setLoading(false);
+            Swal.fire({
+              title: "Success",
+              text: "Room deleted successfully!",
+              icon: "success",
+              confirmButtonText: "Ok",
+            });
+          })
+          .catch(() => {
+            setLoading(false);
+            Swal.fire({
+              title: "Error",
+              text: "Failed to delete room!",
+              icon: "error",
+              confirmButtonText: "Try Again",
+            });
+          });
+      }
     });
-    setView("addRooms");
   };
-
+  
+  const handleUpdateRoom = (uid, room) => {
+    if (!room) {
+      console.error("Room object is undefined", room);
+      return;
+    }
+  
+    setRoomData({
+      id: uid, // Set the room ID to update the specific room
+      description: room.description || "",
+      features: room.features.join(", "),  // Convert array to string if needed
+      guests: room.guests || "",
+      images: room.images || [],
+      price: room.price || "",
+      ratings: room.ratings || "",
+      reviews: room.reviews || "",
+      roomType: room.roomType || "",
+    });
+    setView("addRooms"); // Switch view to 'addRooms' for updating the room
+  };
+  
   const filteredBookings =
     bookings?.filter(
       (booking) =>
@@ -88,11 +130,27 @@ const AdminBookings = () => {
         (statusFilter === "" || booking.status === statusFilter)
     ) || [];
 
-  const handleLogout = () => {
-    dispatch(userLogout());
-    alert("User logged out");
-    navigate("/");
-  };
+    const handleLogout = () => {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will be logged out of your account.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, log me out',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(userLogout());
+          Swal.fire({
+            title: 'Logged Out',
+            text: 'You have been logged out successfully.',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          });
+          navigate("/");
+        }
+      });
+    };
 
   return (
     <div className="admin-bookings">
@@ -218,10 +276,10 @@ const AdminBookings = () => {
                         <p>
                           <strong>Features:</strong> {room.features.join(", ")}
                         </p>
-                        <button onClick={() => handleUpdateRoom(room.id)}>
+                        <button className="edit-room-btn" onClick={() => handleUpdateRoom(room.id, room)}>
                           Edit
                         </button>
-                        <button onClick={() => handleDeleteRoom(room.id)}>
+                        <button className="delete-room-btn" onClick={() => handleDeleteRoom(room.id)}>
                           Delete
                         </button>
                       </div>

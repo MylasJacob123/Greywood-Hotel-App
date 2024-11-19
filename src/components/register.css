@@ -17,6 +17,13 @@
   border-radius: 3em;
 }
 
+.register-back-arrow {
+  margin-bottom: 1rem;
+  width: 3rem;
+  height: 2rem;
+  color: black;
+}
+
 .register-logo-image {
   min-height: 30rem;
 }

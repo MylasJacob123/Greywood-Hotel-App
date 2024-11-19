@@ -40,9 +40,9 @@ export const dbSlice = createSlice({
       state.loading = false;
     },
     updateRoomInState(state, action) {
-      const index = state.data.findIndex(room => room.id === action.payload.id);
+      const index = state.data.findIndex(room => room.id === action.payload.id);  
       if (index !== -1) {
-        state.data[index] = action.payload;
+        state.data[index] = action.payload; 
       }
       state.loading = false;
     },
@@ -256,16 +256,18 @@ export const deleteRoom = (uid) => async (dispatch) => {
   }
 };
 
-export const updateRoom = (uid, updatedRoomData) => async (dispatch) => {
+export const updateRoom = (uid, data) => async (dispatch) => {
   dispatch(setLoading());
   try {
-    const docRef = doc(db, "Rooms", uid);
-    
-    await updateDoc(docRef, updatedRoomData);
+    const docRef = doc(db, "Rooms", uid);  // Reference to the room in the DB
+    await updateDoc(docRef, data);  // Update the room data in Firestore
 
-    dispatch(updateRoomInState({ uid, ...updatedRoomData }));
+    // Dispatch the action to update the state, passing only the updated room data
+    dispatch(updateRoomInState({ id: uid, ...data }));
+
     console.log("Room updated with ID: ", uid);
   } catch (error) {
     dispatch(setError(error.message));
   }
 };
+

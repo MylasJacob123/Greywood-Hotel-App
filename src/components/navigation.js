@@ -7,6 +7,7 @@ import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUser } from "../redux/dbSlice";
 import { userLogout } from "../redux/authSlice";
+import Swal from "sweetalert2";
 
 function Navigate() {
   const navigate = useNavigate();
@@ -46,9 +47,25 @@ function Navigate() {
   };
 
   const handleLogout = () => {
-    dispatch(userLogout());
-    alert("User logged out");
-    navigate("/");
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of your account.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, log me out',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(userLogout());
+        Swal.fire({
+          title: 'Logged Out',
+          text: 'You have been logged out successfully.',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        });
+        navigate("/");
+      }
+    });
   };
 
   useEffect(() => {

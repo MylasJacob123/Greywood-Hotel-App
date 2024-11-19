@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchUser, getBookings, getUserFavorites } from "../redux/dbSlice";
 import Loader from "./loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import "./userprofile.css";
 
 function UserProfile() {
   const [activeTab, setActiveTab] = useState("details");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const { user } = useSelector((state) => state.auth);
   const { data: userProfile, bookings, favorites, loading: userProfileLoading } = useSelector((state) => state.db);
@@ -31,6 +33,11 @@ function UserProfile() {
 
   return (
     <div className="user-profile">
+      <FontAwesomeIcon
+          className="profile-back-arrow"
+          icon={faArrowLeft}
+          onClick={() => navigate(-1)}
+        />
       <div className="profile-header">
         <h2>Profile</h2>
         <p>Email: {userDetails.email}</p>

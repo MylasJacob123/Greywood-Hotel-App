@@ -29,6 +29,7 @@
     "react-share": "^5.1.0",
     "react-toastify": "^10.0.6",
     "styled-components": "^6.1.13",
+    "sweetalert2": "^11.14.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

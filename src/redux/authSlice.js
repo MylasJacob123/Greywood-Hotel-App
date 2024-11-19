@@ -81,9 +81,12 @@ export const signIn = ({ email, password }) => async (dispatch) => {
 export const resetPassword = ({ email }) => async (dispatch) => {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert("Password reset link sent.");
   } catch (error) {
-    console.error("Error sending password reset email:", error.message);
+    if (error.code === "auth/user-not-found") {
+      dispatch(setError("No user found with this email address."));
+    } else {
+      dispatch(setError("Error sending password reset email. Please try again."));
+    }
   }
 };
 
@@ -91,7 +94,6 @@ export const userLogout = () => async (dispatch) => {
   try {
     await auth.signOut(); 
     dispatch(logout());
-    alert("You have been logged out successfully.")
   } catch (error) {
     console.error("Error signing out:", error.message);
   }

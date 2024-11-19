@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchData } from "../redux/dbSlice";
 import ShareRoom from "./ShareOnSocials";
 import { addFavorite } from "../redux/dbSlice";
+import Loader from "./loader";
+import Swal from 'sweetalert2';
 
 function Rooms() {
   const navigate = useNavigate();
@@ -27,9 +29,14 @@ function Rooms() {
 
   const handleAddToFavorite = (room) => {
     if (!user) {
-      alert("You must be logged in to add favorites.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'You must be logged in to add favorites.',
+      });
       return;
     }
+  
     const uid = user.uid;
     const favoriteData = {
       roomType: room.roomType,
@@ -38,13 +45,21 @@ function Rooms() {
       guests: room.guests,
       images: room.images[0],
     };
+  
     dispatch(addFavorite({ uid, favoriteData }));
-
+  
     setFavoriteStatus((prevStatus) => ({
       ...prevStatus,
       [room.nameType]: !prevStatus[room.nameType],
     }));
+  
+    Swal.fire({
+      icon: 'success',
+      title: 'Added to Favorites!',
+      text: `${room.roomType} has been added to your favorites.`,
+    });
   };
+  
 
   const filteredRooms =
     selectedCategory === "All"
@@ -100,6 +115,11 @@ function Rooms() {
         </div>
       </div>
 
+      
+      {loading ? (
+          <Loader />
+        ) : (
+          <>
       {/* MIDDLE */}
       <div className="rooms-display-middle">
         <div className="rooms-display-middle-cards">
@@ -169,6 +189,8 @@ function Rooms() {
           ))}
         </div>
       </div>
+          </>
+        )}
 
       {/* FOOTER */}
       <div className="rooms-display-last">

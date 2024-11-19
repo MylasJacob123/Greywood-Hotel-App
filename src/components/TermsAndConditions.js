@@ -1,4 +1,3 @@
-// TermsAndConditions.tsx
 import React from "react";
 import "./TermsAndConditions.css";
 import { useNavigate } from "react-router-dom";

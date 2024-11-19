@@ -4,7 +4,11 @@ import loginlogo from "./assets/Rectangle 2.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { signIn } from "../redux/authSlice";
-import Loader from "./loader"; 
+import Loader from "./loader";
+import Alert from "@mui/material/Alert";
+import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -18,8 +22,14 @@ function Login() {
 
   useEffect(() => {
     if (user) {
-      alert("Login Successful");
-      navigate("/");
+      Swal.fire({
+        title: "Login Successful",
+        text: "Welcome back! You have successfully logged in.",
+        icon: "success",
+        confirmButtonText: "Continue",
+      }).then(() => {
+        navigate("/");
+      });
     }
   }, [user, navigate]);
 
@@ -57,13 +67,36 @@ function Login() {
   const handleLogin = async () => {
     if (validateForm()) {
       const result = await dispatch(signIn({ email, password }));
-      if (result && result.isAdmin) {
-        navigate("/admin");
-      } else {
-        navigate("/"); 
+  
+      if (result && result.error) {
+        Swal.fire({
+          title: "Login Failed",
+          text: "Invalid email or password. Please try again.",
+          icon: "error",
+          confirmButtonText: "Retry",
+        });
+      } else if (result && result.isAdmin) {
+        Swal.fire({
+          title: "Login Successful",
+          text: "Welcome, Admin! Redirecting to the dashboard.",
+          icon: "success",
+          confirmButtonText: "Continue",
+        }).then(() => {
+          navigate("/admin");
+        });
+      } else if (result && !result.error) {
+        Swal.fire({
+          title: "Login Successful",
+          text: "Welcome back! Redirecting to the homepage.",
+          icon: "success",
+          confirmButtonText: "Continue",
+        }).then(() => {
+          navigate("/");
+        });
       }
     }
   };
+  
 
   return (
     <div className="login-container">
@@ -72,6 +105,11 @@ function Login() {
           <Loader />
         ) : (
           <>
+          <FontAwesomeIcon
+            className="login-back-arrow"
+            icon={faArrowLeft}
+            onClick={() => navigate(-1)}
+          />
             <div className="login-logo">
               <img src={loginlogo} alt="Login Logo" />
             </div>
@@ -89,7 +127,9 @@ function Login() {
                   className={emailError ? "login-input-error" : ""}
                 />
                 {emailError && (
-                  <p className="login-error-message">{emailError}</p>
+                  <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                    {emailError}
+                  </Alert>
                 )}
               </div>
               <div className="login-section-C">
@@ -101,7 +141,9 @@ function Login() {
                   className={passwordError ? "login-input-error" : ""}
                 />
                 {passwordError && (
-                  <p className="login-error-message">{passwordError}</p>
+                  <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                    {passwordError}
+                  </Alert>
                 )}
               </div>
               <div className="login-section-D">
@@ -117,7 +159,11 @@ function Login() {
                 </button>
               </div>
 
-              {error && <p className="login-error-message">Error: {error}</p>}
+              {error && (
+                <Alert severity="error" style={{ margin: "0.6rem auto", width: "98%" }}>
+                  Error: {error}
+                </Alert>
+              )}
 
               <p className="login-section-F">
                 Don't have an account?{" "}
