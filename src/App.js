@@ -22,7 +22,7 @@ import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Assuming auth state contains isAuthenticated
+  const isAuthenticated = useSelector((state) => state.auth.logged);
 
   const initialOptions = {
     "client-id":

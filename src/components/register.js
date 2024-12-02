@@ -158,7 +158,7 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <FontAwesomeIcon
-                    icon={showPassword ? faEye : faEyeSlash} 
+                    icon={showPassword ? faEyeSlash : faEye} 
                     className="register-password-icon"
                     onClick={() => setShowPassword(!showPassword)} 
                   />

@@ -154,7 +154,7 @@ function Login() {
                   />
                   <FontAwesomeIcon
                     className="login-password-toggle-icon"
-                    icon={showPassword ? faEye : faEyeSlash}
+                    icon={showPassword ? faEyeSlash : faEye}
                     onClick={() => setShowPassword(!showPassword)}
                   />
                 </div>
