@@ -11,7 +11,7 @@ import { fetchData } from "../redux/dbSlice";
 import ShareRoom from "./ShareOnSocials";
 import { addFavorite } from "../redux/dbSlice";
 import Loader from "./loader";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 function Rooms() {
   const navigate = useNavigate();
@@ -27,12 +27,12 @@ function Rooms() {
     dispatch(fetchData());
   }, [dispatch]);
 
-  const handleAddToFavorite = (room) => {
+  const handleAddToFavorite = async (room) => {
     if (!user) {
       Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'You must be logged in to add favorites.',
+        icon: "warning",
+        title: "Oops...",
+        text: "You must be logged in to add favorites.",
       });
       return;
     }
@@ -46,18 +46,26 @@ function Rooms() {
       images: room.images[0],
     };
   
-    dispatch(addFavorite({ uid, favoriteData }));
+    try {
+      await dispatch(addFavorite({ uid, favoriteData }));
   
-    setFavoriteStatus((prevStatus) => ({
-      ...prevStatus,
-      [room.nameType]: !prevStatus[room.nameType],
-    }));
+      setFavoriteStatus((prevStatus) => ({
+        ...prevStatus,
+        [room.nameType]: !prevStatus[room.nameType],
+      }));
   
-    Swal.fire({
-      icon: 'success',
-      title: 'Added to Favorites!',
-      text: `${room.roomType} has been added to your favorites.`,
-    });
+      Swal.fire({
+        icon: "success",
+        title: "Added to Favorites!",
+        text: `${room.roomType} has been added to your favorites.`,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to Add Favorite",
+        text: error.message || "Something went wrong.",
+      });
+    }
   };
   
 
@@ -115,82 +123,88 @@ function Rooms() {
         </div>
       </div>
 
-      
       {loading ? (
-          <Loader />
-        ) : (
-          <>
-      {/* MIDDLE */}
-      <div className="rooms-display-middle">
-        <div className="rooms-display-middle-cards">
-          {filteredRooms.map((room, index) => (
-            <div
-              className="room-display-card"
-              key={room.nameType}
-              onClick={() => handleCardClick(room)}
-            >
-              <div className="room-display-card-image-div">
-                <img
-                  className="room-display-card-image"
-                  src={room.images?.[0] || "default-image-url.jpg"}
-                  alt={room.roomType}
-                />
-              </div>
-              <div className="room-display-card-info">
-                <div className="room-display-card-info-heading-body">
-                  <h4>{room.roomType}</h4>
-                  <div className="room-display-card-info-heading-body-line"></div>
-                </div>
-                <div className="room-display-card-info-amenities">
-                  <div className="room-display-card-info-amenity">
-                    <div className="room-display-card-info-amenity-icon">
-                      <FontAwesomeIcon icon={faUser} />
-                    </div>
-                    <div className="room-display-card-info-amenity-text">
-                      <span>{room.guests}</span>
-                    </div>
-                  </div>
-                </div>
-                <h5>
-                  <span className="room-display-card-info-price">
-                    R{room.price}
-                  </span>{" "}
-                  / per night
-                </h5>
-                <div className="room-display-card-user-icons">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleShareIcons(index);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faShareAlt}
-                      className="room-display-card-user-icons-content-name"
+        <Loader />
+      ) : (
+        <>
+          {/* MIDDLE */}
+          <div className="rooms-display-middle">
+            <div className="rooms-display-middle-cards">
+              {filteredRooms.map((room, index) => (
+                <div
+                  className="room-display-card"
+                  key={room.nameType}
+                  onClick={() => handleCardClick(room)}
+                >
+                  <div className="room-display-card-image-div">
+                    <img
+                      className="room-display-card-image"
+                      src={room.images?.[0] || "default-image-url.jpg"}
+                      alt={room.roomType}
                     />
                   </div>
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToFavorite(room);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      className={`room-display-card-user-icons-content-name ${
-                        favoriteStatus[room.nameType] ? "favorite" : ""
-                      }`}
-                    />
+                  <div className="room-display-card-info">
+                    <div className="room-display-card-info-heading-body">
+                      <h4>{room.roomType}</h4>
+                      <div className="room-display-card-info-heading-body-line"></div>
+                    </div>
+                    <div className="room-display-card-info-amenities">
+                      <div className="room-display-card-info-amenity">
+                        <div className="room-display-card-info-amenity-icon">
+                          <FontAwesomeIcon icon={faUser} />
+                        </div>
+                        <div className="room-display-card-info-amenity-text">
+                          <span>{room.guests}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <h5>
+                      <span className="room-display-card-info-price">
+                        R{room.price}
+                      </span>{" "}
+                      / per night
+                    </h5>
+                    <div className="room-display-card-user-icons">
+                      <div className="room-display-card-user-icon1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleShareIcons(index);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          className={`room-display-card-user-icons-content-name ${
+                            favoriteStatus[room.nameType] ? "favorite" : ""
+                          }`}
+                          onClick={() => handleAddToFavorite(room)}
+                        />
+                        <FontAwesomeIcon
+                          icon={faShareAlt}
+                          className="room-display-card-user-icons-content-name"
+                        />
+                      </div>
+                      <div
+                        // onClick={(e) => {
+                        //   e.stopPropagation();
+                        //   handleAddToFavorite(room);
+                        // }}
+                      >
+                        {/* <FontAwesomeIcon
+                          icon={faHeart}
+                          className={`room-display-card-user-icons-content-name ${
+                            favoriteStatus[room.nameType] ? "favorite" : ""
+                          }`}
+                        /> */}
+                      </div>
+                    </div>
+                    {showShareIcons === index && <ShareRoom room={room} />}
                   </div>
                 </div>
-                {showShareIcons === index && <ShareRoom room={room} />}
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-          </>
-        )}
+          </div>
+        </>
+      )}
 
       {/* FOOTER */}
       <div className="rooms-display-last">

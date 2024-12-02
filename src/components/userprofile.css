@@ -83,6 +83,19 @@
   transform: scale(1.05);
 }
 
+.favorite-room-display-card-image-div {
+  border-radius: 1rem;
+  overflow: hidden; 
+}
+
+.favorite-room-display-card-image {
+  width: 100%;
+  height: auto; 
+  max-height: 200px; 
+  object-fit: cover; 
+  border-radius: 1rem; 
+}
+
 .favorite-room-display-card-info {
   padding: 1rem;
   color: #333;

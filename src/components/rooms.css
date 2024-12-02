@@ -145,7 +145,7 @@
 
 .room-display-card {
   width: 22.75rem;
-  height: 28.625rem;
+  height: 35.625rem;
   background-color: #f4f4f4;
   border-radius: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
@@ -232,8 +232,13 @@
 
 .room-display-card-user-icons {
   display: flex;
-  gap: 0.8rem;
+  gap: 2.5rem;
   justify-content: end;
+}
+
+.room-display-card-user-icon1 {
+  display: flex;
+  gap: 0.6rem;
 }
 
 .room-display-card-user-icons-content-name {
@@ -292,7 +297,7 @@
   }
 
   .room-display-card {
-    width: 90%;
+    width: 20rem;
     height: auto; 
   }
 

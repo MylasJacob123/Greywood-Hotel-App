@@ -163,31 +163,58 @@ export const fetchUser = (uid) => async (dispatch) => {
 };
 
 //FAVORITES
-export const addFavorite = (uid, favoriteData) => async (dispatch, getState) => {
-  const state = getState();
-  const existingFavorite = state.db.favorites.find(fav => fav.roomType === favoriteData.roomType);
+// export const addFavorite = (uid, favoriteData) => async (dispatch, getState) => {
+//   const state = getState();
+//   const existingFavorite = state.db.favorites.find(fav => fav.roomType === favoriteData.roomType);
   
+//   dispatch(setLoading());
+//   try {
+//     if (existingFavorite) {
+//       dispatch(removeFavoriteFromState(favoriteData));
+//     } else {
+//       const globalDocRef = await addDoc(collection(db, "Favorites"), favoriteData);
+//       console.log("Favorite added to global collection with ID: ", globalDocRef.id);
+
+//       const userDocRef = await addDoc(collection(db, "users", uid, "favorites"), favoriteData);
+//       console.log("Favorite added to user's collection with ID: ", userDocRef.id);
+
+//       dispatch(addFavoriteToState({ 
+//         globalId: globalDocRef.id, 
+//         userId: userDocRef.id, 
+//         ...favoriteData 
+//       }));
+//     }
+//   } catch (error) {
+//     dispatch(setError(error.message));
+//   }
+// };
+export const addFavorite = ({ uid, favoriteData }) => async (dispatch, getState) => {
   dispatch(setLoading());
   try {
-    if (existingFavorite) {
-      dispatch(removeFavoriteFromState(favoriteData));
-    } else {
-      const globalDocRef = await addDoc(collection(db, "Favorites"), favoriteData);
-      console.log("Favorite added to global collection with ID: ", globalDocRef.id);
+    const querySnapshot = await getDocs(collection(db, "users", uid, "favorites"));
+    const existingFavorites = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-      const userDocRef = await addDoc(collection(db, "users", uid, "favorites"), favoriteData);
-      console.log("Favorite added to user's collection with ID: ", userDocRef.id);
+    const duplicate = existingFavorites.find(
+      (fav) => fav.roomType === favoriteData.roomType
+    );
 
-      dispatch(addFavoriteToState({ 
-        globalId: globalDocRef.id, 
-        userId: userDocRef.id, 
-        ...favoriteData 
-      }));
+    if (duplicate) {
+      throw new Error("This room is already in your favorites.");
     }
+
+    const docRef = await addDoc(collection(db, "users", uid, "favorites"), favoriteData);
+
+    dispatch(addFavoriteToState({ id: docRef.id, ...favoriteData }));
+    dispatch(clearLoading());
   } catch (error) {
     dispatch(setError(error.message));
+    throw error; 
   }
 };
+
 
 export const getFavorites = (uid) => async (dispatch) => {
   dispatch(setLoading());
