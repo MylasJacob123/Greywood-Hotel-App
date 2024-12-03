@@ -93,7 +93,27 @@
   font-size: 0.9rem;
 }
 
-.footer-bottom2-box2 h6:hover {
+/* .footer-bottom2-box2 h6:hover {
+  color: goldenrod; 
+  cursor: pointer;
+} */
+
+.last-link {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.last-link:hover {
+  color: goldenrod; 
+  cursor: pointer;
+}
+
+.footer-link a {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.footer-link a:hover {
   color: goldenrod; 
   cursor: pointer;
 }
@@ -119,7 +139,7 @@
   }
 
   .footer-top1-logo img {
-    width: 120px; /* Resize logo for mobile */
+    width: 120px;
   }
 
   .footer-bottom2 {

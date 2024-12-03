@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 function TermsAndConditions() {
   const navigate = useNavigate();
 
-  const backToRegister = () => {
-    navigate("/register");
+  const backToWherever = () => {
+    navigate(-1);
   };
 
   return (
     <div className="terms-container">
-      <button className="back-to-register-btn" onClick={backToRegister}>
+      <button className="back-to-register-btn" onClick={backToWherever}>
         Back
       </button>
       <h1 className="terms-title">Terms & Conditions - Greywood Hotel</h1>

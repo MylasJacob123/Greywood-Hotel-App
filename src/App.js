@@ -19,6 +19,7 @@ import ForgotPassword from "./components/forgotpassword";
 import TermsAndConditions from "./components/TermsAndConditions";
 import { initializeUser } from "./redux/authSlice";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./components/notAPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,7 +62,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <PrivateRoute isAuthenticated={isAuthenticated}>
+                <PrivateRoute isAuthenticated={isAuthenticated} isAdminRoute={true}>
                   <AdminBookings />
                 </PrivateRoute>
               }
@@ -82,6 +83,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </PayPalScriptProvider>
       </BrowserRouter>

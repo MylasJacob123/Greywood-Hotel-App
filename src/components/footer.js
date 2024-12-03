@@ -20,24 +20,24 @@ function Footer() {
         </div>
         <div className="footer-top1-overview">
             <div>
-              <h6>
+              <h6 className="footer-link">
                 <Link to="/rooms">Rooms</Link>
               </h6>
-              <h6>
+              <h6 className="footer-link">
                 <Link to="/facilities">Facilities</Link>
               </h6>
-              <h6>
+              <h6 className="footer-link">
                 <Link to="/about">About</Link>
               </h6>
             </div>
             <div>
-              <h6>
+              <h6 className="footer-link">
                 <a href="https://www.instagram.com/">Instagram</a>
               </h6>
-              <h6>
+              <h6 className="footer-link">
                 <a href="https://x.com/?lang=en">Twitter</a>
               </h6>
-              <h6>
+              <h6 className="footer-link">
                 <a href="https://www.youtube.com/">YouTube</a>
               </h6>
             </div>
@@ -69,7 +69,7 @@ function Footer() {
             <h6>(c)2024 Greywood. All rights reserved</h6>
           </div>
           <div className="footer-bottom2-box2">
-            <h6>Terms & Conditions</h6>
+            <h6><Link className="last-link" to="/terms-and-conditions">Terms & Conditions</Link></h6>
             <h6>Privacy Policy</h6>
           </div>
         </div>
