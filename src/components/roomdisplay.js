@@ -15,6 +15,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "./loader";
+import Swal from "sweetalert2";
 
 function RoomDisplay() {
   const location = useLocation();
@@ -63,8 +64,16 @@ function RoomDisplay() {
 
   const checkUser = () => {
     if (!user || !user.uid) {
-      alert("User not logged in. Please login");
-      navigate("/login");
+      Swal.fire({
+        icon: "warning",
+        title: "Not Logged In",
+        text: "User not logged in. Please login to proceed.",
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
       return false;
     }
     return true;
@@ -73,7 +82,7 @@ function RoomDisplay() {
   const goToPaymentFormSummary = (e) => {
     e.preventDefault();
     handleTotalPrice();
-
+  
     if (checkUser()) {
       if (checkin && checkout && totalPrice > 0) {
         navigate("/paymentsummary", {
@@ -86,7 +95,12 @@ function RoomDisplay() {
           },
         });
       } else {
-        alert("Please select valid check-in and check-out dates.");
+        Swal.fire({
+          icon: "error",
+          title: "Invalid Dates",
+          text: "Please select valid check-in and check-out dates.",
+          confirmButtonText: "Try Again",
+        });
       }
     }
   };

@@ -501,7 +501,7 @@ button[type="submit"]:hover {
 }
 
 .feedback-btn {
-  background-color: goldenrod;
+  background-color: #daa520;
   color: white;
   padding: 0.625rem;
   border: none;

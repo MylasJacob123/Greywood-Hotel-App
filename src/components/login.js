@@ -46,8 +46,8 @@ function Login() {
     navigate("/register");
   };
 
-  const goToHome = () => {
-    navigate("/");
+  const goBack = () => {
+    navigate(-1);
   };
 
   const validateForm = () => {
@@ -116,7 +116,7 @@ function Login() {
             <FontAwesomeIcon
               className="login-back-arrow"
               icon={faArrowLeft}
-              onClick={goToHome}
+              onClick={goBack}
             />
             <div className="login-logo">
               <img src={loginlogo} alt="Login Logo" />

@@ -219,7 +219,7 @@ function Home() {
                     />
                   </div>
                   <div className="review-content">
-                    <h5>CLIENT REVIEW</h5>
+                    <h5>CLIENT FEEDBACK</h5>
                     <p>
                       {reviews.length > 0
                         ? reviews[currentReviewIndex]?.review
